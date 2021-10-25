@@ -1,2 +1,2 @@
 # POO
- Trabalho prático de POO
+ Trabalho prático de Programação Orientada a Objetos
