@@ -3,6 +3,7 @@
 
 #include <sstream>
 #include <vector>
+#include <tuple>
 using namespace std;
 
 
@@ -12,18 +13,26 @@ class Zona {
         string zona;
         string edificio;
         string trabalhadores;
-        int nrTrabalhadores;
+        int nrTrabalhadores = 0;
+        int linha, coluna;
 
     public:
+        void setLinha(int l);
+        void setColuna(int c);
+        int getLinha();
+        int getColuna();
         string getZona();
         string getEdificio();
         string getTrabalhadores();
+        string getInfo();
         int getNrTrabalhadores();
         void cons(string tipo, int linhaX, int colunaX);
         void cont(string tipo);
 
 };
 
-bool validaComando(vector< vector<Zona> > matriz, istringstream &iss);
+void mostraASCII();
+
+bool validaComando(vector< vector<Zona> > &matriz, istringstream &iss, int linhasTab, int colunasTab);
 
 #endif //ENGINE
