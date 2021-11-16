@@ -37,7 +37,7 @@ int main(){
     cout << "0 - Sair do jogo\n\nEscolha: ";
     cin >> opcao_menu;
 
-    if(opcao_menu == 0) _exit(0);
+    if(opcao_menu == 0) return 0;
 
     cout << "\033[2J\033[1;1H";
     Zona matriz[3][3];
