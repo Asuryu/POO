@@ -1,0 +1,8 @@
+{
+    "files.associations": {
+        "xstring": "cpp",
+        "iostream": "cpp",
+        "string": "cpp",
+        "tuple": "cpp"
+    }
+}
