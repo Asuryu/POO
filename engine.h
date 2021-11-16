@@ -1,7 +1,7 @@
 #ifndef ENGINE
 #define ENGINE
 
-#include <string>
+#include <sstream>
 using namespace std;
 
 bool validaComando(istringstream &iss);

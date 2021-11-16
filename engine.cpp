@@ -6,11 +6,6 @@
 using namespace std;
 
 bool validaComando(istringstream &iss){
-    // string comando, valida;
-    // cout << "Introduza o comando: ";
-    // getline(cin, comando);
-    // istringstream iss(comando);
-    // iss >> valida;
 
     vector<string> args;
     while (iss){
