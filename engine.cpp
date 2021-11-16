@@ -5,7 +5,27 @@
 #include <sstream>
 using namespace std;
 
-bool validaComando(istringstream &iss){
+
+
+string Zona::getZona(){ return zona; }
+string Zona::getEdificio(){ return edificio; }
+string Zona::getTrabalhadores(){ return trabalhadores; }
+int Zona::getNrTrabalhadores(){ return nrTrabalhadores; }
+void Zona::cons(string tipo, int linhaX, int colunaX){
+    if(tipo == "minaf" || tipo == "minac" || tipo == "central" || tipo == "bat" || tipo == "fund" || tipo == "edx"){
+        if(linhaX >= 0 && linhaX < 8){
+            if(colunaX >= 0 && colunaX < 16){
+                this->edificio = tipo;
+                cout << "Edifício do tipo " << edificio << " CONSTRUÍDO na posição (" << linhaX << "," << colunaX << ")!" << endl;
+            } else cout << "[ERRO] Coluna inválida" << endl;
+        } else cout << "[ERRO] Linha inválida" << endl;;
+    } else cout << "[ERRO] Tipo de edifício inválido" << endl;
+}
+void Zona::cont(string tipo){
+    
+}
+
+bool validaComando(vector< vector<Zona> > matriz, istringstream &iss){
 
     vector<string> args;
     while (iss){
@@ -16,16 +36,10 @@ bool validaComando(istringstream &iss){
     args.pop_back();
     
     if (args[0] == "cons"){
-        int l = stoi(args[2]);
-        int c = stoi(args[3]);
-        if(args[1] == "minaf" || args[1] == "minac" || args[1] == "central" || args[1] == "bat" || args[1] == "fund" || args[1] == "edx"){
-            if(l >= 3 && l <= 8){
-                if(c >= 3 && c <= 16){
-                    cout << "Edifício do tipo " << args[1] << " CONSTRUÍDO na posição (" << l << "," << c << ")!" << endl;
-                    return true;
-                } else return false;
-            } else return false;
-        } else return false;
+        cout << args[1] << endl;
+        cout << args[2] << endl;
+        cout << args[3] << endl;
+        matriz[2][2].cons(args[1], stoi(args[2]), stoi(args[3]));
     }
     else if (args[0] == "liga"){
         int l = stoi(args[1]);
