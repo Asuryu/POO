@@ -3,6 +3,7 @@
 #include <string>
 #include <vector>
 #include <sstream>
+#include <regex>
 using namespace std;
 
 string Zona::getInfo(){
@@ -19,14 +20,8 @@ string Zona::getEdificio(){ return edificio; }
 string Zona::getTrabalhadores(){ return trabalhadores; }
 int Zona::getNrTrabalhadores(){ return nrTrabalhadores; }
 void Zona::cons(string tipo, int linhaX, int colunaX){
-    if(tipo == "minaf" || tipo == "minac" || tipo == "central" || tipo == "bat" || tipo == "fund" || tipo == "edx"){
-        if(linhaX >= 0 && linhaX < 8){
-            if(colunaX >= 0 && colunaX < 16){
-                this->edificio = tipo;
-                cout << "Edifício do tipo " << edificio << " CONSTRUÍDO na posição (" << linhaX << "," << colunaX << ")!" << endl;
-            } else cout << "[ERRO] Coluna inválida" << endl;
-        } else cout << "[ERRO] Linha inválida" << endl;;
-    } else cout << "[ERRO] Tipo de edifício inválido" << endl;
+    this->edificio = tipo;
+    cout << "Edifício do tipo " << edificio << " CONSTRUÍDO na posição (" << linhaX << "," << colunaX << ")!" << endl;
 }
 void Zona::cont(string tipo){
     if(tipo == "oper" || tipo == "len" || tipo == "miner"){
@@ -42,13 +37,9 @@ void mostraASCII(){
     cout << "|___|_|_| |_|\\___|\\__,_|" << endl << endl;
 }
 
-bool isNumber(string s)
-{
-    for (unsigned int i = 0; i < s.length(); i++)
-        if (isdigit(s[i]) == false)
-            return false;
- 
-    return true;
+bool isNumber(string x){
+    regex e ("-{0,1}\\d+");
+    return (regex_match (x,e));
 }
 
 bool validaComando(vector< vector<Zona> > &matriz, istringstream &iss, int linhasTab, int colunasTab){
@@ -66,14 +57,28 @@ bool validaComando(vector< vector<Zona> > &matriz, istringstream &iss, int linha
     }
     else if (args[0] == "cons" && args.size() == 4){
         int linhaX, colunaX;
-        if(isNumber(args[2])) linhaX = stoi(args[2]);
-        else return false;
-        if(isNumber(args[3])) colunaX = stoi(args[3]);
-        else return false;
-
-        if(linhaX <= linhasTab && colunaX <= colunasTab){
-            matriz[linhaX][colunaX].cons(args[1], linhaX, colunaX);
+        if(isNumber(args[2])){
+            linhaX = stoi(args[2]);
         }
+        else{
+            cout << "[ERRO] Introduza um número para a linha" << endl;
+            return false;
+        }
+        if(isNumber(args[3])){
+            colunaX = stoi(args[3]);
+        }
+        else{
+            cout << "[ERRO] Introduza um número para a coluna" << endl;
+            return false;
+        }
+
+        if(args[1] == "minaf" || args[1] == "minac" || args[1] == "central" || args[1] == "bat" || args[1] == "fund" || args[1] == "edx"){
+            if(linhaX < linhasTab && linhaX > 0){
+                if(colunaX < colunasTab && colunaX > 0){
+                    matriz[linhaX][colunaX].cons(args[1], linhaX, colunaX);
+                } else cout << "[ERRO] Coluna inválida" << endl;
+            } else cout << "[ERRO] Linha inválida" << endl;
+        } else cout << "[ERRO] Tipo de edifício inválido" << endl;
     }
     else if (args[0] == "liga" && args.size() == 3){
         int l = stoi(args[1]);
