@@ -33,6 +33,8 @@ class Zona {
 
 void mostraASCII();
 
+bool isNumber(string s);
+
 bool validaComando(vector< vector<Zona> > &matriz, istringstream &iss, int linhasTab, int colunasTab);
 
 #endif //ENGINE
