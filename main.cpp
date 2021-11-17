@@ -56,7 +56,7 @@ int main(){
     //         cout << endl <<  "|      |      |      |      |";
     //     }
     // }
-    
+
     do {
         string input;
         fflush(stdin);
