@@ -10,7 +10,7 @@ using namespace std;
 class Zona {
 
     private:
-        string zona;
+        string zona = "pas";
         string edificio;
         string trabalhadores;
         int nrTrabalhadores = 0;
@@ -19,13 +19,14 @@ class Zona {
     public:
         void setLinha(int l);
         void setColuna(int c);
-        int getLinha();
-        int getColuna();
-        string getZona();
-        string getEdificio();
-        string getTrabalhadores();
-        string getInfo();
-        int getNrTrabalhadores();
+        int getLinha() const;
+        int getColuna() const;
+        string getZona() const;
+        void setZona(string z);
+        string getEdificio() const;
+        string getTrabalhadores() const;
+        string getInfo() const;
+        int getNrTrabalhadores() const;
         void cons(string tipo, int linhaX, int colunaX);
         void cont(string tipo);
 

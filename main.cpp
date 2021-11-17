@@ -12,13 +12,18 @@ int main(){
 
     srand(time(NULL));
     
+    bool state;
     int linhas, colunas;
     int opcao_menu = 0;
-    mostraASCII();
-    cout << "\n1 - Começar o jogo" << endl;
-    cout << "0 - Sair do jogo\n\nEscolha: ";
-    cin >> opcao_menu;
-    if(opcao_menu == 0) return 0;
+    do {
+        cout << "\033[2J\033[1;1H"; // Clear na consola
+        mostraASCII();
+        cout << "\n1 - Começar o jogo" << endl;
+        cout << "0 - Sair do jogo\n\nEscolha: ";
+        cin >> opcao_menu;
+        if(opcao_menu == 0) return 0;
+    } while (opcao_menu != 1);
+
     do {
         cout << "\033[2J\033[1;1H"; // Clear na consola
         mostraASCII();
@@ -59,11 +64,21 @@ int main(){
 
     do {
         string input;
+        if(state == true){
+            cout << ">>> Prima ENTER para continuar <<< ";
+            getchar();
+            // Criar função para mostrar a info geral
+            for(int i = 0; i < linhas; i++){
+                for(int j = 0; j < colunas; j++){
+                    cout << matriz[i][j].getInfo() << endl;
+                }
+            }
+        }
         fflush(stdin);
         cout << "Introduza um comando: ";
         getline(cin, input);
         istringstream comando(input);
-        validaComando(matriz, comando, linhas, colunas);
+        state = validaComando(matriz, comando, linhas, colunas);
     } while (true);
 
     return 0;

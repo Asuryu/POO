@@ -6,27 +6,29 @@
 #include <regex>
 using namespace std;
 
-string Zona::getInfo(){
+string Zona::getInfo() const{
     ostringstream oss;
     oss << "(" << linha << ", " << coluna << ")\nZona: " << zona << "\nEdifício: " << edificio << "\nTrabalhadores: " << trabalhadores << "\nNr. Trabalhadores: " << nrTrabalhadores << endl;
     return oss.str();
 }
 void Zona::setLinha(int l){ linha = l; }
 void Zona::setColuna(int c){ coluna = c; }
-int Zona::getLinha(){ return linha; }
-int Zona::getColuna(){ return coluna; }
-string Zona::getZona(){ return zona; }
-string Zona::getEdificio(){ return edificio; }
-string Zona::getTrabalhadores(){ return trabalhadores; }
-int Zona::getNrTrabalhadores(){ return nrTrabalhadores; }
+int Zona::getLinha() const { return linha; }
+int Zona::getColuna() const { return coluna; }
+void Zona::setZona(string z){ zona = z; }
+string Zona::getZona() const { return zona; }
+string Zona::getEdificio() const { return edificio; }
+string Zona::getTrabalhadores() const { return trabalhadores; }
+int Zona::getNrTrabalhadores() const { return nrTrabalhadores; }
 void Zona::cons(string tipo, int linhaX, int colunaX){
     this->edificio = tipo;
     cout << "Edifício do tipo " << edificio << " CONSTRUÍDO na posição (" << linhaX << "," << colunaX << ")!" << endl;
 }
 void Zona::cont(string tipo){
-    if(tipo == "oper" || tipo == "len" || tipo == "miner"){
-        cout << "Opearário do tipo " << tipo << " foi CONTRATADO e colocado na zona de pasto (" << linha << ", " << coluna << ")!" << endl;
-    } else cout << "[ERRO] Esse tipo de operário não existe" << endl;
+    // Acabar a função "cont"
+    // Adicionar o trabalhador à zona e dar update ao nrTrabalhadores (int) e trabalhadores (string)
+    nrTrabalhadores++;
+    cout << "Opearário do tipo " << tipo << " foi CONTRATADO e colocado na zona de pasto (" << linha << ", " << coluna << ")!" << endl;
 }
 
 void mostraASCII(){
@@ -57,16 +59,12 @@ bool validaComando(vector< vector<Zona> > &matriz, istringstream &iss, int linha
     }
     else if (args[0] == "cons" && args.size() == 4){
         int linhaX, colunaX;
-        if(isNumber(args[2])){
-            linhaX = stoi(args[2]);
-        }
+        if(isNumber(args[2])) linhaX = stoi(args[2]);
         else{
             cout << "[ERRO] Introduza um número para a linha" << endl;
             return false;
         }
-        if(isNumber(args[3])){
-            colunaX = stoi(args[3]);
-        }
+        if(isNumber(args[3])) colunaX = stoi(args[3]);
         else{
             cout << "[ERRO] Introduza um número para a coluna" << endl;
             return false;
@@ -76,6 +74,7 @@ bool validaComando(vector< vector<Zona> > &matriz, istringstream &iss, int linha
             if(linhaX < linhasTab && linhaX > 0){
                 if(colunaX < colunasTab && colunaX > 0){
                     matriz[linhaX][colunaX].cons(args[1], linhaX, colunaX);
+                    return true;
                 } else cout << "[ERRO] Coluna inválida" << endl;
             } else cout << "[ERRO] Linha inválida" << endl;
         } else cout << "[ERRO] Tipo de edifício inválido" << endl;
@@ -125,20 +124,29 @@ bool validaComando(vector< vector<Zona> > &matriz, istringstream &iss, int linha
         } else return false;
     }
     else if (args[0] == "cont" && args.size() == 2){
-        vector<Zona> pastos;
-        for(int i = 0; i < linhasTab; i++){
-            for(int j = 0; j < colunasTab; j++){
-                if(matriz[i][j].getZona() == "pas"){
-                    pastos.push_back(matriz[i][j]);
+        if(args[1] == "oper" || args[1] == "len" || args[1] == "miner"){
+            vector<Zona> pastos;
+            for(int i = 0; i < linhasTab; i++){
+                for(int j = 0; j < colunasTab; j++){
+                    if(matriz[i][j].getZona() == "pas"){
+                        pastos.push_back(matriz[i][j]);
+                    }
                 }
             }
+            if(pastos.size()){
+                int randomIntger = rand()%(pastos.size() - 0) + 0;
+                pastos[randomIntger].cont(args[1]);
+                pastos[randomIntger].cont(args[1]);
+                cout << "Nrº Trabalhadores atual: " << pastos[randomIntger].getNrTrabalhadores() << endl;
+                return true;
+            } else {
+                cout << "[ERRO] Não existem zonas de pasto disponíveis" << endl;
+                return false;
+            }
+        } else {
+            cout << "[ERRO] Esse tipo de operário não existe" << endl;
+            return false;
         }
-        if(pastos.size()){
-            int randomIntger = rand()%(pastos.size() - 0) + 0;
-            pastos[randomIntger].cont(args[1]);
-            return true;
-        } else return false;
-
     }
     else if (args[0] == "list" && args.size() >= 1){
         if(args.size() == 1){
@@ -151,13 +159,23 @@ bool validaComando(vector< vector<Zona> > &matriz, istringstream &iss, int linha
         } else if(args.size() == 3) {
             int linhaX, colunaX;
             if(isNumber(args[1])) linhaX = stoi(args[1]);
-            else return false;
+            else{
+                cout << "[ERRO] Introduza um número para a linha" << endl;
+                return false;
+            }
             if(isNumber(args[2])) colunaX = stoi(args[2]);
-            else return false;
-            cout << matriz[linhaX][colunaX].getInfo() << endl;
-            return true;
+            else{
+                cout << "[ERRO] Introduza um número para a coluna" << endl;
+                return false;
+            }
+
+            if(linhaX < linhasTab && linhaX > 0){
+                if(colunaX < colunasTab && colunaX > 0){
+                    cout << matriz[linhaX][colunaX].getInfo() << endl;
+                    return true;
+                } else cout << "[ERRO] Coluna inválida" << endl;
+            } else cout << "[ERRO] Linha inválida" << endl;
         }
-        else return false;
     }
     else if (args[0] == "next" && args.size() == 1){
         // Implementar o resto do comando
