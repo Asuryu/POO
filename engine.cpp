@@ -6,6 +6,10 @@
 #include <regex>
 using namespace std;
 
+Zona::Zona(){
+    // Fazer construtor para atribuir uma zona aleatória
+
+}
 string Zona::getInfo() const{
     ostringstream oss;
     oss << "(" << linha << ", " << coluna << ")\nZona: " << zona << "\nEdifício: " << edificio << "\nTrabalhadores: " << trabalhadores << "\nNr. Trabalhadores: " << nrTrabalhadores << endl;
@@ -25,8 +29,10 @@ void Zona::cons(string tipo, int linhaX, int colunaX){
     cout << "Edifício do tipo " << edificio << " CONSTRUÍDO na posição (" << linhaX << "," << colunaX << ")!" << endl;
 }
 void Zona::cont(string tipo){
-    // Acabar a função "cont"
-    // Adicionar o trabalhador à zona e dar update ao nrTrabalhadores (int) e trabalhadores (string)
+    if(tipo == "oper") trabalhadores.append("O");
+    else if(tipo == "miner") trabalhadores.append("M");
+    else if(tipo == "len") trabalhadores.append("L");
+    else return;
     nrTrabalhadores++;
     cout << "Opearário do tipo " << tipo << " foi CONTRATADO e colocado na zona de pasto (" << linha << ", " << coluna << ")!" << endl;
 }
@@ -125,19 +131,17 @@ bool validaComando(vector< vector<Zona> > &matriz, istringstream &iss, int linha
     }
     else if (args[0] == "cont" && args.size() == 2){
         if(args[1] == "oper" || args[1] == "len" || args[1] == "miner"){
-            vector<Zona> pastos;
+            vector<Zona*> pastos;
             for(int i = 0; i < linhasTab; i++){
                 for(int j = 0; j < colunasTab; j++){
                     if(matriz[i][j].getZona() == "pas"){
-                        pastos.push_back(matriz[i][j]);
+                        pastos.push_back(&matriz[i][j]);
                     }
                 }
             }
             if(pastos.size()){
                 int randomIntger = rand()%(pastos.size() - 0) + 0;
-                pastos[randomIntger].cont(args[1]);
-                pastos[randomIntger].cont(args[1]);
-                cout << "Nrº Trabalhadores atual: " << pastos[randomIntger].getNrTrabalhadores() << endl;
+                (*pastos[randomIntger]).cont(args[1]);
                 return true;
             } else {
                 cout << "[ERRO] Não existem zonas de pasto disponíveis" << endl;
