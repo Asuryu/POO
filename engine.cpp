@@ -8,12 +8,9 @@
 #include <vector>
 #include <sstream>
 #include <regex>
+#include <algorithm>
 using namespace std;
 
-Zona::Zona(){
-    // Fazer construtor para atribuir uma zona aleatória
-
-}
 string Zona::getInfo() const{
     ostringstream oss;
     oss << "(" << linha << ", " << coluna << ")\nZona: " << zona << "\nEdifício: " << edificio << "\nTrabalhadores: " << trabalhadores << "\nNr. Trabalhadores: " << nrTrabalhadores << endl;
@@ -39,6 +36,79 @@ void Zona::cont(string tipo){
     else return;
     nrTrabalhadores++;
     cout << "Opearário do tipo " << tipo << " foi CONTRATADO e colocado na zona de pasto (" << linha << ", " << coluna << ")!" << endl;
+}
+
+void menu(int &linhas, int &colunas){
+    int opcao_menu = 0;
+    do {
+        cout << "\033[2J\033[1;1H";
+        mostraASCII();
+        cout << "\n1 - Começar o jogo" << endl;
+        cout << "0 - Sair do jogo\n\nEscolha: ";
+        cin >> opcao_menu;
+        if(opcao_menu == 0) exit(0);
+    } while (opcao_menu != 1);
+
+    do {
+        cout << "\033[2J\033[1;1H";
+        mostraASCII();
+        cout << "Introduza o número de linhas: ";
+        cin >> linhas;
+    } while (linhas < 3 || linhas > 8);
+    do {
+        cout << "Introduza o número de colunas: ";
+        cin >> colunas;
+    } while (colunas < 3 || colunas > 16);
+    cout << "\033[2J\033[1;1H";
+    mostraASCII();
+}
+
+void initIlha(vector< vector<Zona> > &matriz, int linhas, int colunas){
+    Zona z;
+    vector<Zona> tmp;
+    for(int i = 0; i < linhas; i++){
+        for(int j = 0; j < colunas; j++){
+            tmp.push_back(z);
+        }
+        matriz.push_back(tmp);
+    }
+
+    vector<string> zonas;
+    string zonasExistentes[6] = {"mnt", "dsr", "pas", "flr", "pnt", "znZ"};
+    int celulas = linhas * colunas;
+    int repeticoes = celulas / 6;
+    int sobra = celulas % 6;
+    int randIndex;
+
+    for(int i = 0; i < 6; i++){
+        for(int j = 0; j < repeticoes; j++){
+            zonas.push_back(zonasExistentes[i]);
+        }
+    }
+    random_shuffle(zonas.begin(), zonas.end());
+    int count = 0;
+    for(int i = 0; i < linhas; i++){
+        for(int j = 0; j < colunas; j++){
+            matriz[i][j].setLinha(i);
+            matriz[i][j].setColuna(j);
+            if(count < (6 * repeticoes)) matriz[i][j].setZona(zonas[count]);
+            else{
+                randIndex = rand()%(6);
+                matriz[i][j].setZona(zonas[randIndex]);
+            }
+            count++;
+        }
+    }
+
+
+}
+
+void mostraInfoTotal(vector< vector<Zona> > &matriz, int linhasTab, int colunasTab){
+    for(int i = 0; i < linhasTab; i++){
+        for(int j = 0; j < colunasTab; j++){
+            cout << matriz[i][j].getInfo() << endl;
+        }
+    }
 }
 
 void mostraASCII(){
@@ -158,11 +228,7 @@ bool validaComando(vector< vector<Zona> > &matriz, istringstream &iss, int linha
     }
     else if (args[0] == "list" && args.size() >= 1){
         if(args.size() == 1){
-            for(int i = 0; i < linhasTab; i++){
-                for(int j = 0; j < colunasTab; j++){
-                    cout << matriz[i][j].getInfo() << endl;
-                }
-            }
+            mostraInfoTotal(matriz, linhasTab, colunasTab);
             return true;
         } else if(args.size() == 3) {
             int linhaX, colunaX;

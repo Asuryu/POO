@@ -7,21 +7,19 @@
 
 #include <sstream>
 #include <vector>
-#include <tuple>
 using namespace std;
 
 
 class Zona {
 
     private:
-        string zona = "pas";
+        string zona;
         string edificio;
         string trabalhadores;
         int nrTrabalhadores = 0;
         int linha, coluna;
 
     public:
-        Zona();
         void setLinha(int l);
         void setColuna(int c);
         int getLinha() const;
@@ -36,6 +34,12 @@ class Zona {
         void cont(string tipo);
 
 };
+
+void menu(int &linhas, int &colunas);
+
+void initIlha(vector< vector<Zona> > &matriz, int linhasTab, int colunasTab);
+
+void mostraInfoTotal(vector< vector<Zona> > &matriz, int linhasTab, int colunasTab);
 
 void mostraASCII();
 
