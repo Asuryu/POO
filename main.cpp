@@ -15,47 +15,11 @@ using namespace std;
 int main(){
 
     srand(time(NULL));
-    
     bool state;
     int linhas, colunas;
-    int opcao_menu = 0;
-    do {
-        cout << "\033[2J\033[1;1H"; // Clear na consola
-        mostraASCII();
-        cout << "\n1 - Começar o jogo" << endl;
-        cout << "0 - Sair do jogo\n\nEscolha: ";
-        cin >> opcao_menu;
-        if(opcao_menu == 0) return 0;
-    } while (opcao_menu != 1);
-
-    do {
-        cout << "\033[2J\033[1;1H"; // Clear na consola
-        mostraASCII();
-        cout << "Introduza o número de linhas: ";
-        cin >> linhas;
-    } while (linhas < 3 || linhas > 8);
-    do {
-        cout << "Introduza o número de colunas: ";
-        cin >> colunas;
-    } while (colunas < 3 || colunas > 16);
-    cout << "\033[2J\033[1;1H"; // Clear na consola
-    mostraASCII();
-
-    Zona z;
+    menu(linhas, colunas);
     vector< vector<Zona> > matriz;
-    vector<Zona> tmp;
-    for(int i = 0; i < linhas; i++){
-        for(int j = 0; j < colunas; j++){
-            tmp.push_back(z);
-        }
-        matriz.push_back(tmp);
-    }
-    for(int i = 0; i < linhas; i++){
-        for(int j = 0; j < colunas; j++){
-            matriz[i][j].setLinha(i);
-            matriz[i][j].setColuna(j);
-        }
-    }
+    initIlha(matriz, linhas, colunas);
     
     // for(int i = 0; i < linhas; i++){
     //     for(int j = 0; j < colunas; j++){
@@ -66,19 +30,14 @@ int main(){
     //     }
     // }
 
-    do {
+    do { // Ciclo de jogo
         string input;
         if(state == true){
             cout << ">>> Prima ENTER para continuar <<< ";
             getchar();
-            cout << "\033[2J\033[1;1H"; // Clear na consola
+            cout << "\033[2J\033[1;1H";
             mostraASCII();
-            // Criar função para mostrar a info geral
-            for(int i = 0; i < linhas; i++){
-                for(int j = 0; j < colunas; j++){
-                    cout << matriz[i][j].getInfo() << endl;
-                }
-            }
+            mostraInfoTotal(matriz, linhas, colunas); // Alterar para uma função que mostre a ilha visualmente
         }
         fflush(stdin);
         cout << "Introduza um comando: ";
