@@ -17,6 +17,7 @@ class Zona {
         int linha, coluna;
 
     public:
+        Zona();
         void setLinha(int l);
         void setColuna(int c);
         int getLinha() const;
