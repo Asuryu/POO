@@ -67,6 +67,8 @@ int main(){
         if(state == true){
             cout << ">>> Prima ENTER para continuar <<< ";
             getchar();
+            cout << "\033[2J\033[1;1H"; // Clear na consola
+            mostraASCII();
             // Criar função para mostrar a info geral
             for(int i = 0; i < linhas; i++){
                 for(int j = 0; j < colunas; j++){
