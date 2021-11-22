@@ -9,6 +9,8 @@
 #include <sstream>
 #include <regex>
 #include <algorithm>
+#include <fstream>
+
 using namespace std;
 
 string Zona::getInfo() const{
@@ -135,6 +137,20 @@ bool validaComando(vector< vector<Zona> > &matriz, istringstream &iss, int linha
     args.pop_back();
     
     if (args[0] == "exec" && args.size() == 2){
+        ifstream input_file("comandos.txt"); //declarar e abrir o ficheiro
+        if (!input_file) {
+            cout << "Ocorreu um erro ao abrir o ficheiro" << endl;
+            return false;  //ocorreu um erro
+        }
+
+        string word, line;
+        int i;
+
+        //ler uma linha
+        getline(input_file, line);
+        cout << line << endl;
+        //line fica com a string "uma frase!"
+        return true;
 
     }
     else if (args[0] == "cons" && args.size() == 4){
@@ -151,8 +167,8 @@ bool validaComando(vector< vector<Zona> > &matriz, istringstream &iss, int linha
         }
 
         if(args[1] == "minaf" || args[1] == "minac" || args[1] == "central" || args[1] == "bat" || args[1] == "fund" || args[1] == "edx"){
-            if(linhaX < linhasTab && linhaX > 0){
-                if(colunaX < colunasTab && colunaX > 0){
+            if(linhaX < linhasTab && linhaX >= 0){
+                if(colunaX < colunasTab && colunaX >= 0){
                     matriz[linhaX][colunaX].cons(args[1], linhaX, colunaX);
                     return true;
                 } else cout << "[ERRO] Coluna inválida" << endl;
@@ -243,8 +259,8 @@ bool validaComando(vector< vector<Zona> > &matriz, istringstream &iss, int linha
                 return false;
             }
 
-            if(linhaX < linhasTab && linhaX > 0){
-                if(colunaX < colunasTab && colunaX > 0){
+            if(linhaX < linhasTab && linhaX >= 0){
+                if(colunaX < colunasTab && colunaX >= 0){
                     cout << matriz[linhaX][colunaX].getInfo() << endl;
                     return true;
                 } else cout << "[ERRO] Coluna inválida" << endl;
