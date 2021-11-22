@@ -299,6 +299,19 @@ bool validaComando(vector< vector<Zona> > &matriz, istringstream &iss, int linha
     else if (args[0] == "config" && args.size() == 2){
         // Implementar o resto do comando
         if(!args[1].empty()){
+            string line;
+            ifstream input_file(args[1]); //declarar e abrir o ficheiro
+            if (!input_file) {
+                cout << "Ocorreu um erro ao abrir o ficheiro" << endl;
+                return false;  //ocorreu um erro
+            }
+
+            while (getline(input_file, line)) {
+                istringstream lineFich(line);
+            }
+
+            // Close the file
+            input_file.close();
             cout << "Ficheiro de configuracao " << args[1] << " LIDO!" << endl;
             return true;
         }
