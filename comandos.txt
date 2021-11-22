@@ -2,4 +2,3 @@ cont oper
 cons minaf 2 2
 list 2 2
 cont miner
-list

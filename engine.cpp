@@ -29,7 +29,7 @@ string Zona::getTrabalhadores() const { return trabalhadores; }
 int Zona::getNrTrabalhadores() const { return nrTrabalhadores; }
 void Zona::cons(string tipo, int linhaX, int colunaX){
     this->edificio = tipo;
-    cout << "Edifício do tipo " << edificio << " CONSTRUÍDO na posição (" << linhaX << "," << colunaX << ")!" << endl;
+    cout << "Edifício do tipo " << edificio << " CONSTRUIDO na posição (" << linhaX << "," << colunaX << ")!" << endl;
 }
 void Zona::cont(string tipo){
     if(tipo == "oper") trabalhadores.append("O");
@@ -137,14 +137,13 @@ bool validaComando(vector< vector<Zona> > &matriz, istringstream &iss, int linha
 
     if (args[0] == "exec" && args.size() == 2){
         string line;
-        ifstream input_file("./comandos.txt"); //declarar e abrir o ficheiro
+        ifstream input_file(args[1]); //declarar e abrir o ficheiro
         if (!input_file) {
             cout << "Ocorreu um erro ao abrir o ficheiro" << endl;
             return false;  //ocorreu um erro
         }
 
         while (getline(input_file, line)) {
-
             istringstream lineFich(line);
             validaComando(matriz, lineFich, linhasTab, colunasTab);
         }
@@ -320,7 +319,7 @@ bool validaComando(vector< vector<Zona> > &matriz, istringstream &iss, int linha
         if(args[1] == "minaf" || args[1] == "minac" || args[1] == "central" || args[1] == "bat" || args[1] == "fund" || args[1] == "edx"){
             if(l >= 3 && l <= 8){
                 if(c >= 3 && c <= 16){
-                    cout << "[DEBUG] Edifício do tipo " << args[1] << " CONSTRUÍDO na posição (" << l << "," << c << ")!" << endl;
+                    cout << "[DEBUG] Edifício do tipo " << args[1] << " CONSTRUIDO na posição (" << l << "," << c << ")!" << endl;
                     return true;
                 } else return false;
             } else return false;
