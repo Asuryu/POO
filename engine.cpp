@@ -26,6 +26,7 @@ void Zona::setZona(string z){ zona = z; }
 string Zona::getZona() const { return zona; }
 string Zona::getEdificio() const { return edificio; }
 string Zona::getTrabalhadores() const { return trabalhadores; }
+void Zona::setNrTrabalhadores(int n) { nrTrabalhadores = n; }
 int Zona::getNrTrabalhadores() const { return nrTrabalhadores; }
 void Zona::cons(string tipo, int linhaX, int colunaX){
     this->edificio = tipo;
@@ -96,6 +97,7 @@ void initIlha(vector< vector<Zona> > &matriz, int linhas, int colunas){
         for(int j = 0; j < colunas; j++){
             matriz[i][j].setLinha(i);
             matriz[i][j].setColuna(j);
+            matriz[i][j].setNrTrabalhadores(0);
             if(count < (6 * repeticoes)) matriz[i][j].setZona(zonas[count]);
             else{
                 randIndex = rand()%(6);

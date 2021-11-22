@@ -16,7 +16,7 @@ class Zona {
         string zona;
         string edificio;
         string trabalhadores;
-        int nrTrabalhadores = 0;
+        int nrTrabalhadores;
         int linha, coluna;
 
     public:
@@ -29,6 +29,7 @@ class Zona {
         string getEdificio() const;
         string getTrabalhadores() const;
         string getInfo() const;
+        void setNrTrabalhadores(int n);
         int getNrTrabalhadores() const;
         void cons(string tipo, int linhaX, int colunaX);
         void cont(string tipo);
