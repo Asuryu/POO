@@ -79,7 +79,6 @@ void initIlha(vector< vector<Zona> > &matriz, int linhas, int colunas){
     string zonasExistentes[6] = {"mnt", "dsr", "pas", "flr", "pnt", "znZ"};
     int celulas = linhas * colunas;
     int repeticoes = celulas / 6;
-    int sobra = celulas % 6;
     int randIndex;
 
     for(int i = 0; i < 6; i++){
@@ -137,19 +136,19 @@ bool validaComando(vector< vector<Zona> > &matriz, istringstream &iss, int linha
     args.pop_back();
     
     if (args[0] == "exec" && args.size() == 2){
+        string line;
         ifstream input_file("comandos.txt"); //declarar e abrir o ficheiro
         if (!input_file) {
             cout << "Ocorreu um erro ao abrir o ficheiro" << endl;
             return false;  //ocorreu um erro
         }
 
-        string word, line;
-        int i;
+        while (getline(input_file, line)) {
+            cout << line << endl;
+        }
 
-        //ler uma linha
-        getline(input_file, line);
-        cout << line << endl;
-        //line fica com a string "uma frase!"
+        // Close the file
+        input_file.close(); 
         return true;
 
     }
