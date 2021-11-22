@@ -134,21 +134,23 @@ bool validaComando(vector< vector<Zona> > &matriz, istringstream &iss, int linha
         args.push_back(subs);
     }
     args.pop_back();
-    
+
     if (args[0] == "exec" && args.size() == 2){
         string line;
-        ifstream input_file("comandos.txt"); //declarar e abrir o ficheiro
+        ifstream input_file("./comandos.txt"); //declarar e abrir o ficheiro
         if (!input_file) {
             cout << "Ocorreu um erro ao abrir o ficheiro" << endl;
             return false;  //ocorreu um erro
         }
 
         while (getline(input_file, line)) {
-            cout << line << endl;
+
+            istringstream lineFich(line);
+            validaComando(matriz, lineFich, linhasTab, colunasTab);
         }
 
         // Close the file
-        input_file.close(); 
+        input_file.close();
         return true;
 
     }

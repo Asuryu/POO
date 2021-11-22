@@ -8,4 +8,5 @@ include_directories(.)
 add_executable(POO
         engine.cpp
         engine.h
-        main.cpp)
+        main.cpp
+        comandos.txt)
