@@ -29,7 +29,7 @@ string Zona::getTrabalhadores() const { return trabalhadores; }
 int Zona::getNrTrabalhadores() const { return nrTrabalhadores; }
 void Zona::cons(string tipo, int linhaX, int colunaX){
     this->edificio = tipo;
-    cout << "Edificio do tipo " << edificio << " CONSTRUIDO na posiçao (" << linhaX << "," << colunaX << ")!" << endl;
+    cout << "Edificio do tipo " << edificio << " CONSTRUIDO na posicao (" << linhaX << "," << colunaX << ")!" << endl;
 }
 void Zona::cont(string tipo){
     if(tipo == "oper") trabalhadores.append("O");
@@ -45,7 +45,7 @@ void menu(int &linhas, int &colunas){
     do {
         cout << "\033[2J\033[1;1H";
         mostraASCII();
-        cout << "\n1 - Começar o jogo" << endl;
+        cout << "\n1 - Comecar o jogo" << endl;
         cout << "0 - Sair do jogo\n\nEscolha: ";
         cin >> opcao_menu;
         if(opcao_menu == 0) exit(0);
@@ -181,7 +181,7 @@ bool validaComando(vector< vector<Zona> > &matriz, istringstream &iss, int linha
         // Implementar a validaço do edifício
         if(l >= 3 && l <= 8){
             if(c >= 3 && c <= 16){
-                cout << "Edificio LIGADO na posiçao (" << l << "," << c << ")!" << endl;
+                cout << "Edificio LIGADO na posicao (" << l << "," << c << ")!" << endl;
                 return true;
             } else return false;
         } else return false;
@@ -192,7 +192,7 @@ bool validaComando(vector< vector<Zona> > &matriz, istringstream &iss, int linha
         // Implementar a validação do edifício
         if(l >= 3 && l <= 8){
             if(c >= 3 && c <= 16){
-                cout << "Edificio DESLIGADO na posiçao (" << l << "," << c << ")!" << endl;
+                cout << "Edificio DESLIGADO na posicao (" << l << "," << c << ")!" << endl;
                 return true;
             } else return false;
         } else return false;
@@ -204,7 +204,7 @@ bool validaComando(vector< vector<Zona> > &matriz, istringstream &iss, int linha
         // Implementar a validação do ID
         if(l >= 3 && l <= 8){
             if(c >= 3 && c <= 16){
-                cout << "Edificio com o ID " << id << "MOVIDO para a posiçao (" << l << "," << c << ")!" << endl;
+                cout << "Edificio com o ID " << id << "MOVIDO para a posicao (" << l << "," << c << ")!" << endl;
                 return true;
             } else return false;
         } else return false;
@@ -299,7 +299,7 @@ bool validaComando(vector< vector<Zona> > &matriz, istringstream &iss, int linha
     else if (args[0] == "config" && args.size() == 2){
         // Implementar o resto do comando
         if(!args[1].empty()){
-            cout << "Ficheiro de configuraçao " << args[1] << " LIDO!" << endl;
+            cout << "Ficheiro de configuracao " << args[1] << " LIDO!" << endl;
             return true;
         }
         else return false;
@@ -319,7 +319,7 @@ bool validaComando(vector< vector<Zona> > &matriz, istringstream &iss, int linha
         if(args[1] == "minaf" || args[1] == "minac" || args[1] == "central" || args[1] == "bat" || args[1] == "fund" || args[1] == "edx"){
             if(l >= 3 && l <= 8){
                 if(c >= 3 && c <= 16){
-                    cout << "[DEBUG] Edificio do tipo " << args[1] << " CONSTRUIDO na posiçao (" << l << "," << c << ")!" << endl;
+                    cout << "[DEBUG] Edificio do tipo " << args[1] << " CONSTRUIDO na posicao (" << l << "," << c << ")!" << endl;
                     return true;
                 } else return false;
             } else return false;
