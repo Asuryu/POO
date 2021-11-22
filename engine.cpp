@@ -42,6 +42,8 @@ void Zona::cont(string tipo){
 
 void menu(int &linhas, int &colunas){
     int opcao_menu = 0;
+    string input;
+
     do {
         cout << "\033[2J\033[1;1H";
         mostraASCII();
@@ -55,11 +57,13 @@ void menu(int &linhas, int &colunas){
         cout << "\033[2J\033[1;1H";
         mostraASCII();
         cout << "Introduza o numero de linhas: ";
-        cin >> linhas;
+        getline(cin, input);
+        stringstream(input) >> linhas;
     } while (linhas < 3 || linhas > 8);
     do {
         cout << "Introduza o numero de colunas: ";
-        cin >> colunas;
+        getline(cin, input);
+        stringstream(input) >> colunas;
     } while (colunas < 3 || colunas > 16);
     cout << "\033[2J\033[1;1H";
     mostraASCII();
@@ -308,6 +312,7 @@ bool validaComando(vector< vector<Zona> > &matriz, istringstream &iss, int linha
 
             while (getline(input_file, line)) {
                 istringstream lineFich(line);
+                cout << line << endl;
             }
 
             // Close the file
