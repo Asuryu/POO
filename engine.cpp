@@ -15,7 +15,7 @@ using namespace std;
 
 string Zona::getInfo() const{
     ostringstream oss;
-    oss << "(" << linha << ", " << coluna << ")\nZona: " << zona << "\nEdifício: " << edificio << "\nTrabalhadores: " << trabalhadores << "\nNr. Trabalhadores: " << nrTrabalhadores << endl;
+    oss << "(" << linha << ", " << coluna << ")\nZona: " << zona << "\nEdificio: " << edificio << "\nTrabalhadores: " << trabalhadores << "\nNr. Trabalhadores: " << nrTrabalhadores << endl;
     return oss.str();
 }
 void Zona::setLinha(int l){ linha = l; }
@@ -29,7 +29,7 @@ string Zona::getTrabalhadores() const { return trabalhadores; }
 int Zona::getNrTrabalhadores() const { return nrTrabalhadores; }
 void Zona::cons(string tipo, int linhaX, int colunaX){
     this->edificio = tipo;
-    cout << "Edifício do tipo " << edificio << " CONSTRUIDO na posição (" << linhaX << "," << colunaX << ")!" << endl;
+    cout << "Edificio do tipo " << edificio << " CONSTRUIDO na posiçao (" << linhaX << "," << colunaX << ")!" << endl;
 }
 void Zona::cont(string tipo){
     if(tipo == "oper") trabalhadores.append("O");
@@ -37,7 +37,7 @@ void Zona::cont(string tipo){
     else if(tipo == "len") trabalhadores.append("L");
     else return;
     nrTrabalhadores++;
-    cout << "Opearário do tipo " << tipo << " foi CONTRATADO e colocado na zona de pasto (" << linha << ", " << coluna << ")!" << endl;
+    cout << "Opearario do tipo " << tipo << " foi CONTRATADO e colocado na zona de pasto (" << linha << ", " << coluna << ")!" << endl;
 }
 
 void menu(int &linhas, int &colunas){
@@ -54,11 +54,11 @@ void menu(int &linhas, int &colunas){
     do {
         cout << "\033[2J\033[1;1H";
         mostraASCII();
-        cout << "Introduza o número de linhas: ";
+        cout << "Introduza o numero de linhas: ";
         cin >> linhas;
     } while (linhas < 3 || linhas > 8);
     do {
-        cout << "Introduza o número de colunas: ";
+        cout << "Introduza o numero de colunas: ";
         cin >> colunas;
     } while (colunas < 3 || colunas > 16);
     cout << "\033[2J\033[1;1H";
@@ -157,12 +157,12 @@ bool validaComando(vector< vector<Zona> > &matriz, istringstream &iss, int linha
         int linhaX, colunaX;
         if(isNumber(args[2])) linhaX = stoi(args[2]);
         else{
-            cout << "[ERRO] Introduza um número para a linha" << endl;
+            cout << "[ERRO] Introduza um numero para a linha" << endl;
             return false;
         }
         if(isNumber(args[3])) colunaX = stoi(args[3]);
         else{
-            cout << "[ERRO] Introduza um número para a coluna" << endl;
+            cout << "[ERRO] Introduza um numero para a coluna" << endl;
             return false;
         }
 
@@ -171,17 +171,17 @@ bool validaComando(vector< vector<Zona> > &matriz, istringstream &iss, int linha
                 if(colunaX < colunasTab && colunaX >= 0){
                     matriz[linhaX][colunaX].cons(args[1], linhaX, colunaX);
                     return true;
-                } else cout << "[ERRO] Coluna inválida" << endl;
-            } else cout << "[ERRO] Linha inválida" << endl;
-        } else cout << "[ERRO] Tipo de edifício inválido" << endl;
+                } else cout << "[ERRO] Coluna invalida" << endl;
+            } else cout << "[ERRO] Linha invalida" << endl;
+        } else cout << "[ERRO] Tipo de edificio invalido" << endl;
     }
     else if (args[0] == "liga" && args.size() == 3){
         int l = stoi(args[1]);
         int c = stoi(args[2]);
-        // Implementar a validação do edifício
+        // Implementar a validaço do edifício
         if(l >= 3 && l <= 8){
             if(c >= 3 && c <= 16){
-                cout << "Edifício LIGADO na posição (" << l << "," << c << ")!" << endl;
+                cout << "Edificio LIGADO na posiçao (" << l << "," << c << ")!" << endl;
                 return true;
             } else return false;
         } else return false;
@@ -192,7 +192,7 @@ bool validaComando(vector< vector<Zona> > &matriz, istringstream &iss, int linha
         // Implementar a validação do edifício
         if(l >= 3 && l <= 8){
             if(c >= 3 && c <= 16){
-                cout << "Edifício DESLIGADO na posição (" << l << "," << c << ")!" << endl;
+                cout << "Edificio DESLIGADO na posiçao (" << l << "," << c << ")!" << endl;
                 return true;
             } else return false;
         } else return false;
@@ -204,7 +204,7 @@ bool validaComando(vector< vector<Zona> > &matriz, istringstream &iss, int linha
         // Implementar a validação do ID
         if(l >= 3 && l <= 8){
             if(c >= 3 && c <= 16){
-                cout << "Edifício com o ID " << id << "MOVIDO para a posição (" << l << "," << c << ")!" << endl;
+                cout << "Edificio com o ID " << id << "MOVIDO para a posiçao (" << l << "," << c << ")!" << endl;
                 return true;
             } else return false;
         } else return false;
@@ -234,11 +234,11 @@ bool validaComando(vector< vector<Zona> > &matriz, istringstream &iss, int linha
                 (*pastos[randomIntger]).cont(args[1]);
                 return true;
             } else {
-                cout << "[ERRO] Não existem zonas de pasto disponíveis" << endl;
+                cout << "[ERRO] Nao existem zonas de pasto disponiveis" << endl;
                 return false;
             }
         } else {
-            cout << "[ERRO] Esse tipo de operário não existe" << endl;
+            cout << "[ERRO] Esse tipo de operario nao existe" << endl;
             return false;
         }
     }
@@ -250,12 +250,12 @@ bool validaComando(vector< vector<Zona> > &matriz, istringstream &iss, int linha
             int linhaX, colunaX;
             if(isNumber(args[1])) linhaX = stoi(args[1]);
             else{
-                cout << "[ERRO] Introduza um número para a linha" << endl;
+                cout << "[ERRO] Introduza um numero para a linha" << endl;
                 return false;
             }
             if(isNumber(args[2])) colunaX = stoi(args[2]);
             else{
-                cout << "[ERRO] Introduza um número para a coluna" << endl;
+                cout << "[ERRO] Introduza um numero para a coluna" << endl;
                 return false;
             }
 
@@ -263,8 +263,8 @@ bool validaComando(vector< vector<Zona> > &matriz, istringstream &iss, int linha
                 if(colunaX < colunasTab && colunaX >= 0){
                     cout << matriz[linhaX][colunaX].getInfo() << endl;
                     return true;
-                } else cout << "[ERRO] Coluna inválida" << endl;
-            } else cout << "[ERRO] Linha inválida" << endl;
+                } else cout << "[ERRO] Coluna invalida" << endl;
+            } else cout << "[ERRO] Linha invalida" << endl;
         }
     }
     else if (args[0] == "next" && args.size() == 1){
@@ -298,8 +298,8 @@ bool validaComando(vector< vector<Zona> > &matriz, istringstream &iss, int linha
     }
     else if (args[0] == "config" && args.size() == 2){
         // Implementar o resto do comando
-        if(args[1].empty()){
-            cout << "Ficheiro de configuração " << args[1] << " LIDO!" << endl;
+        if(!args[1].empty()){
+            cout << "Ficheiro de configuraçao " << args[1] << " LIDO!" << endl;
             return true;
         }
         else return false;
@@ -319,7 +319,7 @@ bool validaComando(vector< vector<Zona> > &matriz, istringstream &iss, int linha
         if(args[1] == "minaf" || args[1] == "minac" || args[1] == "central" || args[1] == "bat" || args[1] == "fund" || args[1] == "edx"){
             if(l >= 3 && l <= 8){
                 if(c >= 3 && c <= 16){
-                    cout << "[DEBUG] Edifício do tipo " << args[1] << " CONSTRUIDO na posição (" << l << "," << c << ")!" << endl;
+                    cout << "[DEBUG] Edificio do tipo " << args[1] << " CONSTRUIDO na posiçao (" << l << "," << c << ")!" << endl;
                     return true;
                 } else return false;
             } else return false;
