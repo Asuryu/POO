@@ -21,12 +21,9 @@ string Zona::getInfo() const{
 }
 void Zona::setLinha(int l){ linha = l; }
 void Zona::setColuna(int c){ coluna = c; }
-int Zona::getLinha() const { return linha; }
-int Zona::getColuna() const { return coluna; }
 void Zona::setZona(string z){ zona = z; }
 string Zona::getZona() const { return zona; }
 string Zona::getEdificio() const { return edificio; }
-void Zona::setEdificio(string e) { edificio = e; }
 string Zona::getTrabalhadores() const { return trabalhadores; }
 void Zona::setNrTrabalhadores(int n) { nrTrabalhadores = n; }
 int Zona::getNrTrabalhadores() const { return nrTrabalhadores; }
@@ -62,7 +59,7 @@ void menu(int &linhas, int &colunas){
         mostraASCII();
         cout << "Introduza o numero de linhas: ";
         getline(cin, input);
-        stringstream(input) >> linhas; 
+        stringstream(input) >> linhas;
     } while (linhas < 3 || linhas > 8);
     do {
         cout << "Introduza o numero de colunas: ";
@@ -126,7 +123,17 @@ void mostraIlha(vector< vector<Zona> > matriz, int linhas, int colunas){
         for(int z = 0; z < 4; z++){
             for(int k = 0; k < colunas; k++){
                 if(z == 0) cout << "|" << left << setfill(' ') << setw(7) << matriz[i][k].getZona();
-                else if(z == 1) cout << "|" << left << setfill(' ') << setw(7) << matriz[i][k].getEdificio();
+                else if(z == 1){
+                    string edificio = matriz[i][k].getEdificio();
+                    string edf;
+                    if (edificio == "minaf") edf = "mnF";
+                    else if (edificio == "minac") edf = "mnC";
+                    else if (edificio == "central") edf = "elec";
+                    else if (edificio == "bat") edf = "bat";
+                    else if (edificio == "fund") edf = "fun";
+                    cout << "|" << left << setfill(' ') << setw(7) << edf;
+                }
+
                 else if(z == 2) cout << "|" << left << setfill(' ') << setw(7) << (matriz[i][k].getTrabalhadores()).substr(0, 6);
                 else if(z == 3) cout << "|" << left << setfill(' ') << setw(7) << matriz[i][k].getNrTrabalhadores();
                 else cout << "|       ";

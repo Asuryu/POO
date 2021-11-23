@@ -22,12 +22,9 @@ class Zona {
     public:
         void setLinha(int l);
         void setColuna(int c);
-        int getLinha() const;
-        int getColuna() const;
         string getZona() const;
         void setZona(string z);
         string getEdificio() const;
-        void setEdificio(string e);
         string getTrabalhadores() const;
         string getInfo() const;
         void setNrTrabalhadores(int n);
