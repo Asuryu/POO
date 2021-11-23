@@ -27,9 +27,11 @@ class Zona {
         string getZona() const;
         void setZona(string z);
         string getEdificio() const;
+        void setEdificio(string e);
         string getTrabalhadores() const;
         string getInfo() const;
         int getNrTrabalhadores() const;
+        void setNrTrabalhadores(int t);
         void cons(string tipo, int linhaX, int colunaX);
         void cont(string tipo);
 
@@ -38,6 +40,8 @@ class Zona {
 void menu(int &linhas, int &colunas);
 
 void initIlha(vector< vector<Zona> > &matriz, int linhasTab, int colunasTab);
+
+void mostraIlha(vector< vector<Zona> > matriz, int linhas, int colunas);
 
 void mostraInfoTotal(vector< vector<Zona> > &matriz, int linhasTab, int colunasTab);
 
