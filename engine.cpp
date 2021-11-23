@@ -50,7 +50,8 @@ void menu(int &linhas, int &colunas){
         cout << "\n1 - Comecar o jogo" << endl;
         cout << "2 - Sair do jogo\n\nEscolha: ";
         getline(cin, input);
-        stringstream(input) >> opcao_menu;
+        if(input.length() != 1) opcao_menu = -1;
+        else stringstream(input) >> opcao_menu;
         if(opcao_menu == 1 || opcao_menu == 2) break;
     } while (1);
     if(opcao_menu == 2) exit(0);
@@ -107,10 +108,7 @@ void initIlha(vector< vector<Zona> > &matriz, int linhas, int colunas){
             count++;
         }
     }
-
-
 }
-
 
 void mostraIlha(vector< vector<Zona> > matriz, int linhas, int colunas){
     for(int i = 0; i < linhas; i++){
