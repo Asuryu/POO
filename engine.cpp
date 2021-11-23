@@ -7,6 +7,7 @@
 #include <string>
 #include <vector>
 #include <sstream>
+#include <iomanip>
 #include <regex>
 #include <algorithm>
 #include <fstream>
@@ -25,8 +26,10 @@ int Zona::getColuna() const { return coluna; }
 void Zona::setZona(string z){ zona = z; }
 string Zona::getZona() const { return zona; }
 string Zona::getEdificio() const { return edificio; }
+void Zona::setEdificio(string e) { edificio = e; }
 string Zona::getTrabalhadores() const { return trabalhadores; }
 int Zona::getNrTrabalhadores() const { return nrTrabalhadores; }
+void Zona::setNrTrabalhadores(int t) { nrTrabalhadores = t; }
 void Zona::cons(string tipo, int linhaX, int colunaX){
     this->edificio = tipo;
     cout << "Edificio do tipo " << edificio << " CONSTRUIDO na posicao (" << linhaX << "," << colunaX << ")!" << endl;
@@ -96,6 +99,7 @@ void initIlha(vector< vector<Zona> > &matriz, int linhas, int colunas){
         for(int j = 0; j < colunas; j++){
             matriz[i][j].setLinha(i);
             matriz[i][j].setColuna(j);
+            matriz[i][j].setNrTrabalhadores(0);
             if(count < (6 * repeticoes)) matriz[i][j].setZona(zonas[count]);
             else{
                 randIndex = rand()%(6);
@@ -107,6 +111,42 @@ void initIlha(vector< vector<Zona> > &matriz, int linhas, int colunas){
 
 
 }
+
+
+void mostraIlha(vector< vector<Zona> > matriz, int linhas, int colunas){
+    for(int i = 0; i < linhas; i++){
+        for(int j = 0; j < colunas; j++){
+            cout << "*-------";
+            if(j == (colunas - 1)){
+                cout <<  "*";
+            }
+        }
+        cout << endl;
+        for(int z = 0; z < 4; z++){
+            for(int k = 0; k < colunas; k++){
+                if(z == 0) cout << "|" << left << setfill(' ') << setw(7) << matriz[i][k].getZona();
+                else if(z == 1) cout << "|" << left << setfill(' ') << setw(7) << matriz[i][k].getEdificio();
+                else if(z == 2) cout << "|" << left << setfill(' ') << setw(7) << (matriz[i][k].getTrabalhadores()).substr(0, 6);
+                else if(z == 3) cout << "|" << left << setfill(' ') << setw(7) << matriz[i][k].getNrTrabalhadores();
+                else cout << "|       ";
+                if(k == (colunas - 1)){
+                    cout <<  "|";
+                }
+            }
+            cout << endl;
+        }
+    }
+    for(int j = 0; j < colunas; j++){
+        cout << "*-------";
+        if(j == (colunas - 1)){
+            cout <<  "*";
+        }
+    }
+
+    cout << endl << endl;
+
+}
+
 
 void mostraInfoTotal(vector< vector<Zona> > &matriz, int linhasTab, int colunasTab){
     for(int i = 0; i < linhasTab; i++){
