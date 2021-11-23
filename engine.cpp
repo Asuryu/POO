@@ -51,6 +51,7 @@ void menu(int &linhas, int &colunas){
         cout << "2 - Sair do jogo\n\nEscolha: ";
         getline(cin, input);
         stringstream(input) >> opcao_menu;
+        if (input.length() != 1) opcao_menu = -1;
         if(opcao_menu == 1 || opcao_menu == 2) break;
     } while (1);
     if(opcao_menu == 2) exit(0);
