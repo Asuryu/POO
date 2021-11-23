@@ -15,7 +15,7 @@ using namespace std;
 int main(){
 
     srand(time(NULL));
-    bool state;
+    bool state = false;
     int linhas, colunas;
     menu(linhas, colunas);
     vector< vector<Zona> > matriz;

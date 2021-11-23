@@ -28,6 +28,7 @@ string Zona::getZona() const { return zona; }
 string Zona::getEdificio() const { return edificio; }
 void Zona::setEdificio(string e) { edificio = e; }
 string Zona::getTrabalhadores() const { return trabalhadores; }
+void Zona::setNrTrabalhadores(int n) { nrTrabalhadores = n; }
 int Zona::getNrTrabalhadores() const { return nrTrabalhadores; }
 void Zona::setNrTrabalhadores(int t) { nrTrabalhadores = t; }
 void Zona::cons(string tipo, int linhaX, int colunaX){
