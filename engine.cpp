@@ -48,11 +48,12 @@ void menu(int &linhas, int &colunas){
         cout << "\033[2J\033[1;1H";
         mostraASCII();
         cout << "\n1 - Comecar o jogo" << endl;
-        cout << "0 - Sair do jogo\n\nEscolha: ";
+        cout << "2 - Sair do jogo\n\nEscolha: ";
         getline(cin, input);
-        stringstream(input) >> opcao_menu;  // CORRIGIR RESTRIÇÃO
-        if(opcao_menu == 0) exit(0);
-    } while (opcao_menu != 1);
+        stringstream(input) >> opcao_menu;
+        if(opcao_menu == 1 || opcao_menu == 2) break;
+    } while (1);
+    if(opcao_menu == 2) exit(0);
 
     do {
         cout << "\033[2J\033[1;1H";
@@ -151,6 +152,16 @@ void mostraIlha(vector< vector<Zona> > matriz, int linhas, int colunas){
         }
     }
 
+    cout << endl;
+    cout << "DIA N/A" << endl;
+    cout << "Quantidade de Recursos: N/A" << endl;
+    int nTrab = 0;
+    for(int i = 0; i < linhas; i++){
+        for(int j = 0; j < colunas; j++){
+            nTrab += matriz[i][j].getNrTrabalhadores();
+        }
+    }
+    cout << "Numero de Trabalhadores: " << nTrab << endl;
     cout << endl << endl;
 
 }
