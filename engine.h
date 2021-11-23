@@ -32,7 +32,6 @@ class Zona {
         string getInfo() const;
         void setNrTrabalhadores(int n);
         int getNrTrabalhadores() const;
-        void setNrTrabalhadores(int t);
         void cons(string tipo, int linhaX, int colunaX);
         void cont(string tipo);
 

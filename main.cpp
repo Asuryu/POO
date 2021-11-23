@@ -29,7 +29,7 @@ int main(){
             getchar();
             cout << "\033[2J\033[1;1H";
             mostraASCII();
-            mostraIlha(matriz, linhas, colunas); // Alterar para uma função que mostre a ilha visualmente
+            mostraIlha(matriz, linhas, colunas);
         }
         fflush(stdin);
         cout << "Introduza um comando: ";

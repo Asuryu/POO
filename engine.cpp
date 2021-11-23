@@ -30,7 +30,6 @@ void Zona::setEdificio(string e) { edificio = e; }
 string Zona::getTrabalhadores() const { return trabalhadores; }
 void Zona::setNrTrabalhadores(int n) { nrTrabalhadores = n; }
 int Zona::getNrTrabalhadores() const { return nrTrabalhadores; }
-void Zona::setNrTrabalhadores(int t) { nrTrabalhadores = t; }
 void Zona::cons(string tipo, int linhaX, int colunaX){
     this->edificio = tipo;
     cout << "Edificio do tipo " << edificio << " CONSTRUIDO na posicao (" << linhaX << "," << colunaX << ")!" << endl;
@@ -45,7 +44,7 @@ void Zona::cont(string tipo){
 }
 
 void menu(int &linhas, int &colunas){
-    int opcao_menu = 0;
+    int opcao_menu;
     string input;
 
     do {
@@ -53,7 +52,8 @@ void menu(int &linhas, int &colunas){
         mostraASCII();
         cout << "\n1 - Comecar o jogo" << endl;
         cout << "0 - Sair do jogo\n\nEscolha: ";
-        cin >> opcao_menu;
+        getline(cin, input);
+        stringstream(input) >> opcao_menu;  // CORRIGIR RESTRIÇÃO
         if(opcao_menu == 0) exit(0);
     } while (opcao_menu != 1);
 
@@ -62,7 +62,7 @@ void menu(int &linhas, int &colunas){
         mostraASCII();
         cout << "Introduza o numero de linhas: ";
         getline(cin, input);
-        stringstream(input) >> linhas;
+        stringstream(input) >> linhas; 
     } while (linhas < 3 || linhas > 8);
     do {
         cout << "Introduza o numero de colunas: ";
