@@ -20,15 +20,7 @@ int main(){
     menu(linhas, colunas);
     vector< vector<Zona> > matriz;
     initIlha(matriz, linhas, colunas);
-    
-    // for(int i = 0; i < linhas; i++){
-    //     for(int j = 0; j < colunas; j++){
-    //         cout << "*------";
-    //     }
-    //     for(int z = 0; z < 3; z++){
-    //         cout << endl <<  "|      |      |      |      |";
-    //     }
-    // }
+    mostraIlha(matriz, linhas, colunas);
 
     do { // Ciclo de jogo
         string input;
@@ -37,7 +29,7 @@ int main(){
             getchar();
             cout << "\033[2J\033[1;1H";
             mostraASCII();
-            mostraInfoTotal(matriz, linhas, colunas); // Alterar para uma função que mostre a ilha visualmente
+            mostraIlha(matriz, linhas, colunas); // Alterar para uma função que mostre a ilha visualmente
         }
         fflush(stdin);
         cout << "Introduza um comando: ";
