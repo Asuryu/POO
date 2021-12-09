@@ -31,6 +31,7 @@ class Zona {
         int getNrTrabalhadores() const;
         void cons(string tipo, int linhaX, int colunaX);
         void cont(string tipo);
+        ~Zona();
 
 };
 
