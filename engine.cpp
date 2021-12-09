@@ -72,15 +72,15 @@ void menu(int &linhas, int &colunas){
     mostraASCII();
 }
 
-void initIlha(vector< vector<Zona> > &matriz, int linhas, int colunas){
-    Zona z;
-    vector<Zona> tmp;
-    for(int i = 0; i < linhas; i++){
-        for(int j = 0; j < colunas; j++){
-            tmp.push_back(z);
-        }
-        matriz.push_back(tmp);
-    }
+void initIlha(Zona **matriz, int linhas, int colunas){
+    // Zona z;
+    // vector<Zona> tmp;
+    // for(int i = 0; i < linhas; i++){
+    //     for(int j = 0; j < colunas; j++){
+    //         tmp.push_back(z);
+    //     }
+    //     matriz.push_back(tmp);
+    // }
 
     vector<string> zonas;
     string zonasExistentes[6] = {"mnt", "dsr", "pas", "flr", "pnt", "znZ"};
@@ -110,7 +110,7 @@ void initIlha(vector< vector<Zona> > &matriz, int linhas, int colunas){
     }
 }
 
-void mostraIlha(vector< vector<Zona> > matriz, int linhas, int colunas){
+void mostraIlha(Zona **matriz, int linhas, int colunas){
     for(int i = 0; i < linhas; i++){
         for(int j = 0; j < colunas; j++){
             cout << "*-------";
@@ -165,7 +165,7 @@ void mostraIlha(vector< vector<Zona> > matriz, int linhas, int colunas){
 }
 
 
-void mostraInfoTotal(vector< vector<Zona> > &matriz, int linhasTab, int colunasTab){
+void mostraInfoTotal(Zona **matriz, int linhasTab, int colunasTab){
     for(int i = 0; i < linhasTab; i++){
         for(int j = 0; j < colunasTab; j++){
             cout << matriz[i][j].getInfo() << endl;
@@ -186,7 +186,7 @@ bool isNumber(string x){
     return (regex_match (x,e));
 }
 
-bool validaComando(vector< vector<Zona> > &matriz, istringstream &iss, int linhasTab, int colunasTab){
+bool validaComando(Zona **matriz, istringstream &iss, int linhasTab, int colunasTab){
 
     vector<string> args;
     while (iss){
