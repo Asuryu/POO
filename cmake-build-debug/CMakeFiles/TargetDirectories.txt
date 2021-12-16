@@ -1,3 +1,0 @@
-C:/Users/tomas/OneDrive/Documentos/GitHub/POO/cmake-build-debug/CMakeFiles/rebuild_cache.dir
-C:/Users/tomas/OneDrive/Documentos/GitHub/POO/cmake-build-debug/CMakeFiles/POO.dir
-C:/Users/tomas/OneDrive/Documentos/GitHub/POO/cmake-build-debug/CMakeFiles/edit_cache.dir

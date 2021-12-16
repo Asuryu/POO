@@ -9,7 +9,6 @@
 #include <vector>
 using namespace std;
 
-
 class Zona {
 
     private:
@@ -31,21 +30,20 @@ class Zona {
         int getNrTrabalhadores() const;
         void cons(string tipo, int linhaX, int colunaX);
         void cont(string tipo);
-
 };
 
 void menu(int &linhas, int &colunas);
 
-void initIlha(vector< vector<Zona> > &matriz, int linhasTab, int colunasTab);
+void initIlha(Zona **matriz, int linhasTab, int colunasTab);
 
-void mostraIlha(vector< vector<Zona> > matriz, int linhas, int colunas);
+void mostraIlha(Zona **matriz, int linhas, int colunas);
 
-void mostraInfoTotal(vector< vector<Zona> > &matriz, int linhasTab, int colunasTab);
+void mostraInfoTotal(Zona **matriz, int linhasTab, int colunasTab);
 
 void mostraASCII();
 
 bool isNumber(string s);
 
-bool validaComando(vector< vector<Zona> > &matriz, istringstream &iss, int linhasTab, int colunasTab);
+bool validaComando(Zona **matriz, istringstream &iss, int linhasTab, int colunasTab);
 
 #endif //ENGINE

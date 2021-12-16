@@ -18,7 +18,11 @@ int main(){
     bool state = false;
     int linhas, colunas;
     menu(linhas, colunas);
-    vector< vector<Zona> > matriz;
+    
+    Zona** matriz = new Zona*[linhas];
+    for(int i = 0; i < linhas; ++i)
+        matriz[i] = new Zona[colunas];
+    
     initIlha(matriz, linhas, colunas);
     mostraIlha(matriz, linhas, colunas);
 
