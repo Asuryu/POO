@@ -28,7 +28,7 @@ int main(){
 
     do { // Ciclo de jogo
         string input;
-        if(state == 6){
+        if(state == true){
             cout << ">>> Prima ENTER para continuar <<< ";
             getchar();
             cout << "\033[2J\033[1;1H";
