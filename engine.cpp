@@ -73,15 +73,6 @@ void menu(int &linhas, int &colunas){
 }
 
 void initIlha(Zona **matriz, int linhas, int colunas){
-    // Zona z;
-    // vector<Zona> tmp;
-    // for(int i = 0; i < linhas; i++){
-    //     for(int j = 0; j < colunas; j++){
-    //         tmp.push_back(z);
-    //     }
-    //     matriz.push_back(tmp);
-    // }
-
     vector<string> zonas;
     string zonasExistentes[6] = {"mnt", "dsr", "pas", "flr", "pnt", "znZ"};
     int celulas = linhas * colunas;
@@ -103,7 +94,7 @@ void initIlha(Zona **matriz, int linhas, int colunas){
             if(count < (6 * repeticoes)) matriz[i][j].setZona(zonas[count]);
             else{
                 randIndex = rand()%(6);
-                matriz[i][j].setZona(zonas[randIndex]);
+                matriz[i][j].setZona(zonasExistentes[randIndex]);
             }
             count++;
         }
