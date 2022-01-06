@@ -7,6 +7,7 @@
 
 #include <sstream>
 #include <vector>
+#include <iostream>
 using namespace std;
 
 class Ilha {
@@ -86,7 +87,7 @@ class EdificioX : public Edificios{
     private:
 };
 
-class Trabalhador : public Ilha{
+class Trabalhador : public Zona{
     private:
         int cost;    
         int tired;   //Gerar um nr random de 0 a 99, criar uma condição "if(cancaço < 5)" --> Tem 5% de probabilidade de se cansar e demitir-se.   
@@ -100,7 +101,11 @@ class Mineiro : public Trabalhador{
     private:
              
     public:          
-        Mineiro(int custo, int cansaco): Trabalhador(custo, cansaco){}        
+        Mineiro(int custo, int cansaco): Trabalhador(custo, cansaco){
+        //Mineiro x(10, 20);
+        //cout << "\nA contratacaoo do Mineiro custou " << x.getcusto() << "Cansaco: " << x.getcansaco() << endl;
+
+        }        
     //Criar Verificações --> Apenas pode ser contratado para os Edificios "Mina de ferro" e "Mina de carvão". 
 
 };

@@ -17,14 +17,11 @@ int main(){
     srand(time(NULL));
     bool state = false;
     int linhas, colunas;
-    char mineiros[100];
     menu(linhas, colunas);
-    
+
     Zona** matriz = new Zona*[linhas];
     for(int i = 0; i < linhas; ++i)
         matriz[i] = new Zona[colunas];
-    //TESTEEEEEE    
-    Mineiro x(10, 50);
 
     initIlha(matriz, linhas, colunas);
     mostraIlha(matriz, linhas, colunas);
@@ -38,8 +35,6 @@ int main(){
             mostraASCII();
             mostraIlha(matriz, linhas, colunas);
         }
-        //TESTEEEEEE
-        cout << "\nA contratacaoo do Mineiro custou " << x.getcusto() << "Cansaco: " << x.getcansaco() << endl;
         fflush(stdin);
         cout << "Introduza um comando: ";
         getline(cin, input);

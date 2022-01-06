@@ -40,6 +40,8 @@ void Zona::cont(string tipo){
     cout << "Opearario do tipo " << tipo << " foi CONTRATADO e colocado na zona de pasto (" << linha << ", " << coluna << ")!" << endl;
 }
 
+
+
 void menu(int &linhas, int &colunas){
     int opcao_menu;
     string input;
