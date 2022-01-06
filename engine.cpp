@@ -45,7 +45,6 @@ void menu(int &linhas, int &colunas){
     string input;
 
     do {
-        cout << "\033[2J\033[1;1H";
         mostraASCII();
         cout << "\n1 - Comecar o jogo" << endl;
         cout << "2 - Sair do jogo\n\nEscolha: ";
@@ -57,7 +56,6 @@ void menu(int &linhas, int &colunas){
     if(opcao_menu == 2) exit(0);
 
     do {
-        cout << "\033[2J\033[1;1H";
         mostraASCII();
         cout << "Introduza o numero de linhas: ";
         getline(cin, input);
@@ -68,7 +66,6 @@ void menu(int &linhas, int &colunas){
         getline(cin, input);
         stringstream(input) >> colunas;
     } while (colunas < 3 || colunas > 16);
-    cout << "\033[2J\033[1;1H";
     mostraASCII();
 }
 
