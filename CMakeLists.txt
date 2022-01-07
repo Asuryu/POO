@@ -9,4 +9,13 @@ add_executable(POO
         engine.cpp
         engine.h
         main.cpp
-        comandos.txt)
+        comandos.txt
+        config.txt
+        Edificio.cpp
+        Edificio.h
+        Ilha.cpp
+        Ilha.h
+        Zona.cpp
+        Zona.h
+        Trabalhador.cpp
+        Trabalhador.h)
