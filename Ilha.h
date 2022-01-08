@@ -10,7 +10,7 @@ using namespace std;
 class Ilha {
     private:
         int linhas, colunas;
-        int dia, novoDia; //"novoDia" é utilizada como flag para sabermos quando é que o utilizador executa o comando "next" e muda de dia.
+        int dia; //"novoDia" é utilizada como flag para sabermos quando é que o utilizador executa o comando "next" e muda de dia.
         int saldo;
         int custoMinaf, custoBateria, custoFundicao, custoCentral, custoOper, custoLen, custoMiner;
         vector< vector<Zona*> > zonas;
