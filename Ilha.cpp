@@ -232,7 +232,7 @@ bool Ilha::validaComando(istringstream &comando){
                                     cout << "Introduza o numero de vigas de madeira que pretende usar na construção deste Edificio: " << endl;
                                     cin >> vigasMadeiraUsar;                                
                                     if(nrVigasMadeira - vigasMadeiraUsar < 0) cout << "Não tem vigas de madeira suficientes." << endl;
-                                }while(vigasMadeiraUsar < 0 || vigasMadeiraUsar > 10 &&);
+                                }while(vigasMadeiraUsar < 0 || vigasMadeiraUsar > 10 && nrVigasMadeira - vigasMadeiraUsar > 0);
                                 if (saldo < 0) cout << "Não tem dinheiro suficiente." << endl;
                             }while (saldo - (custoVigasMadeira * 10 - vigasMadeiraUsar * custoVigasMadeira) < 0 && );
                             nrVigasMadeira -= vigasMadeiraUsar;
