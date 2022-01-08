@@ -430,6 +430,28 @@ bool Ilha::validaComando(istringstream &comando){
             } else cout << "[ERRO] Coluna invalida" << endl;
         } else cout << "[ERRO] Linha invalida" << endl;
     }
+    else if (args[0] == "vende" && args.size() == 3){
+        int linhaX, colunaX;
+        if(isNumber(args[1])) linhaX = stoi(args[1]);
+        else{
+            cout << "[ERRO] Introduza um numero para a linha" << endl;
+            return false;
+        }
+        if(isNumber(args[2])) colunaX = stoi(args[2]);
+        else{
+            cout << "[ERRO] Introduza um numero para a coluna" << endl;
+            return false;
+        }
+        if(linhaX < linhas && linhaX >= 0){
+            if(colunaX < colunas && colunaX >= 0){
+                if(zonas[linhaX][colunaX]->getEdificio() != nullptr){
+                    cout << "Edificio na zona " << "(" << linhaX << "," << colunaX << ") VENDIDO" << endl;
+                    zonas[linhaX][colunaX]->removeEdificio();
+                    return true;
+                } else cout << "[ERRO] Nao existe um edificio nessa zona" << endl;
+            } else cout << "[ERRO] Coluna invalida" << endl;
+        } else cout << "[ERRO] Linha invalida" << endl;
+    }
     else if (args[0] == "debcash" && args.size() == 2){
         // Implementar o resto do comando
         int valor;
@@ -438,8 +460,6 @@ bool Ilha::validaComando(istringstream &comando){
             cout << "[ERRO] Introduza um numero valido para o valor" << endl;
             return false;
         }
-        cout << args[1] << endl;
-        cout << valor << endl;
         if(valor > 0){
             addSaldo(valor);
             cout << "[DEBUG] Foram ADICIONADOS " << valor << "€ a sua conta!" << endl;
