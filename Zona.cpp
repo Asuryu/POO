@@ -10,11 +10,27 @@ Zona::Zona(int linha, int coluna) {
 }
 string Zona::getInfoZona() {
     ostringstream oss;
-    string edf;
+    string edf, zonaNome;
     if (this->edificio != NULL) {
         edf = this->edificio->getSigla();
+        if(edf == "minaf")  edf = "Mina de Ferro";
+        else if(edf == "minac") edf = "Mina de Carvao";
+        else if(edf == "central")   edf = "Central Eletrica";        
+        else if(edf == "bat")   edf = "Bateria"; 
+        else if(edf == "fund")  edf = "Fundicao";
+        else if(edf == "edx")   edf = "Edificio Bombado"; 
+
     } else edf = "Sem edificio";
-    oss << "(" << linha << ", " << coluna << ")\nZona: " << sigla << "\nEdificio: " << edf << "\nTrabalhadores: " << getSiglaTrabalhadores() << "\nNr. Trabalhadores: " << getNrTrabalhadores() << endl;
+
+
+    if (this->sigla == "pas") zonaNome = "Pastagem";
+    else if (this->sigla == "dsr")  zonaNome = "Deserto";
+    else if (this->sigla == "mnt")  zonaNome = "Montanha";      
+    else if (this->sigla == "flr")  zonaNome = "Floresta";
+    else if (this->sigla == "pnt")  zonaNome = "Pantano";
+    else if (this->sigla == "znZ")  zonaNome = "ZonaX"; 
+
+    oss << "(" << linha << ", " << coluna << ")\nZona: " << zonaNome << "\nEdificio: " << edf << "\nTrabalhadores: " << getSiglaTrabalhadores() << "\nNr. Trabalhadores: " << getNrTrabalhadores() << endl;
     return oss.str();
 }
 void Zona::setLinha(int linha) {

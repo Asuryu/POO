@@ -1,2 +1,5 @@
 minaf 15
-len 12
+bat 10
+central 15
+oper 10
+miner 15

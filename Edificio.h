@@ -18,6 +18,7 @@ class Edificio {
 class MinaFerro : public Edificio {
     private:
         int vigasMadeira;
+        int custoFabrico;
         int nivel;
         int producao;
         int armazenamento;

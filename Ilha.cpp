@@ -10,6 +10,7 @@
 #include <random>
 #include "Ilha.h"
 #include "engine.h"
+#include <cstdlib>
 using namespace std;
 
 void Ilha::initIlha(){
@@ -263,12 +264,40 @@ bool Ilha::validaComando(istringstream &comando){
                 int randomIntger = rand()%(pastos.size() - 0) + 0;
                 if(args[1] == "oper"){
                     (*pastos[randomIntger]).addTrabalhador(new Operario(15, dia));
+                    saldo = saldo - 15;
+                    int probabilidade =  rand() % 99;
+                    if(novoDia){
+                        novoDia = 0;
+                        if(dia > 9 && probabilidade < 5){
+                            cout << "O Operario com o id  'X' demitiu-se" << endl; 
+                            //Remover o trabalhador (Demitiu-se)
+                        };
+                    };
+                    
                 }
                 else if(args[1] == "len"){
                     (*pastos[randomIntger]).addTrabalhador(new Lenhador(20, dia));
+                    saldo = saldo - 20;
+                    int probabilidade =  rand() % 99;
+                    if(novoDia){
+                        novoDia = 0;
+                        if(dia > 0 && probabilidade < 2){
+                            cout << "O Lenhador com o id  'X' demitiu-se" << endl; 
+                            //Remover o trabalhador (Demitiu-se), Lenhador em principio não se despede...
+                        };
+                    };
                 }
                 else if(args[1] == "miner"){
                     (*pastos[randomIntger]).addTrabalhador(new Mineiro(10, dia));
+                    saldo = saldo - 10;
+                    if(novoDia){
+                        novoDia = 0;
+                        int probabilidade =  rand() % 99;
+                        if( dia > 1 && probabilidade < 10){
+                            cout << "O Mineiro com o id  'X' demitiu-se" << endl; 
+                            //Remover o trabalhador (Demitiu-se)
+                        };
+                    };                        
                 }
                 return true;
             } else {
@@ -380,11 +409,26 @@ bool Ilha::validaComando(istringstream &comando){
                 cout << "Ocorreu um erro ao abrir o ficheiro" << endl;
                 return false;  //ocorreu um erro
             }
-
+            vector<string> cfgArgs;
             while (getline(input_file, line)) {
                 istringstream lineFich(line);
-                cout << line << endl;
+                cout << line << endl;             
+                while (lineFich){
+                    string subs;
+                    lineFich >> subs;
+                    cfgArgs.push_back(subs);
+                }
+                cfgArgs.pop_back();
+                if (cfgArgs[0] == "minaf" && cfgArgs.size() == 2)   custoMinaf = stoi(cfgArgs[1]);
+                else if (cfgArgs[0] == "bat" && cfgArgs.size() == 2)    custoBateria = stoi(cfgArgs[1]);
+                else if (cfgArgs[0] == "fund" && cfgArgs.size() == 2)   custoFundicao = stoi(cfgArgs[1]);
+                else if (cfgArgs[0] == "central" && cfgArgs.size() == 2)    custoCentral = stoi(cfgArgs[1]);
+                else if (cfgArgs[0] == "oper" && cfgArgs.size() == 2)   custoOper = stoi(cfgArgs[1]);
+                else if (cfgArgs[0] == "len" && cfgArgs.size() == 2)    custoLen = stoi(cfgArgs[1]);
+                else if (cfgArgs[0] == "miner" && cfgArgs.size() == 2)  custoMiner = stoi(cfgArgs[1]);
+                cfgArgs.clear();    
             }
+            
 
             // Close the file
             input_file.close();
@@ -473,6 +517,11 @@ bool Ilha::validaComando(istringstream &comando){
         }
         cout << "[DEBUG] Não existe nenhum trabalhador com o id " << args[1] << endl;
         return false;
+    }
+    else if (args[0] == "next" && args.size() == 1){
+        dia++;
+        cout << "[Dia " <<  dia << "]" << endl;
+       novoDia = 1;
     }
     else if (args[0] == "exit" && args.size() == 1){
         cout << "A sair do jogo" << endl;
