@@ -392,6 +392,44 @@ bool Ilha::validaComando(istringstream &comando){
             return true;
         }
     }
+    else if (args[0] == "move" && args.size() == 4){
+        Zona *zona;
+        int linhaX, colunaX;
+        string id = "";
+        int l = 0;
+        for(int i = 0; i < linhas; i++){
+            for(int j = 0; j < colunas; j++){
+                for(l = 0; l < zonas[i][j]->getTrabalhadores().size(); l++){
+                    if(zonas[i][j]->getTrabalhadores()[l]->getIdTrabalhador() == args[1]){
+                        zona = zonas[i][j];
+                        id = zonas[i][j]->getTrabalhadores()[l]->getIdTrabalhador();
+                    }
+                }
+            }
+        }
+        if(id == ""){
+            cout << "[DEBUG] Não existe nenhum trabalhador com o id " << args[1] << endl;
+            return false;
+        }
+        if(isNumber(args[2])) linhaX = stoi(args[2]);
+        else{
+            cout << "[ERRO] Introduza um numero para a linha" << endl;
+            return false;
+        }
+        if(isNumber(args[3])) colunaX = stoi(args[3]);
+        else{
+            cout << "[ERRO] Introduza um numero para a coluna" << endl;
+            return false;
+        }
+
+        if(linhaX < linhas && linhaX >= 0){
+            if(colunaX < colunas && colunaX >= 0){
+                zonas[linhaX][colunaX]->addTrabalhador(zona->getTrabalhadores()[l]);
+                zona->removeTrabalhador(zona->getTrabalhadores()[l]);
+                return true;
+            } else cout << "[ERRO] Coluna invalida" << endl;
+        } else cout << "[ERRO] Linha invalida" << endl;
+    }
     else if (args[0] == "debcash" && args.size() == 2){
         // Implementar o resto do comando
         int valor;
