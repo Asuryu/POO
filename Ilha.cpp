@@ -436,6 +436,66 @@ bool Ilha::validaComando(istringstream &comando){
             return true;
         }
     }
+    else if (args[0] == "move" && args.size() == 4){
+        Zona *zona;
+        int linhaX, colunaX;
+        string id = "";
+        int l = 0;
+        for(int i = 0; i < linhas; i++){
+            for(int j = 0; j < colunas; j++){
+                for(l = 0; l < zonas[i][j]->getTrabalhadores().size(); l++){
+                    if(zonas[i][j]->getTrabalhadores()[l]->getIdTrabalhador() == args[1]){
+                        zona = zonas[i][j];
+                        id = zonas[i][j]->getTrabalhadores()[l]->getIdTrabalhador();
+                    }
+                }
+            }
+        }
+        if(id == ""){
+            cout << "[DEBUG] Não existe nenhum trabalhador com o id " << args[1] << endl;
+            return false;
+        }
+        if(isNumber(args[2])) linhaX = stoi(args[2]);
+        else{
+            cout << "[ERRO] Introduza um numero para a linha" << endl;
+            return false;
+        }
+        if(isNumber(args[3])) colunaX = stoi(args[3]);
+        else{
+            cout << "[ERRO] Introduza um numero para a coluna" << endl;
+            return false;
+        }
+
+        if(linhaX < linhas && linhaX >= 0){
+            if(colunaX < colunas && colunaX >= 0){
+                zonas[linhaX][colunaX]->addTrabalhador(zona->getTrabalhadores()[l]);
+                zona->removeTrabalhador(zona->getTrabalhadores()[l]);
+                return true;
+            } else cout << "[ERRO] Coluna invalida" << endl;
+        } else cout << "[ERRO] Linha invalida" << endl;
+    }
+    else if (args[0] == "vende" && args.size() == 3){
+        int linhaX, colunaX;
+        if(isNumber(args[1])) linhaX = stoi(args[1]);
+        else{
+            cout << "[ERRO] Introduza um numero para a linha" << endl;
+            return false;
+        }
+        if(isNumber(args[2])) colunaX = stoi(args[2]);
+        else{
+            cout << "[ERRO] Introduza um numero para a coluna" << endl;
+            return false;
+        }
+        if(linhaX < linhas && linhaX >= 0){
+            if(colunaX < colunas && colunaX >= 0){
+                if(zonas[linhaX][colunaX]->getEdificio() != nullptr){
+                    cout << "Edificio na zona " << "(" << linhaX << "," << colunaX << ") VENDIDO" << endl;
+                    zonas[linhaX][colunaX]->removeEdificio();
+                    return true;
+                } else cout << "[ERRO] Nao existe um edificio nessa zona" << endl;
+            } else cout << "[ERRO] Coluna invalida" << endl;
+        } else cout << "[ERRO] Linha invalida" << endl;
+    }
     else if (args[0] == "debcash" && args.size() == 2){
         // Implementar o resto do comando
         int valor;
@@ -444,8 +504,6 @@ bool Ilha::validaComando(istringstream &comando){
             cout << "[ERRO] Introduza um numero valido para o valor" << endl;
             return false;
         }
-        cout << args[1] << endl;
-        cout << valor << endl;
         if(valor > 0){
             addSaldo(valor);
             cout << "[DEBUG] Foram ADICIONADOS " << valor << "€ a sua conta!" << endl;
@@ -500,17 +558,13 @@ bool Ilha::validaComando(istringstream &comando){
         } else cout << "[ERRO] Tipo de edificio invalido" << endl;
     }
     else if (args[0] == "debkill" && args.size() == 2){
-
         for(int i = 0; i < linhas; i++){
             for(int j = 0; j < colunas; j++){
-                for(int k = 0; k < zonas.size(); k++){
-                    for(int l = 0; zonas[i][j]->getTrabalhadores().size(); l++){
-                        cout << zonas[i][j]->getTrabalhadores()[l]->getIdTrabalhador() << endl;
-                        if(zonas[i][j]->getTrabalhadores()[l]->getIdTrabalhador() == args[1]){
-                            zonas[i][j]->removeTrabalhador(zonas[i][j]->getTrabalhadores()[l]);
-                            cout << "[DEBUG] Trabalhador com ID " << args[1] << " REMOVIDO do seu posto!" << endl;
-                            return true;
-                        }
+                for(int l = 0; l < zonas[i][j]->getTrabalhadores().size(); l++){
+                    if(zonas[i][j]->getTrabalhadores()[l]->getIdTrabalhador() == args[1]){
+                        zonas[i][j]->removeTrabalhador(zonas[i][j]->getTrabalhadores()[l]);
+                        cout << "[DEBUG] Trabalhador com ID " << args[1] << " REMOVIDO do seu posto!" << endl;
+                        return true;
                     }
                 }
             }
