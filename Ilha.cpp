@@ -226,23 +226,36 @@ bool Ilha::validaComando(istringstream &comando){
             if(linhaX < linhas && linhaX >= 0){
                 if(colunaX < colunas && colunaX >= 0){
                     if(zonas[linhaX][colunaX]->getEdificio() == nullptr){
-                        if(args[1] == "minaf")
+                        if(args[1] == "minaf"){
+                            cout << "Introduza o metodo de pagamento no formato: euros/nr de vigas de madeira" << endl;
+                            saldo = saldo - 100;    //Enquanto não armazenamos as vigas de madeira... Dps adicionamos ao método de pagamento.
                             zonas[linhaX][colunaX]->setEdificio(new MinaFerro("minaf", 10));
-                        else if(args[1] == "minac")
+                        }
+                        else if(args[1] == "minac"){
+                            saldo = saldo - 100;    //Enquanto não armazenamos as vigas de madeira... Dps adicionamos ao método de pagamento.    
                             zonas[linhaX][colunaX]->setEdificio(new MinaCarvao("minac", 10));
-                        else if(args[1] == "central")
+                        }
+                        else if(args[1] == "central"){
+                            saldo = saldo - 15; //Custo da c«trução da Central
                             zonas[linhaX][colunaX]->setEdificio(new Central("central", 15));
-                        else if(args[1] == "bat")
+                        }
+                        else if(args[1] == "bat"){
+                            saldo = saldo - 10; //Custo da construção da Bateria é "10€ + 10 Vigas". (Falta retirar as Vigas de Madeira adicionadas)
                             zonas[linhaX][colunaX]->setEdificio(new Bateria("bat", 10, 10));
-                        else if(args[1] == "fund")
+                        }
+                        else if(args[1] == "fund"){
+                            saldo = saldo - 10; //Custo da construção da Fundição.
                             zonas[linhaX][colunaX]->setEdificio(new Fundicao("fund", 10));
-                        else if(args[1] == "edx")
+                        }
+                        else if(args[1] == "edx"){
+                            saldo = saldo - 50; //Ainda temos de decidir o que fazer neste edificio e o seu respetivo preço.
                             zonas[linhaX][colunaX]->setEdificio(new EdificioX("edx", 0));
+                        }
                         else{
                             cout << "[ERRO] Edificio invalido" << endl;
                             return false;
                         }
-                    return true;
+                        return true;
                     } else cout << "[ERRO] Esta zona ja tem um edificio" << endl;
                 } else cout << "[ERRO] Coluna invalida" << endl;
             } else cout << "[ERRO] Linha invalida" << endl;
@@ -264,40 +277,15 @@ bool Ilha::validaComando(istringstream &comando){
                 int randomIntger = rand()%(pastos.size() - 0) + 0;
                 if(args[1] == "oper"){
                     (*pastos[randomIntger]).addTrabalhador(new Operario(15, dia));
-                    saldo = saldo - 15;
-                    int probabilidade =  rand() % 99;
-                    if(novoDia){
-                        novoDia = 0;
-                        if(dia > 9 && probabilidade < 5){
-                            cout << "O Operario com o id  'X' demitiu-se" << endl; 
-                            //Remover o trabalhador (Demitiu-se)
-                        };
-                    };
-                    
+                    saldo = saldo - 15;                   
                 }
                 else if(args[1] == "len"){
                     (*pastos[randomIntger]).addTrabalhador(new Lenhador(20, dia));
                     saldo = saldo - 20;
-                    int probabilidade =  rand() % 99;
-                    if(novoDia){
-                        novoDia = 0;
-                        if(dia > 0 && probabilidade < 2){
-                            cout << "O Lenhador com o id  'X' demitiu-se" << endl; 
-                            //Remover o trabalhador (Demitiu-se), Lenhador em principio não se despede...
-                        };
-                    };
                 }
                 else if(args[1] == "miner"){
                     (*pastos[randomIntger]).addTrabalhador(new Mineiro(10, dia));
                     saldo = saldo - 10;
-                    if(novoDia){
-                        novoDia = 0;
-                        int probabilidade =  rand() % 99;
-                        if( dia > 1 && probabilidade < 10){
-                            cout << "O Mineiro com o id  'X' demitiu-se" << endl; 
-                            //Remover o trabalhador (Demitiu-se)
-                        };
-                    };                        
                 }
                 return true;
             } else {
@@ -575,7 +563,11 @@ bool Ilha::validaComando(istringstream &comando){
     else if (args[0] == "next" && args.size() == 1){
         dia++;
         cout << "[Dia " <<  dia << "]" << endl;
-        novoDia = 1;
+        int probabilidade =  rand() % 99;
+        if( dia > 1 && probabilidade < 10){
+            cout << "O Mineiro com o id  'X' demitiu-se" << endl; 
+            //Remover o trabalhador (Demitiu-se)
+        };                     
     }
     else if (args[0] == "exit" && args.size() == 1){
         cout << "A sair do jogo" << endl;
