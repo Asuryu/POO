@@ -26,6 +26,8 @@ class Ilha {
         void addZona(Zona *zona);
         void jogar();
         bool validaComando(istringstream &comando);
+        void amanhacer();
+        void anoitecer();
 
         // Comandos possiveis
 };
