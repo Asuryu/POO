@@ -17,10 +17,13 @@ int Edificio::getLigado() {
 string Edificio::getSigla() {
     return this->sigla;
 }
+int Edificio::getCusto() {
+    return 0;
+}
 
 
-MinaFerro::MinaFerro(string sigla, int vigasMadeira) : Edificio(sigla) {
-    this->vigasMadeira = vigasMadeira;
+MinaFerro::MinaFerro(string sigla, int custoFabrico) : Edificio(sigla) {
+    this->custoFabrico = custoFabrico;
     this->nivel = 1;
     this->producao = 0;
     this->armazenamento = 0;
@@ -43,10 +46,13 @@ int MinaFerro::getArmazenamento() const {
 void MinaFerro::setArmazenamento(int armazenamento) {
     this->armazenamento = armazenamento;
 }
+int MinaFerro::getCusto() {
+    return this->custoFabrico;
+}
 
 
-MinaCarvao::MinaCarvao(string sigla, int vigasMadeira) : Edificio(sigla) {
-    this->vigasMadeira = vigasMadeira;
+MinaCarvao::MinaCarvao(string sigla, int custoFabrico) : Edificio(sigla) {
+    this->custoFabrico = custoFabrico;
     this->nivel = 1;
     this->producao = 0;
     this->armazenamento = 0;
@@ -69,10 +75,13 @@ int MinaCarvao::getArmazenamento() const {
 void MinaCarvao::setArmazenamento(int armazenamento) {
     this->armazenamento = armazenamento;
 }
+int MinaCarvao::getCusto() {
+    return this->custoFabrico;
+}
 
 
-Central::Central(string sigla, int custo) : Edificio(sigla) {
-    this->custo = custo;
+Central::Central(string sigla, int custoFabrico) : Edificio(sigla) {
+    this->custoFabrico = custoFabrico;
     this->armazenamento = 0;
 }
 int Central::getArmazenamento() const {
@@ -81,11 +90,13 @@ int Central::getArmazenamento() const {
 void Central::setArmazenamento(int armazenamento) {
     this->armazenamento = armazenamento;
 }
+int Central::getCusto() {
+    return this->custoFabrico;
+}
 
 
-Bateria::Bateria(string sigla, int vigasMadeira, int custo) : Edificio(sigla) {
-    this->vigasMadeira = vigasMadeira;
-    this->custo = custo;
+Bateria::Bateria(string sigla, int custoFabrico) : Edificio(sigla) {
+    this->custoFabrico = custoFabrico;
     this->nivel = 1;
     this->capacidade = 0;
 }
@@ -101,10 +112,16 @@ int Bateria::getCapacidade() const {
 void Bateria::setCapacidade(int capacidade) {
     this->capacidade = capacidade;
 }
+int Bateria::getCusto() {
+    return this->custoFabrico;
+}
 
 
-Fundicao::Fundicao(string sigla, int custo) : Edificio(sigla) {
-    this->custo = custo;
+Fundicao::Fundicao(string sigla, int custoFabrico) : Edificio(sigla) {
+    this->custoFabrico = custoFabrico;
+}
+int Fundicao::getCusto() {
+    return this->custoFabrico;
 }
 
 

@@ -12,72 +12,75 @@ class Edificio {
         void ligar();
         void desligar();
         int getLigado();
+        virtual int getCusto();
         string getSigla();
 };
 
 class MinaFerro : public Edificio {
     private:
-        int vigasMadeira;
         int custoFabrico;
         int nivel;
         int producao;
         int armazenamento;
     public:
-        MinaFerro(string sigla, int vigasMadeira);
+        MinaFerro(string sigla, int custoFabrico);
         int getNivel() const;
         void setNivel(int nivel);
         int getProducao() const;
         void setProducao(int producao);
         int getArmazenamento() const;
         void setArmazenamento(int armazenamento);
+        int getCusto();
 };
 
 class MinaCarvao : public Edificio {
     private:
-        int vigasMadeira;
+        int custoFabrico;
         int nivel;
         int producao;
         int armazenamento;
     public:
-        MinaCarvao(string sigla, int vigasMadeira);
+        MinaCarvao(string sigla, int custoFabrico);
         int getNivel() const;
         void setNivel(int nivel);
         int getProducao() const;
         void setProducao(int producao);
         int getArmazenamento() const;
         void setArmazenamento(int armazenamento);
+        int getCusto();
 };
 
 class Central : public Edificio {
     private:
         int armazenamento;
-        int custo;
+        int custoFabrico;
     public:
-        Central(string sigla, int custo);
+        Central(string sigla, int custoFabrico);
         int getArmazenamento() const;
         void setArmazenamento(int armazenamento);
+        int getCusto();
 };
 
 class Bateria : public Edificio {
     private:
-        int vigasMadeira;
-        int custo;
+        int custoFabrico;
         int nivel;
         int capacidade;
     public:
-        Bateria(string sigla, int vigasMadeira, int custo);
+        Bateria(string sigla, int custoFabrico);
         int getNivel() const;
         void setNivel(int nivel);
         int getCapacidade() const;
         void setCapacidade(int capacidade);
-
+        int getCusto();
 };
 
 class Fundicao : public Edificio {
     private:
-        int custo;
+        int custoFabrico;
     public:
-        Fundicao(string sigla, int custo);
+        Fundicao(string sigla, int custoFabrico);
+        int getCusto();
 };
 
 class EdificioX : public Edificio {

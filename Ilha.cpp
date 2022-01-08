@@ -249,8 +249,8 @@ bool Ilha::validaComando(istringstream &comando){
                             zonas[linhaX][colunaX]->setEdificio(new Central("central", custoCentral));
                         }
                         else if(args[1] == "bat"){
-                            saldo = saldo - custoBateria; //Custo da construção da Bateria é "10€ + 10 Vigas". (Falta retirar as Vigas de Madeira adicionadas)
-                            zonas[linhaX][colunaX]->setEdificio(new Bateria("bat", 10, custoBateria));
+                            saldo = saldo - 10; //Custo da construção da Bateria é "10€ + 10 Vigas". (Falta retirar as Vigas de Madeira adicionadas)
+                            zonas[linhaX][colunaX]->setEdificio(new Bateria("bat", 10));
                         }
                         else if(args[1] == "fund"){
                             saldo = saldo - custoFundicao; //Custo da construção da Fundição.
@@ -472,26 +472,35 @@ bool Ilha::validaComando(istringstream &comando){
         } else cout << "[ERRO] Linha invalida" << endl;
     }
     else if (args[0] == "vende" && args.size() == 3){
-        int linhaX, colunaX;
-        if(isNumber(args[1])) linhaX = stoi(args[1]);
+        if(args[1] == "ferro" || args[1] == "aco" || args[1] == "carvao" || args[1] == "mad" || args[1] == "viga" || args[1] == "eletr"){
+            // Vender recursos
+            cout << "Vender recursos" << endl;
+        }
         else{
-            cout << "[ERRO] Introduza um numero para a linha" << endl;
+            // Vender edificio
+            int linhaX, colunaX;
+            if(isNumber(args[1])) linhaX = stoi(args[1]);
+            else{
+                cout << "[ERRO] Introduza um numero para a linha" << endl;
+                return false;
+            }
+            if(isNumber(args[2])) colunaX = stoi(args[2]);
+            else{
+                cout << "[ERRO] Introduza um numero para a coluna" << endl;
+                return false;
+            }
+            if(linhaX < linhas && linhaX >= 0){
+                if(colunaX < colunas && colunaX >= 0){
+                    if(zonas[linhaX][colunaX]->getEdificio() != nullptr){
+                        cout << "Edificio na zona " << "(" << linhaX << "," << colunaX << ") VENDIDO" << endl;
+                        saldo += zonas[linhaX][colunaX]->getEdificio()->getCusto();
+                        zonas[linhaX][colunaX]->removeEdificio();
+                        return true;
+                    } else cout << "[ERRO] Nao existe um edificio nessa zona" << endl;
+                } else cout << "[ERRO] Coluna invalida" << endl;
+            } else cout << "[ERRO] Linha invalida" << endl;
             return false;
         }
-        if(isNumber(args[2])) colunaX = stoi(args[2]);
-        else{
-            cout << "[ERRO] Introduza um numero para a coluna" << endl;
-            return false;
-        }
-        if(linhaX < linhas && linhaX >= 0){
-            if(colunaX < colunas && colunaX >= 0){
-                if(zonas[linhaX][colunaX]->getEdificio() != nullptr){
-                    cout << "Edificio na zona " << "(" << linhaX << "," << colunaX << ") VENDIDO" << endl;
-                    zonas[linhaX][colunaX]->removeEdificio();
-                    return true;
-                } else cout << "[ERRO] Nao existe um edificio nessa zona" << endl;
-            } else cout << "[ERRO] Coluna invalida" << endl;
-        } else cout << "[ERRO] Linha invalida" << endl;
     }
     else if (args[0] == "debcash" && args.size() == 2){
         // Implementar o resto do comando
@@ -539,7 +548,7 @@ bool Ilha::validaComando(istringstream &comando){
                         else if(args[1] == "central")
                             zonas[linhaX][colunaX]->setEdificio(new Central("central", custoCentral));
                         else if(args[1] == "bat")
-                            zonas[linhaX][colunaX]->setEdificio(new Bateria("bat",10 , custoBateria));
+                            zonas[linhaX][colunaX]->setEdificio(new Bateria("bat", 10));
                         else if(args[1] == "fund")
                             zonas[linhaX][colunaX]->setEdificio(new Fundicao("fund", custoFundicao));
                         else if(args[1] == "edx")
