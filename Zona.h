@@ -22,6 +22,8 @@ class Zona {
         int getLinha();
         int getColuna();
         string getSiglaTrabalhadores();
+        Trabalhador* getTrabalhadorById(string id);
+        vector<Trabalhador*> getTrabalhadoresBySigla(string sigla);
         vector<Trabalhador*> getTrabalhadores();
         int getNrTrabalhadores();
         void addTrabalhador(Trabalhador* trabalhador);

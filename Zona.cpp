@@ -64,6 +64,19 @@ string Zona::getSiglaTrabalhadores() {
     }
     return concatSigla;
 }
+Trabalhador* Zona::getTrabalhadorById(string id){
+    for (int i = 0; i < this->trabalhadores.size(); i++) {
+        if (this->trabalhadores[i]->getIdTrabalhador() == id) return this->trabalhadores[i];
+    }
+    return NULL;
+}
+vector<Trabalhador*> Zona::getTrabalhadoresBySigla(string sigla){
+    vector<Trabalhador*> trabalhadoresBySigla;
+    for (int i = 0; i < this->trabalhadores.size(); i++) {
+        if (this->trabalhadores[i]->getSigla() == sigla) trabalhadoresBySigla.push_back(this->trabalhadores[i]);
+    }
+    return trabalhadoresBySigla;
+}
 void Zona::addTrabalhador(Trabalhador* trabalhador) {
     this->trabalhadores.push_back(trabalhador);
     string nome;

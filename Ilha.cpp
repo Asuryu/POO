@@ -575,7 +575,7 @@ bool Ilha::validaComando(istringstream &comando){
     else if (args[0] == "next" && args.size() == 1){
         dia++;
         cout << "[Dia " <<  dia << "]" << endl;
-       novoDia = 1;
+        novoDia = 1;
     }
     else if (args[0] == "exit" && args.size() == 1){
         cout << "A sair do jogo" << endl;
