@@ -456,17 +456,13 @@ bool Ilha::validaComando(istringstream &comando){
         } else cout << "[ERRO] Tipo de edificio invalido" << endl;
     }
     else if (args[0] == "debkill" && args.size() == 2){
-
         for(int i = 0; i < linhas; i++){
             for(int j = 0; j < colunas; j++){
-                for(int k = 0; k < zonas.size(); k++){
-                    for(int l = 0; zonas[i][j]->getTrabalhadores().size(); l++){
-                        cout << zonas[i][j]->getTrabalhadores()[l]->getIdTrabalhador() << endl;
-                        if(zonas[i][j]->getTrabalhadores()[l]->getIdTrabalhador() == args[1]){
-                            zonas[i][j]->removeTrabalhador(zonas[i][j]->getTrabalhadores()[l]);
-                            cout << "[DEBUG] Trabalhador com ID " << args[1] << " REMOVIDO do seu posto!" << endl;
-                            return true;
-                        }
+                for(int l = 0; l < zonas[i][j]->getTrabalhadores().size(); l++){
+                    if(zonas[i][j]->getTrabalhadores()[l]->getIdTrabalhador() == args[1]){
+                        zonas[i][j]->removeTrabalhador(zonas[i][j]->getTrabalhadores()[l]);
+                        cout << "[DEBUG] Trabalhador com ID " << args[1] << " REMOVIDO do seu posto!" << endl;
+                        return true;
                     }
                 }
             }
