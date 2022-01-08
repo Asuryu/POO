@@ -73,6 +73,9 @@ void Zona::setEdificio(Edificio* edificio) {
     this->edificio = edificio;
     cout << "Edificio do tipo " << edificio->getSigla() << " CONSTRUIDO na posicao (" << linha << "," << coluna << ")!" << endl;
 }
+void Zona::removeEdificio() {
+    this->edificio = NULL;
+}
 Edificio* Zona::getEdificio() {
     return this->edificio;
 }

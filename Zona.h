@@ -28,6 +28,7 @@ class Zona {
         void removeTrabalhador(Trabalhador* trabalhador);
         string getSiglaEdificio();
         void setEdificio(Edificio* edificio);
+        void removeEdificio();
         Edificio* getEdificio();       
         ~Zona(); 
 };
