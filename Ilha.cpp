@@ -227,25 +227,34 @@ bool Ilha::validaComando(istringstream &comando){
                 if(colunaX < colunas && colunaX >= 0){
                     if(zonas[linhaX][colunaX]->getEdificio() == nullptr){
                         if(args[1] == "minaf"){
-                            cout << "Introduza o metodo de pagamento no formato: euros/nr de vigas de madeira" << endl;
-                            saldo = saldo - 100;    //Enquanto não armazenamos as vigas de madeira... Dps adicionamos ao método de pagamento.
+                            do{
+                                do{
+                                    cout << "Introduza o numero de vigas de madeira que pretende usar na construção deste Edificio: " << endl;
+                                    cin >> vigasMadeiraUsar;                                
+                                    if(nrVigasMadeira - vigasMadeiraUsar < 0) cout << "Não tem vigas de madeira suficientes." << endl;
+                                }while(vigasMadeiraUsar < 0 || vigasMadeiraUsar > 10 &&);
+                                if (saldo < 0) cout << "Não tem dinheiro suficiente." << endl;
+                            }while (saldo - (custoVigasMadeira * 10 - vigasMadeiraUsar * custoVigasMadeira) < 0 && );
+                            nrVigasMadeira -= vigasMadeiraUsar;
+                            saldo -= (100 - vigasMadeiraUsar * custoVigasMadeira);
+                                //Enquanto não armazenamos as vigas de madeira... Dps adicionamos ao método de pagamento.
                             zonas[linhaX][colunaX]->setEdificio(new MinaFerro("minaf", 10));
                         }
                         else if(args[1] == "minac"){
-                            saldo = saldo - 100;    //Enquanto não armazenamos as vigas de madeira... Dps adicionamos ao método de pagamento.    
-                            zonas[linhaX][colunaX]->setEdificio(new MinaCarvao("minac", 10));
+                            saldo = saldo - custoMinac;    //Enquanto não armazenamos as vigas de madeira... Dps adicionamos ao método de pagamento.    
+                            zonas[linhaX][colunaX]->setEdificio(new MinaCarvao("minac", custoMinac));
                         }
                         else if(args[1] == "central"){
-                            saldo = saldo - 15; //Custo da c«trução da Central
-                            zonas[linhaX][colunaX]->setEdificio(new Central("central", 15));
+                            saldo = saldo - custoCentral; //Custo da c«trução da Central
+                            zonas[linhaX][colunaX]->setEdificio(new Central("central", custoCentral));
                         }
                         else if(args[1] == "bat"){
-                            saldo = saldo - 10; //Custo da construção da Bateria é "10€ + 10 Vigas". (Falta retirar as Vigas de Madeira adicionadas)
-                            zonas[linhaX][colunaX]->setEdificio(new Bateria("bat", 10, 10));
+                            saldo = saldo - custoBateria; //Custo da construção da Bateria é "10€ + 10 Vigas". (Falta retirar as Vigas de Madeira adicionadas)
+                            zonas[linhaX][colunaX]->setEdificio(new Bateria("bat", 10, custoBateria));
                         }
                         else if(args[1] == "fund"){
-                            saldo = saldo - 10; //Custo da construção da Fundição.
-                            zonas[linhaX][colunaX]->setEdificio(new Fundicao("fund", 10));
+                            saldo = saldo - custoFundicao; //Custo da construção da Fundição.
+                            zonas[linhaX][colunaX]->setEdificio(new Fundicao("fund", custoFundicao));
                         }
                         else if(args[1] == "edx"){
                             saldo = saldo - 50; //Ainda temos de decidir o que fazer neste edificio e o seu respetivo preço.
@@ -276,15 +285,15 @@ bool Ilha::validaComando(istringstream &comando){
             if(pastos.size()){
                 int randomIntger = rand()%(pastos.size() - 0) + 0;
                 if(args[1] == "oper"){
-                    (*pastos[randomIntger]).addTrabalhador(new Operario(15, dia));
+                    (*pastos[randomIntger]).addTrabalhador(new Operario(custoOper, dia));
                     saldo = saldo - 15;                   
                 }
                 else if(args[1] == "len"){
-                    (*pastos[randomIntger]).addTrabalhador(new Lenhador(20, dia));
+                    (*pastos[randomIntger]).addTrabalhador(new Lenhador(custoLen, dia));
                     saldo = saldo - 20;
                 }
                 else if(args[1] == "miner"){
-                    (*pastos[randomIntger]).addTrabalhador(new Mineiro(10, dia));
+                    (*pastos[randomIntger]).addTrabalhador(new Mineiro(custoMiner, dia));
                     saldo = saldo - 10;
                 }
                 return true;
@@ -428,7 +437,7 @@ bool Ilha::validaComando(istringstream &comando){
         Zona *zona;
         int linhaX, colunaX;
         string id = "";
-        int l = 0;
+        unsigned int l = 0;
         for(int i = 0; i < linhas; i++){
             for(int j = 0; j < colunas; j++){
                 for(l = 0; l < zonas[i][j]->getTrabalhadores().size(); l++){
@@ -524,15 +533,15 @@ bool Ilha::validaComando(istringstream &comando){
                     if(zonas[linhaX][colunaX]->getEdificio() == nullptr){
                         cout << "[DEBUG] ";
                         if(args[1] == "minaf")
-                            zonas[linhaX][colunaX]->setEdificio(new MinaFerro("minaf", 10));
+                            zonas[linhaX][colunaX]->setEdificio(new MinaFerro("minaf", custoMinaf));
                         else if(args[1] == "minac")
-                            zonas[linhaX][colunaX]->setEdificio(new MinaCarvao("minac", 10));
+                            zonas[linhaX][colunaX]->setEdificio(new MinaCarvao("minac", custoMiner));
                         else if(args[1] == "central")
-                            zonas[linhaX][colunaX]->setEdificio(new Central("central", 15));
+                            zonas[linhaX][colunaX]->setEdificio(new Central("central", custoCentral));
                         else if(args[1] == "bat")
-                            zonas[linhaX][colunaX]->setEdificio(new Bateria("bat", 10, 10));
+                            zonas[linhaX][colunaX]->setEdificio(new Bateria("bat",10 , custoBateria));
                         else if(args[1] == "fund")
-                            zonas[linhaX][colunaX]->setEdificio(new Fundicao("fund", 10));
+                            zonas[linhaX][colunaX]->setEdificio(new Fundicao("fund", custoFundicao));
                         else if(args[1] == "edx")
                             zonas[linhaX][colunaX]->setEdificio(new EdificioX("edx", 0));
                         else{
@@ -548,7 +557,7 @@ bool Ilha::validaComando(istringstream &comando){
     else if (args[0] == "debkill" && args.size() == 2){
         for(int i = 0; i < linhas; i++){
             for(int j = 0; j < colunas; j++){
-                for(int l = 0; l < zonas[i][j]->getTrabalhadores().size(); l++){
+                for(unsigned int l = 0; l < zonas[i][j]->getTrabalhadores().size(); l++){
                     if(zonas[i][j]->getTrabalhadores()[l]->getIdTrabalhador() == args[1]){
                         zonas[i][j]->removeTrabalhador(zonas[i][j]->getTrabalhadores()[l]);
                         cout << "[DEBUG] Trabalhador com ID " << args[1] << " REMOVIDO do seu posto!" << endl;
@@ -562,10 +571,11 @@ bool Ilha::validaComando(istringstream &comando){
     }
     else if (args[0] == "next" && args.size() == 1){
         dia++;
+
         cout << "[Dia " <<  dia << "]" << endl;
         int probabilidade =  rand() % 99;
         if( dia > 1 && probabilidade < 10){
-            cout << "O Mineiro com o id  'X' demitiu-se" << endl; 
+            cout << "O Mineiro com o id  'X' demitiu-se" << endl;           
             //Remover o trabalhador (Demitiu-se)
         };                     
     }

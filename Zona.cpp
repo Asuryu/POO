@@ -59,20 +59,20 @@ int Zona::getNrTrabalhadores() {
 }
 string Zona::getSiglaTrabalhadores() {
     string concatSigla = "";
-    for (int i = 0; i < this->trabalhadores.size(); i++) {
+    for (unsigned int i = 0; i < this->trabalhadores.size(); i++) {
         concatSigla += this->trabalhadores[i]->getSigla();
     }
     return concatSigla;
 }
 Trabalhador* Zona::getTrabalhadorById(string id){
-    for (int i = 0; i < this->trabalhadores.size(); i++) {
+    for (unsigned int i = 0; i < this->trabalhadores.size(); i++) {
         if (this->trabalhadores[i]->getIdTrabalhador() == id) return this->trabalhadores[i];
     }
     return NULL;
 }
 vector<Trabalhador*> Zona::getTrabalhadoresBySigla(string sigla){
     vector<Trabalhador*> trabalhadoresBySigla;
-    for (int i = 0; i < this->trabalhadores.size(); i++) {
+    for (unsigned int i = 0; i < this->trabalhadores.size(); i++) {
         if (this->trabalhadores[i]->getSigla() == sigla) trabalhadoresBySigla.push_back(this->trabalhadores[i]);
     }
     return trabalhadoresBySigla;
@@ -86,7 +86,7 @@ void Zona::addTrabalhador(Trabalhador* trabalhador) {
     cout << "Opearario do tipo " << nome << " foi CONTRATADO e colocado na zona de pasto (" << linha << ", " << coluna << ")!" << endl;
 }
 void Zona::removeTrabalhador(Trabalhador* trabalhador) {
-    for (int i = 0; i < this->trabalhadores.size(); i++) {
+    for (unsigned int i = 0; i < this->trabalhadores.size(); i++) {
         if (this->trabalhadores[i] == trabalhador) {
             this->trabalhadores.erase(this->trabalhadores.begin() + i);
         }
@@ -111,7 +111,7 @@ Edificio* Zona::getEdificio() {
 // Destrutor da classe Zona
 // libertar memória
 Zona::~Zona() {
-    for (int i = 0; i < this->trabalhadores.size(); i++) {
+    for (unsigned int i = 0; i < this->trabalhadores.size(); i++) {
         delete this->trabalhadores[i];
     }
     delete this->edificio;

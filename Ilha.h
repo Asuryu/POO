@@ -11,8 +11,8 @@ class Ilha {
     private:
         int linhas, colunas;
         int dia; 
-        int saldo;
-        int custoMinaf, custoBateria, custoFundicao, custoCentral, custoOper, custoLen, custoMiner;
+        int saldo, nrVigasMadeira = 100, vigasMadeiraUsar;
+        int custoMinaf = 100, custoMinac = 100, custoBateria = 10, custoFundicao = 10, custoCentral = 15, custoOper = 15, custoLen = 20, custoMiner = 10, custoVigasMadeira = 10;
         vector< vector<Zona*> > zonas;
     public:
         Ilha();
