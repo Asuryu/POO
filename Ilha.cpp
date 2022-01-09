@@ -28,7 +28,7 @@ void Ilha::initIlha(){
     } while (colunas < 3 || colunas > 16);
 
     vector<string> zonasAux;
-    string zonasExistentes[6] = {"mnt", "dsr", "pas", "flr", "pnt", "znZ"};
+    string zonasExistentes[6] = {"mnt", "dsr", "pas", "flr", "pnt", "vul"};
 
     int celulas = linhas * colunas;
     int repeticoes = celulas / 6;
@@ -61,13 +61,15 @@ void Ilha::initIlha(){
                 zonasLinha.push_back(new Pastagem(i, j));
             }
             else if(zonasAux[randIndex] == "flr"){
-                zonasLinha.push_back(new Floresta(i, j));
+                // Gerar número aleatório entre 20 e 40
+                int arvores = rand() % 20 + 20;
+                zonasLinha.push_back(new Floresta(i, j, arvores));
             }
             else if(zonasAux[randIndex] == "pnt"){
                 zonasLinha.push_back(new Pantano(i, j));
             }
-            else if(zonasAux[randIndex] == "znZ"){
-                zonasLinha.push_back(new ZonaZ(i, j));
+            else if(zonasAux[randIndex] == "vul"){
+                zonasLinha.push_back(new Vulcao(i, j));
             }
             zonasAux.erase(zonasAux.begin() + randIndex);
         }
@@ -247,7 +249,7 @@ bool Ilha::validaComando(istringstream &comando){
             return false;
         }
 
-        if(args[1] == "minaf" || args[1] == "minac" || args[1] == "central" || args[1] == "bat" || args[1] == "fund" || args[1] == "edx"){
+        if(args[1] == "minaf" || args[1] == "minac" || args[1] == "central" || args[1] == "bat" || args[1] == "fund" || args[1] == "rest"){
             if(linhaX < linhas && linhaX >= 0){
                 if(colunaX < colunas && colunaX >= 0){
                     if(zonas[linhaX][colunaX]->getEdificio() == nullptr){
@@ -324,9 +326,13 @@ bool Ilha::validaComando(istringstream &comando){
                             addSaldo(-custoFundicao); //Custo da construção da Fundição.
                             zonas[linhaX][colunaX]->setEdificio(new Fundicao("fund", custoFundicao));
                         }
-                        else if(args[1] == "edx"){
-                            addSaldo(-50); //Ainda temos de decidir o que fazer neste edificio e o seu respetivo preço.
-                            zonas[linhaX][colunaX]->setEdificio(new EdificioX("edx", 50));
+                        else if(args[1] == "rest"){
+                            if(saldo - custoRestaurante < 0){
+                                cout << "Nao tem dinheiro suficiente. Faltam " << -(saldo - custoRestaurante) << " euros!" << endl;
+                                return false;
+                            };
+                            addSaldo(-custoRestaurante); //Ainda temos de decidir o que fazer neste edificio e o seu respetivo preço.
+                            zonas[linhaX][colunaX]->setEdificio(new Restaurante("rest", custoRestaurante));
                         }
                         else{
                             cout << "[ERRO] Edificio invalido" << endl;
@@ -523,6 +529,11 @@ bool Ilha::validaComando(istringstream &comando){
                     custoCentral = stoi(cfgArgs[1]);
                     cout << custoCentral << endl;
                 }
+                else if (cfgArgs[0] == "rest" && cfgArgs.size() == 2){
+                    cout << "Preco de compra do Restaurante alterado de " << custoCentral << " para ";
+                    custoCentral = stoi(cfgArgs[1]);
+                    cout << custoCentral << endl;
+                }
                 else if (cfgArgs[0] == "oper" && cfgArgs.size() == 2){
                     cout << "Preco de contratacao de um Operario alterado de " << custoOper << " para ";
                     custoOper = stoi(cfgArgs[1]);
@@ -661,23 +672,23 @@ bool Ilha::validaComando(istringstream &comando){
             return false;
         }
 
-        if(args[1] == "minaf" || args[1] == "minac" || args[1] == "central" || args[1] == "bat" || args[1] == "fund" || args[1] == "edx"){
+        if(args[1] == "minaf" || args[1] == "minac" || args[1] == "central" || args[1] == "bat" || args[1] == "fund" || args[1] == "rest"){
             if(linhaX < linhas && linhaX >= 0){
                 if(colunaX < colunas && colunaX >= 0){
                     if(zonas[linhaX][colunaX]->getEdificio() == nullptr){
                         cout << "[DEBUG] ";
                         if(args[1] == "minaf")
-                            zonas[linhaX][colunaX]->setEdificio(new MinaFerro("minaf", custoMinaf));
+                            zonas[linhaX][colunaX]->setEdificio(new MinaFerro("minaf", 0));
                         else if(args[1] == "minac")
-                            zonas[linhaX][colunaX]->setEdificio(new MinaCarvao("minac", custoMiner));
+                            zonas[linhaX][colunaX]->setEdificio(new MinaCarvao("minac", 0));
                         else if(args[1] == "central")
-                            zonas[linhaX][colunaX]->setEdificio(new Central("central", custoCentral));
+                            zonas[linhaX][colunaX]->setEdificio(new Central("central", 0));
                         else if(args[1] == "bat")
-                            zonas[linhaX][colunaX]->setEdificio(new Bateria("bat", 10));
+                            zonas[linhaX][colunaX]->setEdificio(new Bateria("bat", 0));
                         else if(args[1] == "fund")
-                            zonas[linhaX][colunaX]->setEdificio(new Fundicao("fund", custoFundicao));
-                        else if(args[1] == "edx")
-                            zonas[linhaX][colunaX]->setEdificio(new EdificioX("edx", 0));
+                            zonas[linhaX][colunaX]->setEdificio(new Fundicao("fund", 0));
+                        else if(args[1] == "rest")
+                            zonas[linhaX][colunaX]->setEdificio(new Restaurante("rest", 0));
                         else{
                             cout << "[ERRO] Edificio invalido" << endl;
                             return false;

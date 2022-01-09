@@ -49,9 +49,10 @@ class Montanha : public Zona {
 };
 class Floresta : public Zona {
     private:
-
+        int arvores;
+        int madeiraArmazenada = 0;
     public:
-        Floresta(int linha, int coluna);
+        Floresta(int linha, int coluna, int arvores);
 };
 class Pastagem : public Zona {
     private:
@@ -65,9 +66,9 @@ class Pantano : public Zona {
     public:
         Pantano(int linha, int coluna);
 };
-class ZonaZ : public Zona {
+class Vulcao : public Zona {
     private:
 
     public:
-        ZonaZ(int linha, int coluna);
+        Vulcao(int linha, int coluna);
 };
