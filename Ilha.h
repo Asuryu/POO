@@ -12,7 +12,7 @@ class Ilha {
         int linhas, colunas;
         int dia; 
         int saldo;
-        int nrVigasMadeira = 0, nrVigasFerro = 0; // etc...
+        int nrVigasMadeira = 200, nrFerro = 10, nrBarraDeAco = 10, nrCarvao = 0, nrMadeira = 0, nrEletricidade = 0, nrUnidadesVenda; 
         int vigasMadeiraUsar, flag = 0;
         int custoMinaf = 100, custoMinac = 100, custoBateria = 10, custoFundicao = 10, custoCentral = 15, custoOper = 15, custoLen = 20, custoMiner = 10, custoVigasMadeira = 10;
         vector< vector<Zona*> > zonas;

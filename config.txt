@@ -4,4 +4,5 @@ fund 20
 central 15
 oper 10
 len 30
+minac 20
 miner 15

@@ -122,7 +122,12 @@ void Ilha::mostraIlha() {
     cout << "Saldo: " << saldo << " euros" << endl;
     cout << "Numero de Trabalhadores: " << getNrTrabalhadores() << endl << endl;
     cout << "Recursos: " << endl;
-    cout << "Vigas de Madeira: " << nrVigasMadeira << endl << endl;
+    cout << "Vigas de Madeira: " << nrVigasMadeira << endl;
+    cout << "Ferro: " << nrFerro << endl; 
+    cout << "Barras de Aco: " << nrBarraDeAco << endl; 
+    cout << "Carvao: " << nrCarvao << endl; 
+    cout << "Madeira: " << nrMadeira << endl; 
+    cout << "Eletricidade: " << nrEletricidade << endl << endl; 
 
 }
 
@@ -257,7 +262,7 @@ bool Ilha::validaComando(istringstream &comando){
                                     cout << "Introduza o numero de vigas de madeira que pretende usar na construcao deste Edificio: " << endl;
                                     cin >> vigasMadeiraUsar;                                 
                                     if(nrVigasMadeira - vigasMadeiraUsar < 0) cout << "Nao tem vigas de madeira suficientes." << endl;
-                                }while((vigasMadeiraUsar < 0 || vigasMadeiraUsar > 10) && (nrVigasMadeira - vigasMadeiraUsar < 0));
+                                }while((vigasMadeiraUsar < 0 || vigasMadeiraUsar > 10) || (nrVigasMadeira - vigasMadeiraUsar < 0));
                                 if (saldo - (custoMinaf * 10 - vigasMadeiraUsar * custoMinaf) < 0){
                                     cout << "Nao tem dinheiro suficiente. Faltam " << (custoMinaf * 10 - vigasMadeiraUsar * custoMinaf) << " euros!" << endl;
                                     return false;
@@ -283,18 +288,34 @@ bool Ilha::validaComando(istringstream &comando){
                             }
                         }
                         else if(args[1] == "minac"){
+                            if(flag == 1){
+                                do{
+                                    cout << "Introduza o numero de vigas de madeira que pretende usar na construcao deste Edificio: " << endl;
+                                    cin >> vigasMadeiraUsar;                                 
+                                    if(nrVigasMadeira - vigasMadeiraUsar < 0) cout << "Nao tem vigas de madeira suficientes." << endl;
+                                }while((vigasMadeiraUsar < 0 || vigasMadeiraUsar > 10) || (nrVigasMadeira - vigasMadeiraUsar < 0));
+                                if (saldo - (custoMinac * 10 - vigasMadeiraUsar * custoMinac) < 0){
+                                    cout << "Nao tem dinheiro suficiente. Faltam " << (custoMinac * 10 - vigasMadeiraUsar * custoMinac) << " euros!" << endl;
+                                    return false;
+                                };                           
+                                nrVigasMadeira -= vigasMadeiraUsar;
+                                addSaldo(-(custoMinac * 10 - vigasMadeiraUsar * custoMinac));
+                                zonas[linhaX][colunaX]->setEdificio(new MinaFerro("minaf", (custoMinac * 10 - vigasMadeiraUsar * custoMinac)));    
+                            }
+                            else{
                                 do{
                                     cout << "Introduza o numero de vigas de madeira que pretende usar na construcao deste Edificio: " << endl;
                                     cin >> vigasMadeiraUsar;                                
                                     if(nrVigasMadeira - vigasMadeiraUsar < 0) cout << "Não tem vigas de madeira suficientes." << endl;
-                                }while((vigasMadeiraUsar < 0 || vigasMadeiraUsar > 10) && (nrVigasMadeira - vigasMadeiraUsar < 0));
+                                }while((vigasMadeiraUsar < 0 || vigasMadeiraUsar > 10) || (nrVigasMadeira - vigasMadeiraUsar < 0));
                                 if (saldo - (100 - vigasMadeiraUsar * custoVigasMadeira) < 0){
                                     cout << "Nao tem dinheiro suficiente. Faltam " << (100 - vigasMadeiraUsar * custoVigasMadeira) << " euros!" << endl;
                                     return false;
                                 };                           
                                 nrVigasMadeira -= vigasMadeiraUsar;
                                 addSaldo(-(100 - vigasMadeiraUsar * custoVigasMadeira));
-                                zonas[linhaX][colunaX]->setEdificio(new MinaCarvao("minac", (100 - vigasMadeiraUsar * custoVigasMadeira)));                 
+                                zonas[linhaX][colunaX]->setEdificio(new MinaCarvao("minac", (100 - vigasMadeiraUsar * custoVigasMadeira)));
+                            }                
                         }
                         else if(args[1] == "central"){
                             if(saldo - custoCentral < 0){
@@ -599,7 +620,68 @@ bool Ilha::validaComando(istringstream &comando){
     else if (args[0] == "vende" && args.size() == 3){
         if(args[1] == "ferro" || args[1] == "aco" || args[1] == "carvao" || args[1] == "mad" || args[1] == "viga" || args[1] == "eletr"){
             // Vender recursos
-            cout << "Vender recursos" << endl;
+            cout << "[Vender recursos]" << endl << endl;
+            
+            if(args[1] == "ferro"){
+                if(nrFerro - stoi(args[2]) < 0){
+                    cout << "Nao tem Kg suficientes do recurso ferro!\nFaltam " << -(nrFerro - stoi(args[2])) << " Kg." << endl;
+                    return false;
+                }
+                nrFerro = nrFerro - stoi(args[2]);
+                cout << "Foram vendidos " << stoi(args[2]) << " Kg de ferro!" << endl;
+                saldo += (1 * stoi(args[2])); //Vendido a 1 euro o Kg.
+                return true; 
+            }
+            else if(args[1] == "aco"){
+                if(nrBarraDeAco - stoi(args[2]) < 0){
+                    cout << "Nao tem Kg suficientes do recurso Barras de Aco!\nFaltam " << -(nrBarraDeAco - stoi(args[2])) << " Kg." << endl;
+                    return false;
+                }
+                nrBarraDeAco = nrBarraDeAco - stoi(args[2]);
+                cout << "Foram vendidos " << stoi(args[2]) << " Kg de Barras de Aco!" << endl;
+                saldo += (2 * stoi(args[2])); //Vendido a 2 euro o Kg.
+                return true;                
+            }
+            else if(args[1] == "carvao"){
+                if(nrCarvao - stoi(args[2]) < 0){
+                    cout << "Nao tem Kg suficientes do recurso Carvao!\nFaltam " << -(nrCarvao - stoi(args[2])) << " Kg." << endl;
+                    return false;
+                }
+                nrCarvao = nrCarvao - stoi(args[2]);
+                cout << "Foram vendidos " << stoi(args[2]) << " Kg de Carvao!" << endl;
+                saldo += (1 * stoi(args[2])); //Vendido a 1 euro o Kg.
+                return true;     
+            }
+            else if(args[1] == "mad"){
+                if(nrMadeira - stoi(args[2]) < 0){
+                    cout << "Nao tem Kg suficientes do recurso Madeira!\nFaltam " << -(nrMadeira - stoi(args[2])) << " Kg." << endl;
+                    return false;
+                }
+                nrMadeira = nrMadeira - stoi(args[2]);
+                cout << "Foram vendidos " << stoi(args[2]) << " Kg de Madeira!" << endl;
+                saldo += (1 * stoi(args[2])); //Vendido a 1 euro o Kg.
+                return true;     
+            }
+            else if(args[1] == "viga"){
+                if(nrVigasMadeira - stoi(args[2]) < 0){
+                    cout << "Nao tem Kgs suficientes do recurso Vigas de Madeira!\nFaltam " << -(nrVigasMadeira - stoi(args[2])) << " Kg." << endl;
+                    return false;
+                }
+                nrVigasMadeira = nrVigasMadeira - stoi(args[2]);
+                cout << "Foram vendidos " << stoi(args[2]) << " Kg de Vigas de Madeira!" << endl;
+                saldo += (2 * stoi(args[2])); //Vendido a 2 euro o Kg.
+                return true;     
+            }
+            else if(args[1] == "eletr"){
+                if(nrEletricidade - stoi(args[2]) < 0){
+                    cout << "Nao tem KWh suficientes do recurso Eletricidade!\nFaltam " << -(nrEletricidade - stoi(args[2])) << " KWh." << endl;
+                    return false;
+                }
+                nrEletricidade = nrEletricidade - stoi(args[2]);
+                cout << "Foram vendidos " << stoi(args[2]) << " KWhs de Eletricidade!" << endl;
+                saldo += (1,5 * stoi(args[2])); //Vendido a 1,5 euro o KWh.
+                return true;     
+            }
         }
         else{
             // Vender edificio
