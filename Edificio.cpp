@@ -20,6 +20,9 @@ string Edificio::getSigla() {
 int Edificio::getCusto() {
     return 0;
 }
+int Edificio::getNivel() {
+    return 0;
+}
 
 
 MinaFerro::MinaFerro(string sigla, int custoFabrico) : Edificio(sigla) {
@@ -28,7 +31,7 @@ MinaFerro::MinaFerro(string sigla, int custoFabrico) : Edificio(sigla) {
     this->producao = 0;
     this->armazenamento = 0;
 }
-int MinaFerro::getNivel() const {
+int MinaFerro::getNivel() {
     return this->nivel;
 }
 void MinaFerro::setNivel(int nivel) {
@@ -57,7 +60,7 @@ MinaCarvao::MinaCarvao(string sigla, int custoFabrico) : Edificio(sigla) {
     this->producao = 0;
     this->armazenamento = 0;
 }
-int MinaCarvao::getNivel() const {
+int MinaCarvao::getNivel() {
     return this->nivel;
 }
 void MinaCarvao::setNivel(int nivel) {
@@ -100,7 +103,7 @@ Bateria::Bateria(string sigla, int custoFabrico) : Edificio(sigla) {
     this->nivel = 1;
     this->capacidade = 0;
 }
-int Bateria::getNivel() const {
+int Bateria::getNivel() {
     return this->nivel;
 }
 void Bateria::setNivel(int nivel) {

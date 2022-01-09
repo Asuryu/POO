@@ -13,6 +13,7 @@ class Edificio {
         void desligar();
         int getLigado();
         virtual int getCusto();
+        virtual int getNivel();
         string getSigla();
 };
 
@@ -24,7 +25,7 @@ class MinaFerro : public Edificio {
         int armazenamento;
     public:
         MinaFerro(string sigla, int custoFabrico);
-        int getNivel() const;
+        int getNivel();
         void setNivel(int nivel);
         int getProducao() const;
         void setProducao(int producao);
@@ -41,7 +42,7 @@ class MinaCarvao : public Edificio {
         int armazenamento;
     public:
         MinaCarvao(string sigla, int custoFabrico);
-        int getNivel() const;
+        int getNivel();
         void setNivel(int nivel);
         int getProducao() const;
         void setProducao(int producao);
@@ -68,7 +69,7 @@ class Bateria : public Edificio {
         int capacidade;
     public:
         Bateria(string sigla, int custoFabrico);
-        int getNivel() const;
+        int getNivel();
         void setNivel(int nivel);
         int getCapacidade() const;
         void setCapacidade(int capacidade);
