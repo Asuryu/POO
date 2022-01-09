@@ -13,13 +13,12 @@ string Zona::getInfoZona() {
     string edf, zonaNome;
     if (this->edificio != NULL) {
         edf = this->edificio->getSigla();
-        if(edf == "minaf")  edf = "Mina de Ferro";
+        if(edf == "minaf") edf = "Mina de Ferro";
         else if(edf == "minac") edf = "Mina de Carvao";
-        else if(edf == "central")   edf = "Central Eletrica";        
-        else if(edf == "bat")   edf = "Bateria"; 
-        else if(edf == "fund")  edf = "Fundicao";
-        else if(edf == "edx")   edf = "Edificio Bombado"; 
-
+        else if(edf == "central") edf = "Central Eletrica";        
+        else if(edf == "bat") edf = "Bateria"; 
+        else if(edf == "fund") edf = "Fundicao";
+        else if(edf == "rest") edf = "Restaurante"; 
     } else edf = "Sem edificio";
 
 
@@ -28,7 +27,7 @@ string Zona::getInfoZona() {
     else if (this->sigla == "mnt")  zonaNome = "Montanha";      
     else if (this->sigla == "flr")  zonaNome = "Floresta";
     else if (this->sigla == "pnt")  zonaNome = "Pantano";
-    else if (this->sigla == "znZ")  zonaNome = "ZonaX"; 
+    else if (this->sigla == "vul")  zonaNome = "Vulcão"; 
 
     oss << "(" << linha << ", " << coluna << ")\nZona: " << zonaNome << "\nEdificio: " << edf << "\nTrabalhadores: " << getSiglaTrabalhadores() << "\nNr. Trabalhadores: " << getNrTrabalhadores() << endl;
     return oss.str();
@@ -123,8 +122,9 @@ Deserto::Deserto(int linha, int coluna) : Zona(linha, coluna) {
 Montanha::Montanha(int linha, int coluna) : Zona(linha, coluna) {
     setSigla("mnt");
 }
-Floresta::Floresta(int linha, int coluna) : Zona(linha, coluna) {
+Floresta::Floresta(int linha, int coluna, int arvores) : Zona(linha, coluna) {
     setSigla("flr");
+    this->arvores = arvores;
 }
 Pastagem::Pastagem(int linha, int coluna) : Zona(linha, coluna) {
     setSigla("pas");
@@ -132,6 +132,6 @@ Pastagem::Pastagem(int linha, int coluna) : Zona(linha, coluna) {
 Pantano::Pantano(int linha, int coluna) : Zona(linha, coluna) {
     setSigla("pnt");
 }
-ZonaZ::ZonaZ(int linha, int coluna) : Zona(linha, coluna) {
-    setSigla("znZ");
+Vulcao::Vulcao(int linha, int coluna) : Zona(linha, coluna) {
+    setSigla("vul");
 }

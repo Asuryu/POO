@@ -14,7 +14,7 @@ class Ilha {
         int saldo;
         int nrVigasMadeira = 200, nrFerro = 10, nrBarraDeAco = 10, nrCarvao = 0, nrMadeira = 0, nrEletricidade = 0, nrUnidadesVenda; 
         int vigasMadeiraUsar, flag = 0;
-        int custoMinaf = 100, custoMinac = 100, custoBateria = 10, custoFundicao = 10, custoCentral = 15, custoOper = 15, custoLen = 20, custoMiner = 10, custoVigasMadeira = 10;
+        int custoMinaf = 100, custoMinac = 100, custoBateria = 10, custoFundicao = 10, custoCentral = 15, custoRestaurante = 30, custoOper = 15, custoLen = 20, custoMiner = 10, custoVigasMadeira = 10;
         vector< vector<Zona*> > zonas;
     public:
         Ilha();

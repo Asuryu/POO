@@ -84,9 +84,10 @@ class Fundicao : public Edificio {
         int getCusto();
 };
 
-class EdificioX : public Edificio {
+class Restaurante : public Edificio {
     private:
-
+        int custoFabrico;
     public:
-        EdificioX(string sigla, int custo);
+        Restaurante(string sigla, int custo);
+        int getCusto();
 };
