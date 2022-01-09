@@ -164,7 +164,27 @@ string Ilha::getInfoZona(){
     return oss.str();
 }
 string Ilha::getInfoZona(int linha, int coluna){
-    return zonas[linha][coluna]->getInfoZona();
+    ostringstream oss;
+    string state, tipo;
+
+    Zona *zona = zonas[linha][coluna];
+
+    oss << zona->getInfoZona() << endl;
+    if(zona->getEdificio() != nullptr){
+        if(zona->getEdificio()->getLigado()) state = "LIGADO";
+        else state = "DESLIGADO";
+        oss << "Edificio encontra-se " << state << " e está a nivel " << zona->getEdificio()->getNivel() << endl;
+    }
+    if(zona->getTrabalhadores().size() > 0){
+        oss << "Trabalhadores: " << endl;
+        for(int i = 0; i < zona->getTrabalhadores().size(); i++){
+            if(zona->getTrabalhadores()[i]->getSigla() == "O") tipo = "Operário";
+            else if(zona->getTrabalhadores()[i]->getSigla() == "M") tipo = "Mineiro";
+            else if(zona->getTrabalhadores()[i]->getSigla() == "L") tipo = "Lenhador";
+            oss << tipo << "(" << zona->getTrabalhadores()[i]->getIdTrabalhador() << ")" << endl;
+        }
+    }
+    return oss.str();
 }
 
 void Ilha::jogar(){
@@ -339,6 +359,7 @@ bool Ilha::validaComando(istringstream &comando){
                     };
                     addSaldo(-custoOper);
                     (*pastos[randomIntger]).addTrabalhador(new Operario(custoOper, dia));                   
+                    cout << "Trabalhador do tipo Operário foi CONTRATADO e colocado na zona de pasto (" << (*pastos[randomIntger]).getLinha() << ", " << (*pastos[randomIntger]).getColuna() << ")!" << endl;
                 }
                 else if(args[1] == "len"){
                     if(saldo - custoLen < 0){
@@ -347,6 +368,7 @@ bool Ilha::validaComando(istringstream &comando){
                     };
                     addSaldo(-custoLen);
                     (*pastos[randomIntger]).addTrabalhador(new Lenhador(custoLen, dia));
+                    cout << "Trabalhador do tipo Lenhador foi CONTRATADO e colocado na zona de pasto (" << (*pastos[randomIntger]).getLinha() << ", " << (*pastos[randomIntger]).getColuna() << ")!" << endl;
                 }
                 else if(args[1] == "miner"){
                     if(saldo - custoMiner < 0){
@@ -354,12 +376,11 @@ bool Ilha::validaComando(istringstream &comando){
                         return false;
                     };
                     (*pastos[randomIntger]).addTrabalhador(new Mineiro(custoMiner, dia));
-                    addSaldo(-custoMiner);
+                    saldo = saldo - custoMiner;
+                    cout << "Trabalhador do tipo Mineiro foi CONTRATADO e colocado na zona de pasto (" << (*pastos[randomIntger]).getLinha() << ", " << (*pastos[randomIntger]).getColuna() << ")!" << endl;
                 }
-                return true;
             } else {
                 cout << "[ERRO] Nao existem zonas de pasto disponiveis" << endl;
-                return false;
             }
         } else {
             cout << "[ERRO] Esse tipo de operario nao existe" << endl;
@@ -468,26 +489,63 @@ bool Ilha::validaComando(istringstream &comando){
             }
             vector<string> cfgArgs;
             while (getline(input_file, line)) {
-                istringstream lineFich(line);
-                cout << line << endl;             
+                istringstream lineFich(line);            
                 while (lineFich){
                     string subs;
                     lineFich >> subs;
                     cfgArgs.push_back(subs);
                 }
                 cfgArgs.pop_back();
-                if (cfgArgs[0] == "minaf" && cfgArgs.size() == 2)   custoMinaf = stoi(cfgArgs[1]);
-                else if (cfgArgs[0] == "bat" && cfgArgs.size() == 2)    custoBateria = stoi(cfgArgs[1]);
-                else if (cfgArgs[0] == "fund" && cfgArgs.size() == 2)   custoFundicao = stoi(cfgArgs[1]);
-                else if (cfgArgs[0] == "central" && cfgArgs.size() == 2)    custoCentral = stoi(cfgArgs[1]);
-                else if (cfgArgs[0] == "oper" && cfgArgs.size() == 2)   custoOper = stoi(cfgArgs[1]);
-                else if (cfgArgs[0] == "len" && cfgArgs.size() == 2)    custoLen = stoi(cfgArgs[1]);
-                else if (cfgArgs[0] == "miner" && cfgArgs.size() == 2)  custoMiner = stoi(cfgArgs[1]);
+                if (cfgArgs[0] == "minaf" && cfgArgs.size() == 2){
+                    // Verificações
+                    cout << "Preco de compra da Mina de Ferro alterado de " << custoMinaf << " para ";
+                    custoMinaf = stoi(cfgArgs[1]);
+                    cout << custoMinaf << endl;
+                }
+                else if (cfgArgs[0] == "minac" && cfgArgs.size() == 2){
+                    // Verificações
+                    cout << "Preco de compra da Mina de Carvao alterado de " << custoMinac << " para ";
+                    custoMinac = stoi(cfgArgs[1]);
+                    cout << custoMinac << endl;
+                }
+                else if (cfgArgs[0] == "bat" && cfgArgs.size() == 2){
+                    cout << "Preco de compra da Bateria alterado de " << custoBateria << " para ";
+                    custoBateria = stoi(cfgArgs[1]);
+                    cout << custoBateria << endl;
+                }
+                else if (cfgArgs[0] == "fund" && cfgArgs.size() == 2){
+                    cout << "Preco de compra da Fundicao alterado de " << custoFundicao << " para ";
+                    custoFundicao = stoi(cfgArgs[1]);
+                    cout << custoFundicao << endl;
+                }
+                else if (cfgArgs[0] == "central" && cfgArgs.size() == 2){
+                    cout << "Preco de compra da Central alterado de " << custoCentral << " para ";
+                    custoCentral = stoi(cfgArgs[1]);
+                    cout << custoCentral << endl;
+                }
+                else if (cfgArgs[0] == "oper" && cfgArgs.size() == 2){
+                    cout << "Preco de contratacao de um Operario alterado de " << custoOper << " para ";
+                    custoOper = stoi(cfgArgs[1]);
+                    cout << custoOper << endl;
+                }
+                else if (cfgArgs[0] == "len" && cfgArgs.size() == 2){
+                    cout << "Preco de contratacao de uma Lenhador alterado de " << custoLen << " para ";
+                    custoLen = stoi(cfgArgs[1]);
+                    cout << custoLen << endl;
+                }
+                else if (cfgArgs[0] == "miner" && cfgArgs.size() == 2){
+                    cout << "Preco de contratacao de um Mineiro alterado de " << custoMiner << " para ";
+                    custoMiner = stoi(cfgArgs[1]);
+                    cout << custoMiner << endl;
+                }
+                else {
+                    cout << "\n[ERRO] Comando " << line << " desconhecido" << endl;
+                }
                 cfgArgs.clear();
             }
             
             flag = 1;    
-            // Close the file
+
             input_file.close();
             cout << "Ficheiro de configuracao " << args[1] << " LIDO!" << endl;
             return true;
@@ -496,14 +554,15 @@ bool Ilha::validaComando(istringstream &comando){
     else if (args[0] == "move" && args.size() == 4){
         Zona *zona;
         int linhaX, colunaX;
-        string id = "";
-        unsigned int l = 0;
+        string id = "", tipo = "";
+        int index;
         for(int i = 0; i < linhas; i++){
             for(int j = 0; j < colunas; j++){
-                for(l = 0; l < zonas[i][j]->getTrabalhadores().size(); l++){
+                for(unsigned int l = 0; l < zonas[i][j]->getTrabalhadores().size(); l++){
                     if(zonas[i][j]->getTrabalhadores()[l]->getIdTrabalhador() == args[1]){
                         zona = zonas[i][j];
                         id = zonas[i][j]->getTrabalhadores()[l]->getIdTrabalhador();
+                        index = l;
                     }
                 }
             }
@@ -525,8 +584,14 @@ bool Ilha::validaComando(istringstream &comando){
 
         if(linhaX < linhas && linhaX >= 0){
             if(colunaX < colunas && colunaX >= 0){
-                zonas[linhaX][colunaX]->addTrabalhador(zona->getTrabalhadores()[l]);
-                zona->removeTrabalhador(zona->getTrabalhadores()[l]);
+                if(zona->getTrabalhadores()[index]->getSigla() == "O") tipo = "Operario";
+                else if(zona->getTrabalhadores()[index]->getSigla() == "L") tipo = "Lenhador";
+                else if(zona->getTrabalhadores()[index]->getSigla() == "M") tipo = "Mineiro";
+                
+                zonas[linhaX][colunaX]->addTrabalhador(zona->getTrabalhadores()[index]);
+                zona->removeTrabalhador(zona->getTrabalhadores()[index]);
+                
+                cout << "Trabalhador do tipo " << tipo << " com o ID " << id << " foi MOVIDO para a zona (" << linhaX << ", " << colunaX << ")!" << endl;
                 return true;
             } else cout << "[ERRO] Coluna invalida" << endl;
         } else cout << "[ERRO] Linha invalida" << endl;

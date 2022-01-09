@@ -11,7 +11,9 @@ class Ilha {
     private:
         int linhas, colunas;
         int dia; 
-        int saldo, nrVigasMadeira = 100, vigasMadeiraUsar, flag = 0;
+        int saldo;
+        int nrVigasMadeira = 0, nrVigasFerro = 0; // etc...
+        int vigasMadeiraUsar, flag = 0;
         int custoMinaf = 100, custoMinac = 100, custoBateria = 10, custoFundicao = 10, custoCentral = 15, custoOper = 15, custoLen = 20, custoMiner = 10, custoVigasMadeira = 10;
         vector< vector<Zona*> > zonas;
     public:
@@ -28,6 +30,4 @@ class Ilha {
         bool validaComando(istringstream &comando);
         void amanhacer();
         void anoitecer();
-
-        // Comandos possiveis
 };

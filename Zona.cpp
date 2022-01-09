@@ -83,7 +83,6 @@ void Zona::addTrabalhador(Trabalhador* trabalhador) {
     if(trabalhador->getSigla() == "O") nome = "Operário";
     else if(trabalhador->getSigla() == "M") nome = "Mineiro";
     else if(trabalhador->getSigla() == "L") nome = "Lenhador";
-    cout << "Opearario do tipo " << nome << " foi CONTRATADO e colocado na zona de pasto (" << linha << ", " << coluna << ")!" << endl;
 }
 void Zona::removeTrabalhador(Trabalhador* trabalhador) {
     for (unsigned int i = 0; i < this->trabalhadores.size(); i++) {
