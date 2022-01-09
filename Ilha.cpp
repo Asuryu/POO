@@ -264,7 +264,7 @@ bool Ilha::validaComando(istringstream &comando){
                                 };                           
                                 nrVigasMadeira -= vigasMadeiraUsar;
                                 addSaldo(-(custoMinaf * 10 - vigasMadeiraUsar * custoMinaf));
-                                zonas[linhaX][colunaX]->setEdificio(new MinaFerro("minaf", (100 - vigasMadeiraUsar * custoVigasMadeira)));
+                                zonas[linhaX][colunaX]->setEdificio(new MinaFerro("minaf", (custoMinaf * 10 - vigasMadeiraUsar * custoMinaf)));
                             }
                             else{
                                 do{
