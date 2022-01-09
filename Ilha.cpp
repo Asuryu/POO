@@ -133,12 +133,12 @@ void Ilha::mostraIlha() {
 
 }
 
-void Ilha::addSaldo(int saldo){
+void Ilha::addSaldo(float saldo){
     if(saldo > 0) cout << "Foram ADICIONADOS " << saldo << " euros a sua conta!" << endl;
     else if(saldo < 0) cout << "Foram DEBITADOS " << abs(saldo) << " euros da sua conta." << endl;
     this->saldo += saldo;
 }
-int Ilha::getSaldo(){
+float Ilha::getSaldo(){
     return saldo;
 }
 
@@ -403,7 +403,7 @@ bool Ilha::validaComando(istringstream &comando){
                         return false;
                     };
                     (*pastos[randomIntger]).addTrabalhador(new Mineiro(custoMiner, dia));
-                    saldo = saldo - custoMiner;
+                    addSaldo(-custoMiner);
                     cout << "Trabalhador do tipo Mineiro foi CONTRATADO e colocado na zona de pasto (" << (*pastos[randomIntger]).getLinha() << ", " << (*pastos[randomIntger]).getColuna() << ")!" << endl;
                 }
             } else {
@@ -629,10 +629,7 @@ bool Ilha::validaComando(istringstream &comando){
         } else cout << "[ERRO] Linha invalida" << endl;
     }
     else if (args[0] == "vende" && args.size() == 3){
-        if(args[1] == "ferro" || args[1] == "aco" || args[1] == "carvao" || args[1] == "mad" || args[1] == "viga" || args[1] == "eletr"){
-            // Vender recursos
-            cout << "[Vender recursos]" << endl << endl;
-            
+        if(args[1] == "ferro" || args[1] == "aco" || args[1] == "carvao" || args[1] == "mad" || args[1] == "viga" || args[1] == "eletr"){       
             if(args[1] == "ferro"){
                 if(nrFerro - stoi(args[2]) < 0){
                     cout << "Nao tem Kg suficientes do recurso ferro!\nFaltam " << -(nrFerro - stoi(args[2])) << " Kg." << endl;
@@ -640,7 +637,7 @@ bool Ilha::validaComando(istringstream &comando){
                 }
                 nrFerro = nrFerro - stoi(args[2]);
                 cout << "Foram vendidos " << stoi(args[2]) << " Kg de ferro!" << endl;
-                saldo += (1 * stoi(args[2])); //Vendido a 1 euro o Kg.
+                addSaldo(stoi(args[2])); //Vendido a 1 euro o Kg.
                 return true; 
             }
             else if(args[1] == "aco"){
@@ -650,7 +647,7 @@ bool Ilha::validaComando(istringstream &comando){
                 }
                 nrBarraDeAco = nrBarraDeAco - stoi(args[2]);
                 cout << "Foram vendidos " << stoi(args[2]) << " Kg de Barras de Aco!" << endl;
-                saldo += (2 * stoi(args[2])); //Vendido a 2 euro o Kg.
+                addSaldo(2 * stoi(args[2])); //Vendido a 2 euro o Kg.
                 return true;                
             }
             else if(args[1] == "carvao"){
@@ -660,7 +657,7 @@ bool Ilha::validaComando(istringstream &comando){
                 }
                 nrCarvao = nrCarvao - stoi(args[2]);
                 cout << "Foram vendidos " << stoi(args[2]) << " Kg de Carvao!" << endl;
-                saldo += (1 * stoi(args[2])); //Vendido a 1 euro o Kg.
+                addSaldo(stoi(args[2])); //Vendido a 1 euro o Kg.
                 return true;     
             }
             else if(args[1] == "mad"){
@@ -670,7 +667,7 @@ bool Ilha::validaComando(istringstream &comando){
                 }
                 nrMadeira = nrMadeira - stoi(args[2]);
                 cout << "Foram vendidos " << stoi(args[2]) << " Kg de Madeira!" << endl;
-                saldo += (1 * stoi(args[2])); //Vendido a 1 euro o Kg.
+                addSaldo(stoi(args[2])); //Vendido a 1 euro o Kg.
                 return true;     
             }
             else if(args[1] == "viga"){
@@ -680,7 +677,7 @@ bool Ilha::validaComando(istringstream &comando){
                 }
                 nrVigasMadeira = nrVigasMadeira - stoi(args[2]);
                 cout << "Foram vendidos " << stoi(args[2]) << " Kg de Vigas de Madeira!" << endl;
-                saldo += (2 * stoi(args[2])); //Vendido a 2 euro o Kg.
+                addSaldo(2 * stoi(args[2])); //Vendido a 2 euro o Kg.
                 return true;     
             }
             else if(args[1] == "eletr"){
@@ -690,7 +687,7 @@ bool Ilha::validaComando(istringstream &comando){
                 }
                 nrEletricidade = nrEletricidade - stoi(args[2]);
                 cout << "Foram vendidos " << stoi(args[2]) << " KWhs de Eletricidade!" << endl;
-                saldo += (1,5 * stoi(args[2])); //Vendido a 1,5 euro o KWh.
+                addSaldo(1.5 * stoi(args[2])); //Vendido a 1,5 euro o KWh.
                 return true;     
             }
         }
