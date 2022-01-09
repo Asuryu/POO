@@ -119,8 +119,8 @@ void Ilha::mostraIlha() {
 
     cout << endl;
     cout << "[DIA " << dia << "]" << endl;
-    cout << "Saldo: " << saldo << "€" << endl;
-    cout << "Número de Trabalhadores: " << getNrTrabalhadores() << endl << endl;
+    cout << "Saldo: " << saldo << " euros" << endl;
+    cout << "Numero de Trabalhadores: " << getNrTrabalhadores() << endl << endl;
 
 }
 
@@ -227,32 +227,74 @@ bool Ilha::validaComando(istringstream &comando){
                 if(colunaX < colunas && colunaX >= 0){
                     if(zonas[linhaX][colunaX]->getEdificio() == nullptr){
                         if(args[1] == "minaf"){
-                            do{
+                            if(flag == 1){
                                 do{
-                                    cout << "Introduza o numero de vigas de madeira que pretende usar na construção deste Edificio: " << endl;
+                                    cout << "Introduza o numero de vigas de madeira que pretende usar na construcao deste Edificio: " << endl;
+                                    cin >> vigasMadeiraUsar;                                 
+                                    if(nrVigasMadeira - vigasMadeiraUsar < 0) cout << "Nao tem vigas de madeira suficientes." << endl;
+                                }while((vigasMadeiraUsar < 0 || vigasMadeiraUsar > 10) && (nrVigasMadeira - vigasMadeiraUsar < 0));
+                                if (saldo - (custoMinaf * 10 - vigasMadeiraUsar * custoMinaf) < 0){
+                                    cout << "Nao tem dinheiro suficiente. Faltam " << (custoMinaf * 10 - vigasMadeiraUsar * custoMinaf) << " euros!" << endl;
+                                    return false;
+                                };                           
+                                nrVigasMadeira -= vigasMadeiraUsar;
+                                saldo -= (custoMinaf * 10 - vigasMadeiraUsar * custoMinaf);
+                                zonas[linhaX][colunaX]->setEdificio(new MinaFerro("minaf", custoMinaf * 10));
+                            }
+                            else{
+                                do{
+                                    cout << "Introduza o numero de vigas de madeira que pretende usar na construcao deste Edificio: " << endl;
                                     cin >> vigasMadeiraUsar;                                
                                     if(nrVigasMadeira - vigasMadeiraUsar < 0) cout << "Não tem vigas de madeira suficientes." << endl;
-                                }while(vigasMadeiraUsar < 0 || vigasMadeiraUsar > 10 && nrVigasMadeira - vigasMadeiraUsar < 0);
-                                if (saldo < 0) cout << "Não tem dinheiro suficiente." << endl;
-                            }while (saldo - (custoVigasMadeira * 10 - vigasMadeiraUsar * custoVigasMadeira) < 0 && );
-                            nrVigasMadeira -= vigasMadeiraUsar;
-                            saldo -= (100 - vigasMadeiraUsar * custoVigasMadeira);
-                                //Enquanto não armazenamos as vigas de madeira... Dps adicionamos ao método de pagamento.
-                            zonas[linhaX][colunaX]->setEdificio(new MinaFerro("minaf", 10));
+                                }while((vigasMadeiraUsar < 0 || vigasMadeiraUsar > 10) && (nrVigasMadeira - vigasMadeiraUsar < 0));
+                                if (saldo - (100 - vigasMadeiraUsar * custoVigasMadeira) < 0){
+                                    cout << "Nao tem dinheiro suficiente. Faltam " << (100 - vigasMadeiraUsar * custoVigasMadeira) << " euros!" << endl;
+                                    return false;
+                                };                           
+                                nrVigasMadeira -= vigasMadeiraUsar;
+                                saldo -= (100 - vigasMadeiraUsar * custoVigasMadeira);
+                                zonas[linhaX][colunaX]->setEdificio(new MinaFerro("minaf", custoMinaf));                
+                            }
                         }
                         else if(args[1] == "minac"){
-                            saldo = saldo - custoMinac;    //Enquanto não armazenamos as vigas de madeira... Dps adicionamos ao método de pagamento.    
-                            zonas[linhaX][colunaX]->setEdificio(new MinaCarvao("minac", custoMinac));
+                                do{
+                                    cout << "Introduza o numero de vigas de madeira que pretende usar na construcao deste Edificio: " << endl;
+                                    cin >> vigasMadeiraUsar;                                
+                                    if(nrVigasMadeira - vigasMadeiraUsar < 0) cout << "Não tem vigas de madeira suficientes." << endl;
+                                }while((vigasMadeiraUsar < 0 || vigasMadeiraUsar > 10) && (nrVigasMadeira - vigasMadeiraUsar < 0));
+                                if (saldo - (100 - vigasMadeiraUsar * custoVigasMadeira) < 0){
+                                    cout << "Nao tem dinheiro suficiente. Faltam " << (100 - vigasMadeiraUsar * custoVigasMadeira) << " euros!" << endl;
+                                    return false;
+                                };                           
+                                nrVigasMadeira -= vigasMadeiraUsar;
+                                saldo -= (100 - vigasMadeiraUsar * custoVigasMadeira);
+                                zonas[linhaX][colunaX]->setEdificio(new MinaCarvao("minac", custoMinac));                 
                         }
                         else if(args[1] == "central"){
+                            if(saldo - custoCentral < 0){
+                                cout << "Nao tem dinheiro suficiente. Faltam " << -(saldo - custoCentral) << " euros!" << endl;
+                                return false;
+                            };
                             saldo = saldo - custoCentral; //Custo da c«trução da Central
                             zonas[linhaX][colunaX]->setEdificio(new Central("central", custoCentral));
                         }
                         else if(args[1] == "bat"){
+                            if(nrVigasMadeira - 10 < 0){
+                              cout << "Nao tem vigas de madeira suficientes. Faltam " << -(nrVigasMadeira - 10) << " vigas de madeira!" << endl;
+                              return false;
+                            }
+                            if(saldo - custoBateria < 0){
+                              cout << "Nao tem dinheiro suficiente. Faltam " << -(saldo - custoBateria) << " euros!" << endl;
+                              return false;
+                            }
                             saldo = saldo - 10; //Custo da construção da Bateria é "10€ + 10 Vigas". (Falta retirar as Vigas de Madeira adicionadas)
                             zonas[linhaX][colunaX]->setEdificio(new Bateria("bat", 10));
                         }
                         else if(args[1] == "fund"){
+                            if(saldo - custoFundicao < 0){
+                                cout << "Nao tem dinheiro suficiente. Faltam " << -(saldo - custoFundicao) << " euros!" << endl;
+                                return false;
+                            };
                             saldo = saldo - custoFundicao; //Custo da construção da Fundição.
                             zonas[linhaX][colunaX]->setEdificio(new Fundicao("fund", custoFundicao));
                         }
@@ -285,16 +327,28 @@ bool Ilha::validaComando(istringstream &comando){
             if(pastos.size()){
                 int randomIntger = rand()%(pastos.size() - 0) + 0;
                 if(args[1] == "oper"){
-                    (*pastos[randomIntger]).addTrabalhador(new Operario(custoOper, dia));
-                    saldo = saldo - 15;                   
+                    if(saldo - custoOper < 0){
+                        cout << "Nao tem dinheiro suficiente. Faltam " << -(saldo - custoOper) << " euros!" << endl;
+                        return false;
+                    };
+                    saldo = saldo - custoOper;
+                    (*pastos[randomIntger]).addTrabalhador(new Operario(custoOper, dia));                   
                 }
                 else if(args[1] == "len"){
+                    if(saldo - custoLen < 0){
+                        cout << "Nao tem dinheiro suficiente. Faltam " << -(saldo - custoLen) << " euros!" << endl;
+                        return false;
+                    };
+                    saldo = saldo - custoLen;
                     (*pastos[randomIntger]).addTrabalhador(new Lenhador(custoLen, dia));
-                    saldo = saldo - 20;
                 }
                 else if(args[1] == "miner"){
+                    if(saldo - custoMiner < 0){
+                        cout << "Nao tem dinheiro suficiente. Faltam " << -(saldo - custoMiner) << " euros!" << endl;
+                        return false;
+                    };
                     (*pastos[randomIntger]).addTrabalhador(new Mineiro(custoMiner, dia));
-                    saldo = saldo - 10;
+                    saldo = saldo - custoMiner;
                 }
                 return true;
             } else {
@@ -423,10 +477,10 @@ bool Ilha::validaComando(istringstream &comando){
                 else if (cfgArgs[0] == "oper" && cfgArgs.size() == 2)   custoOper = stoi(cfgArgs[1]);
                 else if (cfgArgs[0] == "len" && cfgArgs.size() == 2)    custoLen = stoi(cfgArgs[1]);
                 else if (cfgArgs[0] == "miner" && cfgArgs.size() == 2)  custoMiner = stoi(cfgArgs[1]);
-                cfgArgs.clear();    
+                cfgArgs.clear();
             }
             
-
+            flag = 1;    
             // Close the file
             input_file.close();
             cout << "Ficheiro de configuracao " << args[1] << " LIDO!" << endl;
@@ -512,11 +566,11 @@ bool Ilha::validaComando(istringstream &comando){
         }
         if(valor > 0){
             addSaldo(valor);
-            cout << "[DEBUG] Foram ADICIONADOS " << valor << "€ a sua conta!" << endl;
+            cout << "[DEBUG] Foram ADICIONADOS " << valor << " euros a sua conta!" << endl;
             return true;
         } else if(valor < 0){
             addSaldo(valor);
-            cout << "[DEBUG] Foram REMOVIDOS " << valor << "€ da sua conta." << endl;
+            cout << "[DEBUG] Foram REMOVIDOS " << valor << " euros da sua conta." << endl;
             return true;
         } else {
             cout << "[ERRO] Introduza um numero valido para o valor" << endl;

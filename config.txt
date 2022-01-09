@@ -1,5 +1,7 @@
 minaf 15
 bat 10
+fund 20
 central 15
 oper 10
+len 30
 miner 15
