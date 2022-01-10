@@ -90,9 +90,7 @@ int MinaCarvao::getArmazenamento() const {
     return this->armazenamento;
 }
 int MinaCarvao::addArmazenamento(int armazenamento) {
-    if(this->armazenamento + armazenamento < 101)
-        this->armazenamento += armazenamento;
-    else return 0;
+        this->armazenamento = armazenamento;
 }
 int MinaCarvao::getCusto() {
     return this->custoFabrico;

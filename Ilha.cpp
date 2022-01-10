@@ -254,7 +254,6 @@ bool Ilha::validaComando(istringstream &comando){
             cout << "[ERRO] Introduza um numero para a coluna" << endl;
             return false;
         }
-
         if(args[1] == "minaf" || args[1] == "minac" || args[1] == "central" || args[1] == "bat" || args[1] == "fund" || args[1] == "rest"){
             if(linhaX < linhas && linhaX >= 0){
                 if(colunaX < colunas && colunaX >= 0){
@@ -810,33 +809,31 @@ bool Ilha::validaComando(istringstream &comando){
     return false;
 }
 
-void Ilha::anoitecer(){
+ void Ilha::anoitecer(){
     cout << "Verificar se trabalhador está na sua zona de produção" << endl;
     for(int i = 0; i < linhas; i++){
-        for(int j = 0; j < colunas; j++){     
+        for(int j = 0; j < colunas; j++){    
             Zona* zonaAux = zonas[i][j];  
-            if(zonaAux->getSigla() == "pas"){
+            if(zonaAux->getSigla() == "pas"){ 
                 vector<Trabalhador*> oper = zonaAux->getTrabalhadoresBySigla("O"); //Guarda no vetor os operarios dessa zona
                 vector<Trabalhador*> len = zonaAux->getTrabalhadoresBySigla("L"); //Guarda no vetor os lenhadores dessa zona
                 vector<Trabalhador*> miner = zonaAux->getTrabalhadoresBySigla("M"); //Guarda no vetor os mineiros dessa zona
                 if(zonaAux->getSiglaEdificio() == "minaf" && miner.size() > 0){
-                    nrFerro += (2 + zonaAux->getEdificio()->getNivel()- 1);
+                   nrFerro += zonaAux->getEdificio()->addArmazenamento(2 + zonaAux->getEdificio()->getNivel()- 1);
                 }
                 else if(zonaAux->getSiglaEdificio() == "minac" && miner.size() > 0){
-                    nrFerro += (2 + zonaAux->getEdificio()->getNivel()- 1);
+                    nrFerro += zonaAux->getEdificio()->addArmazenamento(2 + zonaAux->getEdificio()->getNivel()- 1);
                 }
                 else if(zonaAux->getSiglaEdificio() == "central" && oper.size() > 0){
-                    zonaAux->getEdificio()->addArmazenamento(2 + zonas[i][j]->getEdificio()->getNivel()- 1);
-                    zonaAux->getEdificio()->addArmazenamento(2 + zonas[i][j]->getEdificio()->getNivel()- 1);
-
-                    nrCarvao += zonaAux->getEdificio()->getArmazenamento();            
-                    if(zonas[i-1][j]->getSiglaEdificio() == "bat") nrEletricidade += zonaAux->getEdificio()->getArmazenamento();
-                    else if(zonas[i][j-1]->getSiglaEdificio() == "bat"); //Armazenar no edificio adjacente os KhW, utilizando o indice dessa zona
-                    else if(zonas[i+1][j]->getSiglaEdificio() == "bat");
-                    else if(zonas[i][j+1]->getSiglaEdificio() == "bat");                      
+                    //carvaoAux = zonaAux->getEdificio()->addArmazenamento(2 + zonas[i][j]->getEdificio()->getNivel()- 1);
+                    //eletricidadeAux = zonaAux->getEdificio()->addArmazenamento(1);        
+                    // if(zonas[i-1][j]->getSiglaEdificio() == "bat") eletricidadeAux += zonaAux->getEdificio()->getArmazenamento();
+                    // else if(zonas[i][j-1]->getSiglaEdificio() == "bat") eletricidadeAux += zonaAux->getEdificio()->getArmazenamento();
+                    // else if(zonas[i+1][j]->getSiglaEdificio() == "bat") eletricidadeAux += zonaAux->getEdificio()->getArmazenamento();
+                    // else if(zonas[i][j+1]->getSiglaEdificio() == "bat") eletricidadeAux += zonaAux->getEdificio()->getArmazenamento();                      
                 }  
             }           
         }
-    } 
+    }
 };
 
