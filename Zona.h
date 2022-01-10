@@ -50,7 +50,7 @@ class Montanha : public Zona {
 class Floresta : public Zona {
     private:
         int arvores;
-        int madeiraArmazenada = 0;
+        int madeiraArmazenada;
     public:
         Floresta(int linha, int coluna, int arvores);
 };

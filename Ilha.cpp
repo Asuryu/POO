@@ -79,7 +79,9 @@ void Ilha::initIlha(){
     mostraIlha();
 }
 
-Ilha::Ilha(){
+Ilha::Ilha() :  nrVigasMadeira(200), nrFerro(10), nrBarraDeAco(10), nrCarvao(10), nrMadeira(10), nrEletricidade(5), vigasMadeiraUsar(0), flag(0),
+                custoMinaf(100), custoMinac(100), custoBateria(10), custoFundicao(10), custoCentral(15), custoRestaurante(30), custoOper(15), custoLen(20),
+                custoMiner(10), custoVigasMadeira(10){
     dia = 1;
     saldo = 0;
     initIlha();
@@ -410,6 +412,7 @@ bool Ilha::validaComando(istringstream &comando){
                 }
             } else {
                 cout << "[ERRO] Nao existem zonas de pasto disponiveis" << endl;
+                return false;
             }
         } else {
             cout << "[ERRO] Esse tipo de operario nao existe" << endl;
@@ -434,7 +437,7 @@ bool Ilha::validaComando(istringstream &comando){
                 if(zonas[l][c]->getEdificio() != nullptr){
                     if(zonas[l][c]->getEdificio()->getLigado() == 0){
                         zonas[l][c]->getEdificio()->ligar();
-                        cout << "Edificio DESLIGADO na posicao (" << l << "," << c << ")!" << endl;
+                        cout << "Edificio LIGADO na posicao (" << l << "," << c << ")!" << endl;
                         return true;
                     } else {
                         cout << "[ERRO] Edificio ja esta ligado" << endl;
@@ -444,7 +447,6 @@ bool Ilha::validaComando(istringstream &comando){
                     cout << "[ERRO] Nao existe edificio nessa zona" << endl;
                     return false;
                 }
-                cout << "Edificio LIGADO na posicao (" << l << "," << c << ")!" << endl;
                 return true;
             } else cout << "[ERRO] Coluna invalida" << endl;
         } else cout << "[ERRO] Linha invalida" << endl;
@@ -477,7 +479,6 @@ bool Ilha::validaComando(istringstream &comando){
                     cout << "[ERRO] Nao existe edificio nessa zona" << endl;
                     return false;
                 }
-                cout << "Edificio DESLIGADO na posicao (" << l << "," << c << ")!" << endl;
                 return true;
             } else cout << "[ERRO] Coluna invalida" << endl;
         } else cout << "[ERRO] Linha invalida" << endl;

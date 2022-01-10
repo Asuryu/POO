@@ -33,6 +33,8 @@ int Edificio::addArmazenamento(int armazenamento) {
     return 0;
 };
 
+Edificio::~Edificio() {
+}
 
 
 MinaFerro::MinaFerro(string sigla, int custoFabrico) : Edificio(sigla) {
@@ -143,7 +145,7 @@ int Fundicao::getCusto() {
 }
 
 
-Restaurante::Restaurante(string sigla, int custo) : Edificio(sigla) {
+Restaurante::Restaurante(string sigla, int custoFabrico) : Edificio(sigla) {
     this->custoFabrico = custoFabrico;
 }
 int Restaurante::getCusto() {
