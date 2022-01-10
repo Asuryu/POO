@@ -124,6 +124,7 @@ Montanha::Montanha(int linha, int coluna) : Zona(linha, coluna) {
 }
 Floresta::Floresta(int linha, int coluna, int arvores) : Zona(linha, coluna) {
     setSigla("flr");
+    this->madeiraArmazenada = 0;
     this->arvores = arvores;
 }
 Pastagem::Pastagem(int linha, int coluna) : Zona(linha, coluna) {

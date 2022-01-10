@@ -79,7 +79,9 @@ void Ilha::initIlha(){
     mostraIlha();
 }
 
-Ilha::Ilha(){
+Ilha::Ilha() :  nrVigasMadeira(200), nrFerro(10), nrBarraDeAco(10), nrCarvao(10), nrMadeira(10), nrEletricidade(5), vigasMadeiraUsar(0), flag(0),
+                custoMinaf(100), custoMinac(100), custoBateria(10), custoFundicao(10), custoCentral(15), custoRestaurante(30), custoOper(15), custoLen(20),
+                custoMiner(10), custoVigasMadeira(10){
     dia = 1;
     saldo = 0;
     initIlha();
@@ -387,6 +389,7 @@ bool Ilha::validaComando(istringstream &comando){
                     addSaldo(-custoOper);
                     (*pastos[randomIntger]).addTrabalhador(new Operario(custoOper, dia));                   
                     cout << "Trabalhador do tipo Operário foi CONTRATADO e colocado na zona de pasto (" << (*pastos[randomIntger]).getLinha() << ", " << (*pastos[randomIntger]).getColuna() << ")!" << endl;
+                    return true;
                 }
                 else if(args[1] == "len"){
                     if(saldo - custoLen < 0){
@@ -396,6 +399,7 @@ bool Ilha::validaComando(istringstream &comando){
                     addSaldo(-custoLen);
                     (*pastos[randomIntger]).addTrabalhador(new Lenhador(custoLen, dia));
                     cout << "Trabalhador do tipo Lenhador foi CONTRATADO e colocado na zona de pasto (" << (*pastos[randomIntger]).getLinha() << ", " << (*pastos[randomIntger]).getColuna() << ")!" << endl;
+                    return true;
                 }
                 else if(args[1] == "miner"){
                     if(saldo - custoMiner < 0){
@@ -405,9 +409,11 @@ bool Ilha::validaComando(istringstream &comando){
                     (*pastos[randomIntger]).addTrabalhador(new Mineiro(custoMiner, dia));
                     addSaldo(-custoMiner);
                     cout << "Trabalhador do tipo Mineiro foi CONTRATADO e colocado na zona de pasto (" << (*pastos[randomIntger]).getLinha() << ", " << (*pastos[randomIntger]).getColuna() << ")!" << endl;
+                    return true;
                 }
             } else {
                 cout << "[ERRO] Nao existem zonas de pasto disponiveis" << endl;
+                return false;
             }
         } else {
             cout << "[ERRO] Esse tipo de operario nao existe" << endl;
@@ -432,7 +438,7 @@ bool Ilha::validaComando(istringstream &comando){
                 if(zonas[l][c]->getEdificio() != nullptr){
                     if(zonas[l][c]->getEdificio()->getLigado() == 0){
                         zonas[l][c]->getEdificio()->ligar();
-                        cout << "Edificio DESLIGADO na posicao (" << l << "," << c << ")!" << endl;
+                        cout << "Edificio LIGADO na posicao (" << l << "," << c << ")!" << endl;
                         return true;
                     } else {
                         cout << "[ERRO] Edificio ja esta ligado" << endl;
@@ -442,7 +448,6 @@ bool Ilha::validaComando(istringstream &comando){
                     cout << "[ERRO] Nao existe edificio nessa zona" << endl;
                     return false;
                 }
-                cout << "Edificio LIGADO na posicao (" << l << "," << c << ")!" << endl;
                 return true;
             } else cout << "[ERRO] Coluna invalida" << endl;
         } else cout << "[ERRO] Linha invalida" << endl;
@@ -475,7 +480,6 @@ bool Ilha::validaComando(istringstream &comando){
                     cout << "[ERRO] Nao existe edificio nessa zona" << endl;
                     return false;
                 }
-                cout << "Edificio DESLIGADO na posicao (" << l << "," << c << ")!" << endl;
                 return true;
             } else cout << "[ERRO] Coluna invalida" << endl;
         } else cout << "[ERRO] Linha invalida" << endl;
@@ -795,13 +799,7 @@ bool Ilha::validaComando(istringstream &comando){
     }
     else if (args[0] == "next" && args.size() == 1){
         dia++;
-
         cout << "[Dia " <<  dia << "]" << endl;
-        int probabilidade =  rand() % 99;
-        if( dia > 1 && probabilidade < 10){
-            cout << "O Mineiro com o id  'X' demitiu-se" << endl;           
-            //Remover o trabalhador (Demitiu-se)
-        };                     
     }
     else if (args[0] == "exit" && args.size() == 1){
         cout << "A sair do jogo" << endl;

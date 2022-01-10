@@ -15,6 +15,7 @@ class Edificio {
         virtual int getCusto();
         virtual int getNivel();
         string getSigla();
+        virtual ~Edificio();
 };
 
 class MinaFerro : public Edificio {
@@ -88,6 +89,6 @@ class Restaurante : public Edificio {
     private:
         int custoFabrico;
     public:
-        Restaurante(string sigla, int custo);
+        Restaurante(string sigla, int custoFabrico);
         int getCusto();
 };
