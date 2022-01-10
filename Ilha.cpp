@@ -825,6 +825,43 @@ bool Ilha::validaComando(istringstream &comando){
                     nrFerro += zonaAux->getEdificio()->addArmazenamento(2 + zonaAux->getEdificio()->getNivel()- 1);
                 }
                 else if(zonaAux->getSiglaEdificio() == "central" && oper.size() > 0){
+                    // Obter o armazenamento das zonas diretamente ao lado da zonaAux
+                    Zona* zonaAux2 = zonas[i-1][j];
+                    Zona* zonaAux3 = zonas[i+1][j];
+                    Zona* zonaAux4 = zonas[i][j-1];
+                    Zona* zonaAux5 = zonas[i][j+1];
+                    if(zonaAux2 != nullptr){
+                        if(zonaAux2->getSiglaEdificio() == "minaf" && miner.size() > 0){
+                            nrFerro += zonaAux2->getEdificio()->addArmazenamento(2 + zonaAux2->getEdificio()->getNivel()- 1);
+                        }
+                        else if(zonaAux2->getSiglaEdificio() == "minac" && miner.size() > 0){
+                            nrFerro += zonaAux2->getEdificio()->addArmazenamento(2 + zonaAux2->getEdificio()->getNivel()- 1);
+                        }
+                    }
+                    if(zonaAux3 != nullptr){
+                        if(zonaAux3->getSiglaEdificio() == "minaf" && miner.size() > 0){
+                            nrFerro += zonaAux3->getEdificio()->addArmazenamento(2 + zonaAux3->getEdificio()->getNivel()- 1);
+                        }
+                        else if(zonaAux3->getSiglaEdificio() == "minac" && miner.size() > 0){
+                            nrFerro += zonaAux3->getEdificio()->addArmazenamento(2 + zonaAux3->getEdificio()->getNivel()- 1);
+                        }
+                    }
+                    if(zonaAux4 != nullptr){
+                        if(zonaAux4->getSiglaEdificio() == "minaf" && miner.size() > 0){
+                            nrFerro += zonaAux4->getEdificio()->addArmazenamento(2 + zonaAux4->getEdificio()->getNivel()- 1);
+                        }
+                        else if(zonaAux4->getSiglaEdificio() == "minac" && miner.size() > 0){
+                            nrFerro += zonaAux4->getEdificio()->addArmazenamento(2 + zonaAux4->getEdificio()->getNivel()- 1);
+                        }
+                    }
+                    if(zonaAux5 != nullptr){
+                        if(zonaAux5->getSiglaEdificio() == "minaf" && miner.size() > 0){
+                            nrFerro += zonaAux5->getEdificio()->addArmazenamento(2 + zonaAux5->getEdificio()->getNivel()- 1);
+                        }
+                        else if(zonaAux5->getSiglaEdificio() == "minac" && miner.size() > 0){
+                            nrFerro += zonaAux5->getEdificio()->addArmazenamento(2 + zonaAux5->getEdificio()->getNivel()- 1);
+                        }
+                    }
                     //carvaoAux = zonaAux->getEdificio()->addArmazenamento(2 + zonas[i][j]->getEdificio()->getNivel()- 1);
                     //eletricidadeAux = zonaAux->getEdificio()->addArmazenamento(1);        
                     // if(zonas[i-1][j]->getSiglaEdificio() == "bat") eletricidadeAux += zonaAux->getEdificio()->getArmazenamento();
