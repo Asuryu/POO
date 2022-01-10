@@ -130,7 +130,6 @@ void Ilha::mostraIlha() {
     cout << "Carvao: " << nrCarvao << endl; 
     cout << "Madeira: " << nrMadeira << endl; 
     cout << "Eletricidade: " << nrEletricidade << endl << endl; 
-
 }
 
 void Ilha::addSaldo(float saldo){
@@ -386,7 +385,8 @@ bool Ilha::validaComando(istringstream &comando){
                     };
                     addSaldo(-custoOper);
                     (*pastos[randomIntger]).addTrabalhador(new Operario(custoOper, dia));                   
-                    cout << "Trabalhador do tipo Operário foi CONTRATADO e colocado na zona de pasto (" << (*pastos[randomIntger]).getLinha() << ", " << (*pastos[randomIntger]).getColuna() << ")!" << endl;
+                    cout << "Trabalhador do tipo Operario foi CONTRATADO e colocado na zona de pasto (" << (*pastos[randomIntger]).getLinha() << ", " << (*pastos[randomIntger]).getColuna() << ")!" << endl;
+                    return true;
                 }
                 else if(args[1] == "len"){
                     if(saldo - custoLen < 0){
@@ -396,6 +396,7 @@ bool Ilha::validaComando(istringstream &comando){
                     addSaldo(-custoLen);
                     (*pastos[randomIntger]).addTrabalhador(new Lenhador(custoLen, dia));
                     cout << "Trabalhador do tipo Lenhador foi CONTRATADO e colocado na zona de pasto (" << (*pastos[randomIntger]).getLinha() << ", " << (*pastos[randomIntger]).getColuna() << ")!" << endl;
+                    return true;
                 }
                 else if(args[1] == "miner"){
                     if(saldo - custoMiner < 0){
@@ -405,6 +406,7 @@ bool Ilha::validaComando(istringstream &comando){
                     (*pastos[randomIntger]).addTrabalhador(new Mineiro(custoMiner, dia));
                     addSaldo(-custoMiner);
                     cout << "Trabalhador do tipo Mineiro foi CONTRATADO e colocado na zona de pasto (" << (*pastos[randomIntger]).getLinha() << ", " << (*pastos[randomIntger]).getColuna() << ")!" << endl;
+                    return true;
                 }
             } else {
                 cout << "[ERRO] Nao existem zonas de pasto disponiveis" << endl;
@@ -795,13 +797,9 @@ bool Ilha::validaComando(istringstream &comando){
     }
     else if (args[0] == "next" && args.size() == 1){
         dia++;
-
         cout << "[Dia " <<  dia << "]" << endl;
-        int probabilidade =  rand() % 99;
-        if( dia > 1 && probabilidade < 10){
-            cout << "O Mineiro com o id  'X' demitiu-se" << endl;           
-            //Remover o trabalhador (Demitiu-se)
-        };                     
+        anoitecer();          
+        return true;          
     }
     else if (args[0] == "exit" && args.size() == 1){
         cout << "A sair do jogo" << endl;
@@ -810,3 +808,34 @@ bool Ilha::validaComando(istringstream &comando){
     else return false;
     return false;
 }
+
+void Ilha::anoitecer(){
+    cout << "Verificar se trabalhador está na sua zona de produção" << endl;
+    for(int i = 0; i < linhas; i++){
+        for(int j = 0; j < colunas; j++){     
+            Zona* zonaAux = zonas[i][j];  
+            if(zonaAux->getSigla() == "pas"){
+                vector<Trabalhador*> oper = zonaAux->getTrabalhadoresBySigla("O"); //Guarda no vetor os operarios dessa zona
+                vector<Trabalhador*> len = zonaAux->getTrabalhadoresBySigla("L"); //Guarda no vetor os lenhadores dessa zona
+                vector<Trabalhador*> miner = zonaAux->getTrabalhadoresBySigla("M"); //Guarda no vetor os mineiros dessa zona
+                if(zonaAux->getSiglaEdificio() == "minaf" && miner.size() > 0){
+                    nrFerro += (2 + zonaAux->getEdificio()->getNivel()- 1);
+                }
+                else if(zonaAux->getSiglaEdificio() == "minac" && miner.size() > 0){
+                    nrFerro += (2 + zonaAux->getEdificio()->getNivel()- 1);
+                }
+                else if(zonaAux->getSiglaEdificio() == "central" && oper.size() > 0){
+                    zonaAux->getEdificio()->addArmazenamento(2 + zonas[i][j]->getEdificio()->getNivel()- 1);
+                    zonaAux->getEdificio()->addArmazenamento(2 + zonas[i][j]->getEdificio()->getNivel()- 1);
+
+                    nrCarvao += zonaAux->getEdificio()->getArmazenamento();            
+                    if(zonas[i-1][j]->getSiglaEdificio() == "bat") nrEletricidade += zonaAux->getEdificio()->getArmazenamento();
+                    else if(zonas[i][j-1]->getSiglaEdificio() == "bat"); //Armazenar no edificio adjacente os KhW, utilizando o indice dessa zona
+                    else if(zonas[i+1][j]->getSiglaEdificio() == "bat");
+                    else if(zonas[i][j+1]->getSiglaEdificio() == "bat");                      
+                }  
+            }           
+        }
+    } 
+};
+

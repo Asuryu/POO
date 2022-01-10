@@ -6,7 +6,7 @@ using namespace std;
 class Edificio {
     private:
         string sigla;
-        int ligado;
+        int ligado, quantProduzida;
     public:
         Edificio(string sigla);
         void ligar();
@@ -14,6 +14,9 @@ class Edificio {
         int getLigado();
         virtual int getCusto();
         virtual int getNivel();
+        virtual int addNivel();
+        virtual int getArmazenamento();
+        virtual int addArmazenamento(int armazenamento);
         string getSigla();
 };
 
@@ -26,11 +29,11 @@ class MinaFerro : public Edificio {
     public:
         MinaFerro(string sigla, int custoFabrico);
         int getNivel();
-        void setNivel(int nivel);
+        int addNivel();
         int getProducao() const;
         void setProducao(int producao);
         int getArmazenamento() const;
-        void setArmazenamento(int armazenamento);
+        int addArmazenamento(int armazenamento);
         int getCusto();
 };
 
@@ -43,11 +46,11 @@ class MinaCarvao : public Edificio {
     public:
         MinaCarvao(string sigla, int custoFabrico);
         int getNivel();
-        void setNivel(int nivel);
+        int addNivel();
         int getProducao() const;
         void setProducao(int producao);
         int getArmazenamento() const;
-        void setArmazenamento(int armazenamento);
+        int addArmazenamento(int armazenamento);
         int getCusto();
 };
 
@@ -58,7 +61,7 @@ class Central : public Edificio {
     public:
         Central(string sigla, int custoFabrico);
         int getArmazenamento() const;
-        void setArmazenamento(int armazenamento);
+        int addArmazenamento(int armazenamento);
         int getCusto();
 };
 
@@ -70,7 +73,7 @@ class Bateria : public Edificio {
     public:
         Bateria(string sigla, int custoFabrico);
         int getNivel();
-        void setNivel(int nivel);
+        int addNivel();
         int getCapacidade() const;
         void setCapacidade(int capacidade);
         int getCusto();

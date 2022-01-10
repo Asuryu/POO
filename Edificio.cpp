@@ -23,6 +23,16 @@ int Edificio::getCusto() {
 int Edificio::getNivel() {
     return 0;
 }
+int Edificio::addNivel() {
+    return 0;
+}
+int Edificio::getArmazenamento() {
+    return 0;
+};
+int Edificio::addArmazenamento(int armazenamento) {
+    return 0;
+};
+
 
 
 MinaFerro::MinaFerro(string sigla, int custoFabrico) : Edificio(sigla) {
@@ -34,9 +44,10 @@ MinaFerro::MinaFerro(string sigla, int custoFabrico) : Edificio(sigla) {
 int MinaFerro::getNivel() {
     return this->nivel;
 }
-void MinaFerro::setNivel(int nivel) {
-    this->nivel = nivel;
-}
+int MinaFerro::addNivel(){
+    nivel++;
+    return nivel;
+};
 int MinaFerro::getProducao() const {
     return this->producao;
 }
@@ -46,7 +57,7 @@ void MinaFerro::setProducao(int producao) {
 int MinaFerro::getArmazenamento() const {
     return this->armazenamento;
 }
-void MinaFerro::setArmazenamento(int armazenamento) {
+int MinaFerro::addArmazenamento(int armazenamento) {
     this->armazenamento = armazenamento;
 }
 int MinaFerro::getCusto() {
@@ -63,9 +74,10 @@ MinaCarvao::MinaCarvao(string sigla, int custoFabrico) : Edificio(sigla) {
 int MinaCarvao::getNivel() {
     return this->nivel;
 }
-void MinaCarvao::setNivel(int nivel) {
-    this->nivel = nivel;
-}
+int MinaCarvao::addNivel(){
+    nivel++;
+    return nivel;
+};
 int MinaCarvao::getProducao() const {
     return this->producao;
 }
@@ -75,8 +87,10 @@ void MinaCarvao::setProducao(int producao) {
 int MinaCarvao::getArmazenamento() const {
     return this->armazenamento;
 }
-void MinaCarvao::setArmazenamento(int armazenamento) {
-    this->armazenamento = armazenamento;
+int MinaCarvao::addArmazenamento(int armazenamento) {
+    if(this->armazenamento + armazenamento < 101)
+        this->armazenamento += armazenamento;
+    else return 0;
 }
 int MinaCarvao::getCusto() {
     return this->custoFabrico;
@@ -90,7 +104,7 @@ Central::Central(string sigla, int custoFabrico) : Edificio(sigla) {
 int Central::getArmazenamento() const {
     return this->armazenamento;
 }
-void Central::setArmazenamento(int armazenamento) {
+int Central::addArmazenamento(int armazenamento) {
     this->armazenamento = armazenamento;
 }
 int Central::getCusto() {
@@ -106,9 +120,10 @@ Bateria::Bateria(string sigla, int custoFabrico) : Edificio(sigla) {
 int Bateria::getNivel() {
     return this->nivel;
 }
-void Bateria::setNivel(int nivel) {
-    this->nivel = nivel;
-}
+int Bateria::addNivel(){
+    nivel++;
+    return nivel;
+};
 int Bateria::getCapacidade() const {
     return this->capacidade;
 }
