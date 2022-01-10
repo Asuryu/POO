@@ -1,5 +1,7 @@
 #include "Edificio.h"
+#include <iostream>
 #include <string>
+using namespace std;
 
 Edificio::Edificio(string sigla) {
     this->sigla = sigla;
@@ -60,7 +62,7 @@ int MinaFerro::getArmazenamento() const {
     return this->armazenamento;
 }
 int MinaFerro::addArmazenamento(int armazenamento) {
-    this->armazenamento = armazenamento;
+    return this->armazenamento += armazenamento;
 }
 int MinaFerro::getCusto() {
     return this->custoFabrico;
@@ -90,7 +92,7 @@ int MinaCarvao::getArmazenamento() const {
     return this->armazenamento;
 }
 int MinaCarvao::addArmazenamento(int armazenamento) {
-        this->armazenamento = armazenamento;
+    return this->armazenamento += armazenamento;
 }
 int MinaCarvao::getCusto() {
     return this->custoFabrico;
@@ -105,7 +107,9 @@ int Central::getArmazenamento() const {
     return this->armazenamento;
 }
 int Central::addArmazenamento(int armazenamento) {
-    this->armazenamento = armazenamento;
+    if(this->armazenamento + armazenamento < 101)
+        return this->armazenamento += armazenamento;
+    else return 0;
 }
 int Central::getCusto() {
     return this->custoFabrico;
