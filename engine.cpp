@@ -32,3 +32,11 @@ bool isNumber(string x){
     regex e ("-{0,1}\\d+");
     return (regex_match (x,e));
 }
+
+bool validaPosicao(int &i, int &j, int linhas, int colunas){
+    int iAux = i, jAux = j;
+    if(i+1 < linhas) *iAux = i + 1;
+    else if(i-1 > -1) *iAux = i - 1;
+    if(j+1 < colunas) *jAux = i + 1;
+    if(j-1 > -1) *jAux = i - 1;
+};
