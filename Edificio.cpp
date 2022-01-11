@@ -28,8 +28,7 @@ int Edificio::getNivel() {
 int Edificio::addNivel() {
     return 0;
 }
-int Edificio::getArmazenamento() {
-    cout << "PILAAAAAA" << endl;
+int Edificio::getArmazenamento() const {
     return 0;
 };
 int Edificio::addArmazenamento(int armazenamento) {

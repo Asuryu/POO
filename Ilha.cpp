@@ -822,7 +822,7 @@ bool Ilha::validaComando(istringstream &comando){
                 vector<Trabalhador*> miner = zonaAux->getTrabalhadoresBySigla("M"); //Guarda no vetor os mineiros dessa zona
                 if(zonaAux->getSiglaEdificio() == "minaf" && miner.size() > 0){
                     zonaAux->getEdificio()->addArmazenamento(2 + zonaAux->getEdificio()->getNivel()- 1);
-                    cout << zonaAux->getEdificio()->getArmazenamento() << endl;
+                    nrFerro += zonaAux->getEdificio()->getArmazenamento();
                 }
                 if(zonaAux->getSiglaEdificio() == "minac" && miner.size() > 0){
                     nrFerro += zonaAux->getEdificio()->addArmazenamento(2 + zonaAux->getEdificio()->getNivel()- 1);

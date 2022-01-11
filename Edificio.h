@@ -15,7 +15,7 @@ class Edificio {
         virtual int getCusto();
         virtual int getNivel();
         virtual int addNivel();
-        virtual int getArmazenamento();
+        virtual int getArmazenamento() const;
         virtual int addArmazenamento(int armazenamento);
         string getSigla();
         virtual ~Edificio();
