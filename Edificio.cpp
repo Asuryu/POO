@@ -60,7 +60,6 @@ void MinaFerro::setProducao(int producao) {
     this->producao = producao;
 }
 int MinaFerro::getArmazenamento() const {
-    cout << "CONAAAAAA" << endl;
     return this->armazenamento;
 }
 int MinaFerro::addArmazenamento(int armazenamento) {

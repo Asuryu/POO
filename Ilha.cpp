@@ -185,7 +185,7 @@ string Ilha::getInfoZona(int linha, int coluna){
     }
     if(zona->getTrabalhadores().size() > 0){
         oss << "Trabalhadores: " << endl;
-        for(int i = 0; i < zona->getTrabalhadores().size(); i++){
+        for(unsigned int i = 0; i < zona->getTrabalhadores().size(); i++){
             if(zona->getTrabalhadores()[i]->getSigla() == "O") tipo = "Operário";
             else if(zona->getTrabalhadores()[i]->getSigla() == "M") tipo = "Mineiro";
             else if(zona->getTrabalhadores()[i]->getSigla() == "L") tipo = "Lenhador";
@@ -810,11 +810,13 @@ bool Ilha::validaComando(istringstream &comando){
 }
 
  void Ilha::anoitecer(){
-    cout << "Verificar se trabalhador está na sua zona de produção" << endl;
+    cout << "Verificar se trabalhador esta na sua zona de producao" << endl;
+    try{
     for(int i = 0; i < linhas; i++){
         for(int j = 0; j < colunas; j++){    
             Zona* zonaAux = zonas[i][j];  
-            if(zonaAux->getSigla() == "pas"){ 
+            if(zonaAux->getSigla() == "pas"){
+                 cout << "ZONA ADJACENTE À CENTRAL" << endl; 
                 vector<Trabalhador*> oper = zonaAux->getTrabalhadoresBySigla("O"); //Guarda no vetor os operarios dessa zona
                 vector<Trabalhador*> len = zonaAux->getTrabalhadoresBySigla("L"); //Guarda no vetor os lenhadores dessa zona
                 vector<Trabalhador*> miner = zonaAux->getTrabalhadoresBySigla("M"); //Guarda no vetor os mineiros dessa zona
@@ -822,59 +824,70 @@ bool Ilha::validaComando(istringstream &comando){
                     zonaAux->getEdificio()->addArmazenamento(2 + zonaAux->getEdificio()->getNivel()- 1);
                     cout << zonaAux->getEdificio()->getArmazenamento() << endl;
                 }
-                else if(zonaAux->getSiglaEdificio() == "minac" && miner.size() > 0){
+                if(zonaAux->getSiglaEdificio() == "minac" && miner.size() > 0){
                     nrFerro += zonaAux->getEdificio()->addArmazenamento(2 + zonaAux->getEdificio()->getNivel()- 1);
                 }
-                else if(zonaAux->getSiglaEdificio() == "central" && oper.size() > 0){
+                if(zonaAux->getSiglaEdificio() == "central" && oper.size() > 0){
                     // Obter o armazenamento das zonas diretamente ao lado da zonaAux
                     Zona* zonaAux2 = zonas[i-1][j];
                     Zona* zonaAux3 = zonas[i+1][j];
                     Zona* zonaAux4 = zonas[i][j-1];
                     Zona* zonaAux5 = zonas[i][j+1];
+                    cout << "ZONA ADJACENTE À CENTRAL" << endl;
                     if(zonaAux2 != nullptr){
                         if(zonaAux2->getSiglaEdificio() == "bat"){
-                            nrEletricidade += zonaAux2->getEdificio()->addArmazenamento(1); //armazenar KHW no edificio bateria
+                            zonaAux2->getEdificio()->addArmazenamento(1); //armazenar KHW no edificio bateria
                         }
-                        else if(zonaAux2->getSiglaEdificio() == "flr" && miner.size() > 0){
-                           zonaAux2->getEdificio()->addArmazenamento(-1); //Retira uma madeira que se encontra na zona adjacente à central"Floresta" e utiliza-a para criar carvão e eletricidade.
+                        if(zonaAux2->getSigla() == "flr"){
+                            cout << "ZONA ADJACENTE À CENTRAL" << endl;
+                            if(zonaAux2->getEdificio()->getArmazenamento() - 1 > -1){
+                                zonaAux2->getEdificio()->addArmazenamento(-1); //Retira uma madeira que se encontra na zona adjacente à central"Floresta" e utiliza-a para criar carvão e eletricidade.
+                                nrCarvao += 1;
+                            }
+                        }
+                        if(zonaAux2->getSiglaEdificio() == "fund" && zonaAux2->getTrabalhadores().size() > 0){
+                            
                         }
                     }
                     if(zonaAux3 != nullptr){
-                        if(zonaAux3->getSiglaEdificio() == "bat" && miner.size() > 0){
-                            nrFerro += zonaAux3->getEdificio()->addArmazenamento(2 + zonaAux3->getEdificio()->getNivel()- 1);
+                        if(zonaAux3->getSiglaEdificio() == "bat"){
+                           zonaAux3->getEdificio()->addArmazenamento(1); //armazenar KHW no edificio bateria
                         }
-                        else if(zonaAux3->getSiglaEdificio() == "flr" && miner.size() > 0){
-                            nrFerro += zonaAux3->getEdificio()->addArmazenamento(2 + zonaAux3->getEdificio()->getNivel()- 1);
+                        if(zonaAux3->getSigla() == "flr"){
+                            if(zonaAux3->getEdificio()->getArmazenamento() - 1 > -1){
+                                zonaAux3->getEdificio()->addArmazenamento(-1); //Retira uma madeira que se encontra na zona adjacente à central"Floresta" e utiliza-a para criar carvão e eletricidade.
+                                nrCarvao += 1;
+                            }
                         }
                     }
                     if(zonaAux4 != nullptr){
-                        if(zonaAux4->getSiglaEdificio() == "bat" && miner.size() > 0){
-                            nrFerro += zonaAux4->getEdificio()->addArmazenamento(2 + zonaAux4->getEdificio()->getNivel()- 1);
+                        if(zonaAux4->getSiglaEdificio() == "bat"){
+                            zonaAux4->getEdificio()->addArmazenamento(1); //armazenar KHW no edificio bateria
                         }
-                        else if(zonaAux4->getSiglaEdificio() == "flr" && miner.size() > 0){
-                            nrFerro += zonaAux4->getEdificio()->addArmazenamento(2 + zonaAux4->getEdificio()->getNivel()- 1);
+                        if(zonaAux4->getSigla() == "flr"){
+                            if(zonaAux4->getEdificio()->getArmazenamento() - 1 > -1){
+                                zonaAux4->getEdificio()->addArmazenamento(-1); //Retira uma madeira que se encontra na zona adjacente à central"Floresta" e utiliza-a para criar carvão e eletricidade.
+                                nrCarvao += 1;
+                            }
                         }
                     }
                     if(zonaAux5 != nullptr){
-                        if(zonaAux5->getSiglaEdificio() == "bat" && miner.size() > 0){
-                            nrFerro += zonaAux5->getEdificio()->addArmazenamento(2 + zonaAux5->getEdificio()->getNivel()- 1);
+                        if(zonaAux5->getSiglaEdificio() == "bat"){
+                            zonaAux5->getEdificio()->addArmazenamento(1); //armazenar KHW no edificio bateria
                         }
-                        else if(zonaAux5->getSiglaEdificio() == "flr" && miner.size() > 0){
-                            nrFerro += zonaAux5->getEdificio()->addArmazenamento(2 + zonaAux5->getEdificio()->getNivel()- 1);
+                        if(zonaAux5->getSigla() == "flr"){
+                            if(zonaAux5->getEdificio()->getArmazenamento() - 1 > -1){
+                                zonaAux5->getEdificio()->addArmazenamento(-1); //Retira uma madeira que se encontra na zona adjacente à central"Floresta" e utiliza-a para criar carvão e eletricidade.
+                                nrCarvao += 1;
+                            }
                         }
-                    }
-                    //carvaoAux = zonaAux->getEdificio()->addArmazenamento(2 + zonas[i][j]->getEdificio()->getNivel()- 1);
-                    //eletricidadeAux = zonaAux->getEdificio()->addArmazenamento(1);        
-                    // if(zonas[i-1][j]->getSiglaEdificio() == "bat") eletricidadeAux += zonaAux->getEdificio()->getArmazenamento();
-                    // else if(zonas[i][j-1]->getSiglaEdificio() == "bat") eletricidadeAux += zonaAux->getEdificio()->getArmazenamento();
-                    // else if(zonas[i+1][j]->getSiglaEdificio() == "bat") eletricidadeAux += zonaAux->getEdificio()->getArmazenamento();
-                    // else if(zonas[i][j+1]->getSiglaEdificio() == "bat") eletricidadeAux += zonaAux->getEdificio()->getArmazenamento();                
-                    nrEletricidade += zonaAux2->getEdificio()->getArmazenamento();
-                }  
-                nrFerro += zonaAux->getEdificio()->getArmazenamento();                      
-                      
+                    }               
+                }
+                if(zonaAux->getSiglaEdificio() == "bat") nrEletricidade += zonaAux->getEdificio()->getArmazenamento();
+                if(zonaAux->getSiglaEdificio() == "fund");
             }           
         }
     }
+    }catch(...){cout << "\nQualquer coisa \n";}
 };
 
