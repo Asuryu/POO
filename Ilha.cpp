@@ -88,6 +88,39 @@ Ilha::Ilha() :  nrVigasMadeira(200), nrFerro(10), nrBarraDeAco(10), nrCarvao(10)
     jogar();
 }
 
+Ilha::Ilha(Ilha *ilha){
+    linhas = ilha->linhas;
+    colunas = ilha->colunas;
+    dia = ilha->dia;
+    saveName = ilha->saveName;
+    saldo = ilha->saldo;
+    nrVigasMadeira = ilha->nrVigasMadeira;
+    nrFerro = ilha->nrFerro;
+    nrBarraDeAco = ilha->nrBarraDeAco;
+    nrCarvao = ilha->nrCarvao;
+    nrMadeira = ilha->nrMadeira;
+    nrEletricidade = ilha->nrEletricidade;
+    vigasMadeiraUsar = ilha->vigasMadeiraUsar;
+    flag = ilha->flag;
+    custoMinaf = ilha->custoMinaf;
+    custoMinac = ilha->custoMinac;
+    custoBateria = ilha->custoBateria;
+    custoFundicao = ilha->custoFundicao;
+    custoCentral = ilha->custoCentral;
+    custoRestaurante = ilha->custoRestaurante;
+    custoOper = ilha->custoOper;
+    custoLen = ilha->custoLen;
+    custoMiner = ilha->custoMiner;
+    custoVigasMadeira = ilha->custoVigasMadeira;
+    for(int i = 0; i < linhas; i++){
+        vector<Zona*> zonasLinha;
+        for(int j = 0; j < colunas; j++){
+            zonasLinha.push_back(ilha->zonas[i][j]);
+        }
+        zonas.push_back(zonasLinha);
+    }
+}
+
 void Ilha::mostraIlha() {
     for(int i = 0; i < linhas; i++){
         for(int j = 0; j < colunas; j++){
@@ -193,6 +226,10 @@ string Ilha::getInfoZona(int linha, int coluna){
         }
     }
     return oss.str();
+}
+
+string Ilha::getSaveName(){
+    return saveName;
 }
 
 void Ilha::jogar(){
@@ -794,6 +831,15 @@ bool Ilha::validaComando(istringstream &comando){
         }
         cout << "[DEBUG] Não existe nenhum trabalhador com o id " << args[1] << endl;
         return false;
+    }
+    else if (args[0] == "save" && args.size() == 2){
+        saveName = args[1];
+        Ilha *tmp = new Ilha(this);
+        ilhas.push_back(tmp);
+
+        for(int i = 0; i < ilhas.size(); i++){
+            cout << ilhas[i]->getSaveName() << endl;
+        }
     }
     else if (args[0] == "next" && args.size() == 1){
         dia++;
