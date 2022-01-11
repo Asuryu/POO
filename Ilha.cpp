@@ -809,9 +809,45 @@ bool Ilha::validaComando(istringstream &comando){
     return false;
 }
 
- void Ilha::anoitecer(){
-    cout << "Verificar se trabalhador esta na sua zona de producao" << endl;
-    try{
+void Ilha::amanhacer(){
+    // Acontecimentos para os trabalhadores
+    int randomNumber;
+    for(int i = 0; i < linhas; i++){
+        for(int j = 0; j < colunas; j++){
+            Zona* zona = zonas[i][j];
+            vector<Trabalhador*> trabalhadores = zona->getTrabalhadores();
+            for(unsigned int l = 0; l < trabalhadores.size(); l++){
+                if(trabalhadores[l]->getSigla() == "O"){
+                    randomNumber = rand() % 100;
+                    if(randomNumber <= 5 && (dia - trabalhadores[l]->getDiaContrato() > 10)){
+                        cout << "O Operário com ID " << trabalhadores[l]->getIdTrabalhador() << " na zona (" << i << ", " << j << ") " << "decidiu despedir-se" << endl;
+                        zona->removeTrabalhador(trabalhadores[l]);
+                    }
+                } else if(trabalhadores[l]->getSigla() == "L"){
+                    if(trabalhadores[l]->getDiasTrabalhados() < 4){
+                        trabalhadores[l]->setOperacional(true);
+                        trabalhadores[l]->getDiasTrabalhados(trabalhadores[l]->getDiasTrabalhados() + 1);
+                    } else {
+                        trabalhadores[l]->getDiasTrabalhados(0);
+                        trabalhadores[l]->setOperacional(false);
+                    }
+                } else if(trabalhadores[l]->getSigla() == "M"){
+                    randomNumber = rand() % 100;
+                    if(randomNumber <= 10 && (dia - trabalhadores[l]->getDiaContrato() > 2)){
+                        cout << "O Mineiro com ID " << trabalhadores[l]->getIdTrabalhador() << " na zona (" << i << ", " << j << ") " << "decidiu despedir-se" << endl;
+                        zona->removeTrabalhador(trabalhadores[l]);
+                    }
+                }
+            }
+            if(zona->getSigla() == "minaf"){
+
+            }
+        }
+    }
+}
+
+void Ilha::anoitecer(){
+    cout << "Verificar se trabalhador está na sua zona de produção" << endl;
     for(int i = 0; i < linhas; i++){
         for(int j = 0; j < colunas; j++){    
             Zona* zonaAux = zonas[i][j];  
@@ -888,6 +924,14 @@ bool Ilha::validaComando(istringstream &comando){
             }           
         }
     }
-    }catch(...){cout << "\nQualquer coisa \n";}
 };
 
+Ilha::~Ilha(){
+    for(int i = 0; i < linhas; i++){
+        for(int j = 0; j < colunas; j++){
+            if(zonas[i][j] != nullptr){
+                delete zonas[i][j];
+            }
+        }
+    }
+};

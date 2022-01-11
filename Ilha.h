@@ -13,7 +13,6 @@ class Ilha {
         int dia; 
         float saldo;
         int nrVigasMadeira, nrFerro, nrBarraDeAco, nrCarvao, nrMadeira, nrEletricidade;
-        int vigasAux = 0, ferroAux = 0, barraDeAcoAux = 0, carvaoAux = 0, madeiraAux = 0, eletricidadeAux = 0;
         int vigasMadeiraUsar, flag;
         int custoMinaf, custoMinac, custoBateria, custoFundicao, custoCentral, custoRestaurante, custoOper, custoLen, custoMiner, custoVigasMadeira;
         vector< vector<Zona*> > zonas;
@@ -31,4 +30,5 @@ class Ilha {
         bool validaComando(istringstream &comando);
         void amanhacer();
         void anoitecer();
+        ~Ilha();
 };

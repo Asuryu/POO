@@ -6,7 +6,7 @@ using namespace std;
 class Edificio {
     private:
         string sigla;
-        int ligado, quantProduzida;
+        int ligado;
     public:
         Edificio(string sigla);
         void ligar();

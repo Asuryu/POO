@@ -21,6 +21,17 @@ string Trabalhador::getSigla() {
 void Trabalhador::setSigla(string sigla) {
     this->sigla = sigla;
 }
+int Trabalhador::getDiasTrabalhados() {
+    return 0;
+}
+void Trabalhador::getDiasTrabalhados(int diasTrabalhados) {
+}
+bool Trabalhador::getOperacional() {
+    return false;
+}
+void Trabalhador::setOperacional(bool operacional) {
+}
+
 int Trabalhador::nTrabalhadorGlobal = 0;
 
 
@@ -35,5 +46,19 @@ Mineiro::Mineiro(int custo, int diaContrato) : Trabalhador(custo, diaContrato) {
 
 
 Lenhador::Lenhador(int custo, int diaContrato) : Trabalhador(custo, diaContrato) {
+    this->diasTrabalhados = 0;
+    this->operacional = true;
     setSigla("L");
+}
+int Lenhador::getDiasTrabalhados() {
+    return diasTrabalhados;
+}
+void Lenhador::getDiasTrabalhados(int diasTrabalhados) {
+    this->diasTrabalhados = diasTrabalhados;
+}
+bool Lenhador::getOperacional() {
+    return operacional;
+}
+void Lenhador::setOperacional(bool operacional) {
+    this->operacional = operacional;
 }
