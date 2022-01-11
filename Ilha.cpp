@@ -819,7 +819,8 @@ bool Ilha::validaComando(istringstream &comando){
                 vector<Trabalhador*> len = zonaAux->getTrabalhadoresBySigla("L"); //Guarda no vetor os lenhadores dessa zona
                 vector<Trabalhador*> miner = zonaAux->getTrabalhadoresBySigla("M"); //Guarda no vetor os mineiros dessa zona
                 if(zonaAux->getSiglaEdificio() == "minaf" && miner.size() > 0){
-                   nrFerro += zonaAux->getEdificio()->addArmazenamento(2 + zonaAux->getEdificio()->getNivel()- 1);
+                    zonaAux->getEdificio()->addArmazenamento(2 + zonaAux->getEdificio()->getNivel()- 1);
+                    cout << zonaAux->getEdificio()->getArmazenamento() << endl;
                 }
                 else if(zonaAux->getSiglaEdificio() == "minac" && miner.size() > 0){
                     nrFerro += zonaAux->getEdificio()->addArmazenamento(2 + zonaAux->getEdificio()->getNivel()- 1);
@@ -831,34 +832,34 @@ bool Ilha::validaComando(istringstream &comando){
                     Zona* zonaAux4 = zonas[i][j-1];
                     Zona* zonaAux5 = zonas[i][j+1];
                     if(zonaAux2 != nullptr){
-                        if(zonaAux2->getSiglaEdificio() == "minaf" && miner.size() > 0){
-                            nrFerro += zonaAux2->getEdificio()->addArmazenamento(2 + zonaAux2->getEdificio()->getNivel()- 1);
+                        if(zonaAux2->getSiglaEdificio() == "bat"){
+                            nrEletricidade += zonaAux2->getEdificio()->addArmazenamento(1); //armazenar KHW no edificio bateria
                         }
-                        else if(zonaAux2->getSiglaEdificio() == "minac" && miner.size() > 0){
-                            nrFerro += zonaAux2->getEdificio()->addArmazenamento(2 + zonaAux2->getEdificio()->getNivel()- 1);
+                        else if(zonaAux2->getSiglaEdificio() == "flr" && miner.size() > 0){
+                           zonaAux2->getEdificio()->addArmazenamento(-1); //Retira uma madeira que se encontra na zona adjacente à central"Floresta" e utiliza-a para criar carvão e eletricidade.
                         }
                     }
                     if(zonaAux3 != nullptr){
-                        if(zonaAux3->getSiglaEdificio() == "minaf" && miner.size() > 0){
+                        if(zonaAux3->getSiglaEdificio() == "bat" && miner.size() > 0){
                             nrFerro += zonaAux3->getEdificio()->addArmazenamento(2 + zonaAux3->getEdificio()->getNivel()- 1);
                         }
-                        else if(zonaAux3->getSiglaEdificio() == "minac" && miner.size() > 0){
+                        else if(zonaAux3->getSiglaEdificio() == "flr" && miner.size() > 0){
                             nrFerro += zonaAux3->getEdificio()->addArmazenamento(2 + zonaAux3->getEdificio()->getNivel()- 1);
                         }
                     }
                     if(zonaAux4 != nullptr){
-                        if(zonaAux4->getSiglaEdificio() == "minaf" && miner.size() > 0){
+                        if(zonaAux4->getSiglaEdificio() == "bat" && miner.size() > 0){
                             nrFerro += zonaAux4->getEdificio()->addArmazenamento(2 + zonaAux4->getEdificio()->getNivel()- 1);
                         }
-                        else if(zonaAux4->getSiglaEdificio() == "minac" && miner.size() > 0){
+                        else if(zonaAux4->getSiglaEdificio() == "flr" && miner.size() > 0){
                             nrFerro += zonaAux4->getEdificio()->addArmazenamento(2 + zonaAux4->getEdificio()->getNivel()- 1);
                         }
                     }
                     if(zonaAux5 != nullptr){
-                        if(zonaAux5->getSiglaEdificio() == "minaf" && miner.size() > 0){
+                        if(zonaAux5->getSiglaEdificio() == "bat" && miner.size() > 0){
                             nrFerro += zonaAux5->getEdificio()->addArmazenamento(2 + zonaAux5->getEdificio()->getNivel()- 1);
                         }
-                        else if(zonaAux5->getSiglaEdificio() == "minac" && miner.size() > 0){
+                        else if(zonaAux5->getSiglaEdificio() == "flr" && miner.size() > 0){
                             nrFerro += zonaAux5->getEdificio()->addArmazenamento(2 + zonaAux5->getEdificio()->getNivel()- 1);
                         }
                     }
@@ -867,8 +868,11 @@ bool Ilha::validaComando(istringstream &comando){
                     // if(zonas[i-1][j]->getSiglaEdificio() == "bat") eletricidadeAux += zonaAux->getEdificio()->getArmazenamento();
                     // else if(zonas[i][j-1]->getSiglaEdificio() == "bat") eletricidadeAux += zonaAux->getEdificio()->getArmazenamento();
                     // else if(zonas[i+1][j]->getSiglaEdificio() == "bat") eletricidadeAux += zonaAux->getEdificio()->getArmazenamento();
-                    // else if(zonas[i][j+1]->getSiglaEdificio() == "bat") eletricidadeAux += zonaAux->getEdificio()->getArmazenamento();                      
+                    // else if(zonas[i][j+1]->getSiglaEdificio() == "bat") eletricidadeAux += zonaAux->getEdificio()->getArmazenamento();                
+                    nrEletricidade += zonaAux2->getEdificio()->getArmazenamento();
                 }  
+                nrFerro += zonaAux->getEdificio()->getArmazenamento();                      
+                      
             }           
         }
     }

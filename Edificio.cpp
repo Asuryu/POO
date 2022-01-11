@@ -29,6 +29,7 @@ int Edificio::addNivel() {
     return 0;
 }
 int Edificio::getArmazenamento() {
+    cout << "PILAAAAAA" << endl;
     return 0;
 };
 int Edificio::addArmazenamento(int armazenamento) {
@@ -59,6 +60,7 @@ void MinaFerro::setProducao(int producao) {
     this->producao = producao;
 }
 int MinaFerro::getArmazenamento() const {
+    cout << "CONAAAAAA" << endl;
     return this->armazenamento;
 }
 int MinaFerro::addArmazenamento(int armazenamento) {
