@@ -820,7 +820,7 @@ bool Ilha::validaComando(istringstream &comando){
                 vector<Trabalhador*> miner = zonaAux->getTrabalhadoresBySigla("M"); //Guarda no vetor os mineiros dessa zona
                 if(zonaAux->getSiglaEdificio() == "minaf" && miner.size() > 0){
                     zonaAux->getEdificio()->addArmazenamento(2 + zonaAux->getEdificio()->getNivel()- 1);
-                    cout << zonaAux->getEdificio()->getArmazenamento() << endl;
+                    nrFerro += zonaAux->getEdificio()->getArmazenamento();
                 }
                 else if(zonaAux->getSiglaEdificio() == "minac" && miner.size() > 0){
                     nrFerro += zonaAux->getEdificio()->addArmazenamento(2 + zonaAux->getEdificio()->getNivel()- 1);
@@ -870,9 +870,7 @@ bool Ilha::validaComando(istringstream &comando){
                     // else if(zonas[i+1][j]->getSiglaEdificio() == "bat") eletricidadeAux += zonaAux->getEdificio()->getArmazenamento();
                     // else if(zonas[i][j+1]->getSiglaEdificio() == "bat") eletricidadeAux += zonaAux->getEdificio()->getArmazenamento();                
                     nrEletricidade += zonaAux2->getEdificio()->getArmazenamento();
-                }  
-                nrFerro += zonaAux->getEdificio()->getArmazenamento();                      
-                      
+                }     
             }           
         }
     }
