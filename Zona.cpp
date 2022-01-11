@@ -3,11 +3,7 @@
 #include "Ilha.h"
 using namespace std;
 
-Zona::Zona(int linha, int coluna) {
-    this->linha = linha;
-    this->coluna = coluna;
-    this->edificio = NULL;
-}
+Zona::Zona(int linha, int coluna) : linha(linha), coluna(coluna), edificio(NULL) {}
 string Zona::getInfoZona() {
     ostringstream oss;
     string edf, zonaNome;
@@ -106,6 +102,10 @@ void Zona::removeEdificio() {
 Edificio* Zona::getEdificio() {
     return this->edificio;
 }
+int Zona::getArmazenamento() {
+    return 0;
+}
+void Zona::addArmazenamento(int armazenamento) {}
 // Destrutor da classe Zona
 // libertar memória
 Zona::~Zona() {
@@ -122,10 +122,22 @@ Deserto::Deserto(int linha, int coluna) : Zona(linha, coluna) {
 Montanha::Montanha(int linha, int coluna) : Zona(linha, coluna) {
     setSigla("mnt");
 }
+int Montanha::getArmazenamento(){
+    return this->armazenamento;
+}
+void Montanha::addArmazenamento(int armazenamento){
+    this->armazenamento += armazenamento;
+}
 Floresta::Floresta(int linha, int coluna, int arvores) : Zona(linha, coluna) {
     setSigla("flr");
-    this->madeiraArmazenada = 0;
+    this->armazenamento = 0;
     this->arvores = arvores;
+}
+int Floresta::getArmazenamento(){
+    return this->armazenamento;
+}
+void Floresta::addArmazenamento(int armazenamento){
+    this->armazenamento += armazenamento;
 }
 Pastagem::Pastagem(int linha, int coluna) : Zona(linha, coluna) {
     setSigla("pas");

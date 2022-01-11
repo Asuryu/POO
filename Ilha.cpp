@@ -850,77 +850,95 @@ void Ilha::anoitecer(){
     cout << "Verificar se trabalhador está na sua zona de produção" << endl;
     for(int i = 0; i < linhas; i++){
         for(int j = 0; j < colunas; j++){    
-            Zona* zonaAux = zonas[i][j];  
-            if(zonaAux->getSigla() == "pas"){
-                 cout << "ZONA ADJACENTE À CENTRAL" << endl; 
-                vector<Trabalhador*> oper = zonaAux->getTrabalhadoresBySigla("O"); //Guarda no vetor os operarios dessa zona
-                vector<Trabalhador*> len = zonaAux->getTrabalhadoresBySigla("L"); //Guarda no vetor os lenhadores dessa zona
-                vector<Trabalhador*> miner = zonaAux->getTrabalhadoresBySigla("M"); //Guarda no vetor os mineiros dessa zona
-                if(zonaAux->getSiglaEdificio() == "minaf" && miner.size() > 0){
-                    zonaAux->getEdificio()->addArmazenamento(2 + zonaAux->getEdificio()->getNivel()- 1);
-                    nrFerro += zonaAux->getEdificio()->getArmazenamento();
+
+            if(zonas[i][j]->getSigla() == "pas"){
+                vector<Trabalhador*> oper = zonas[i][j]->getTrabalhadoresBySigla("O"); //Guarda no vetor os operarios dessa zona
+                vector<Trabalhador*> len = zonas[i][j]->getTrabalhadoresBySigla("L"); //Guarda no vetor os lenhadores dessa zona
+                vector<Trabalhador*> miner = zonas[i][j]->getTrabalhadoresBySigla("M"); //Guarda no vetor os mineiros dessa zona
+                if(zonas[i][j]->getSiglaEdificio() == "minaf" && miner.size() > 0){
+                    zonas[i][j]->getEdificio()->addArmazenamento(2 + zonas[i][j]->getEdificio()->getNivel()- 1);
+                    nrFerro += zonas[i][j]->getEdificio()->getArmazenamento();
                 }
-                if(zonaAux->getSiglaEdificio() == "minac" && miner.size() > 0){
-                    nrFerro += zonaAux->getEdificio()->addArmazenamento(2 + zonaAux->getEdificio()->getNivel()- 1);
+                if(zonas[i][j]->getSiglaEdificio() == "minac" && miner.size() > 0){
+                    nrFerro += zonas[i][j]->getEdificio()->addArmazenamento(2 + zonas[i][j]->getEdificio()->getNivel()- 1);
                 }
-                if(zonaAux->getSiglaEdificio() == "central" && oper.size() > 0){
+                if(zonas[i][j]->getSiglaEdificio() == "central" && oper.size() > 0){
                     // Obter o armazenamento das zonas diretamente ao lado da zonaAux
-                    Zona* zonaAux2 = zonas[i-1][j];
-                    Zona* zonaAux3 = zonas[i+1][j];
-                    Zona* zonaAux4 = zonas[i][j-1];
-                    Zona* zonaAux5 = zonas[i][j+1];
-                    cout << "ZONA ADJACENTE À CENTRAL" << endl;
-                    if(zonaAux2 != nullptr){
-                        if(zonaAux2->getSiglaEdificio() == "bat"){
-                            zonaAux2->getEdificio()->addArmazenamento(1); //armazenar KHW no edificio bateria
+                    if(validaPosicao(i + 1, j, linhas, colunas)){ // Verificar na linha abaixo
+                        cout << "Linha abaixo permitida" << endl;
+                        if(zonas[i+1][j]->getSiglaEdificio() == "bat"){
+                            if(zonas[i+1][j]->getEdificio() != nullptr){
+                                zonas[i+1][j]->getEdificio()->addArmazenamento(1);
+                            }
                         }
-                        if(zonaAux2->getSigla() == "flr"){
+                        if(zonas[i+1][j]->getSigla() == "flr"){
                             cout << "ZONA ADJACENTE À CENTRAL" << endl;
-                            if(zonaAux2->getEdificio()->getArmazenamento() - 1 > -1){
-                                zonaAux2->getEdificio()->addArmazenamento(-1); //Retira uma madeira que se encontra na zona adjacente à central"Floresta" e utiliza-a para criar carvão e eletricidade.
-                                nrCarvao += 1;
+                            if(zonas[i+1][j]->getEdificio() != nullptr){
+                                if(zonas[i+1][j]->getEdificio()->getArmazenamento() - 1 > -1){
+                                    zonas[i+1][j]->addArmazenamento(-1); //Retira uma madeira que se encontra na zona adjacente à central"Floresta" e utiliza-a para criar carvão e eletricidade.
+                                    nrCarvao += 1;
+                                }
                             }
                         }
-                        if(zonaAux2->getSiglaEdificio() == "fund" && zonaAux2->getTrabalhadores().size() > 0){
-                            
+                        // cout << "Mete as tuas merdas aqui" << endl;
+                    }    
+                    if(validaPosicao(i - 1, j, linhas, colunas)){ // Verificar na linha acima
+                        cout << "Linha acima permitida" << endl;
+                        if(zonas[i-1][j]->getSiglaEdificio() == "bat"){
+                            if(zonas[i-1][j]->getEdificio() != nullptr){
+                                zonas[i-1][j]->getEdificio()->addArmazenamento(1);
+                            }
                         }
+                        if(zonas[i-1][j]->getSigla() == "flr"){
+                            cout << "ZONA ADJACENTE À CENTRAL" << endl;
+                            if(zonas[i-1][j]->getEdificio() != nullptr){
+                                if(zonas[i-1][j]->getEdificio()->getArmazenamento() - 1 > -1){
+                                    zonas[i-1][j]->addArmazenamento(-1); //Retira uma madeira que se encontra na zona adjacente à central"Floresta" e utiliza-a para criar carvão e eletricidade.
+                                    nrCarvao += 1;
+                                }
+                            }
+                        }
+                        // cout << "Mete as tuas merdas aqui" << endl;
                     }
-                    if(zonaAux3 != nullptr){
-                        if(zonaAux3->getSiglaEdificio() == "bat"){
-                           zonaAux3->getEdificio()->addArmazenamento(1); //armazenar KHW no edificio bateria
-                        }
-                        if(zonaAux3->getSigla() == "flr"){
-                            if(zonaAux3->getEdificio()->getArmazenamento() - 1 > -1){
-                                zonaAux3->getEdificio()->addArmazenamento(-1); //Retira uma madeira que se encontra na zona adjacente à central"Floresta" e utiliza-a para criar carvão e eletricidade.
-                                nrCarvao += 1;
+                    if(validaPosicao(i, j + 1, linhas, colunas)){ // Verificar na coluna a direita
+                        cout << "Coluna a direita permitida" << endl;
+                        if(zonas[i][j+1]->getSiglaEdificio() == "bat"){
+                            if(zonas[i][j+1]->getEdificio() != nullptr){
+                                zonas[i][j+1]->getEdificio()->addArmazenamento(1);
                             }
                         }
+                        if(zonas[i][j+1]->getSigla() == "flr"){
+                            cout << "ZONA ADJACENTE À CENTRAL" << endl;
+                            if(zonas[i][j+1]->getEdificio() != nullptr){
+                                if(zonas[i][j+1]->getEdificio()->getArmazenamento() - 1 > -1){
+                                    zonas[i][j+1]->addArmazenamento(-1); //Retira uma madeira que se encontra na zona adjacente à central"Floresta" e utiliza-a para criar carvão e eletricidade.
+                                    nrCarvao += 1;
+                                }
+                            }
+                        }
+                        // cout << "Mete as tuas merdas aqui" << endl;
                     }
-                    if(zonaAux4 != nullptr){
-                        if(zonaAux4->getSiglaEdificio() == "bat"){
-                            zonaAux4->getEdificio()->addArmazenamento(1); //armazenar KHW no edificio bateria
-                        }
-                        if(zonaAux4->getSigla() == "flr"){
-                            if(zonaAux4->getEdificio()->getArmazenamento() - 1 > -1){
-                                zonaAux4->getEdificio()->addArmazenamento(-1); //Retira uma madeira que se encontra na zona adjacente à central"Floresta" e utiliza-a para criar carvão e eletricidade.
-                                nrCarvao += 1;
+                    if(validaPosicao(i, j - 1, linhas, colunas)){ // Verificar na coluna a esquerda
+                        cout << "Coluna a esquerda permitida" << endl;
+                        if(zonas[i][j-1]->getSiglaEdificio() == "bat"){
+                            if(zonas[i][j-1]->getEdificio() != nullptr){
+                                zonas[i][j-1]->getEdificio()->addArmazenamento(1);
                             }
                         }
+                        if(zonas[i][j-1]->getSigla() == "flr"){
+                            cout << "ZONA ADJACENTE À CENTRAL" << endl;
+                            if(zonas[i][j-1]->getEdificio() != nullptr){
+                                if(zonas[i][j-1]->getEdificio()->getArmazenamento() - 1 > -1){
+                                    zonas[i][j-1]->addArmazenamento(-1); //Retira uma madeira que se encontra na zona adjacente à central"Floresta" e utiliza-a para criar carvão e eletricidade.
+                                    nrCarvao += 1;
+                                }
+                            }
+                        }
+                        // cout << "Mete as tuas merdas aqui" << endl;
                     }
-                    if(zonaAux5 != nullptr){
-                        if(zonaAux5->getSiglaEdificio() == "bat"){
-                            zonaAux5->getEdificio()->addArmazenamento(1); //armazenar KHW no edificio bateria
-                        }
-                        if(zonaAux5->getSigla() == "flr"){
-                            if(zonaAux5->getEdificio()->getArmazenamento() - 1 > -1){
-                                zonaAux5->getEdificio()->addArmazenamento(-1); //Retira uma madeira que se encontra na zona adjacente à central"Floresta" e utiliza-a para criar carvão e eletricidade.
-                                nrCarvao += 1;
-                            }
-                        }
-                    }               
                 }
-                if(zonaAux->getSiglaEdificio() == "bat") nrEletricidade += zonaAux->getEdificio()->getArmazenamento();
-                if(zonaAux->getSiglaEdificio() == "fund");
+                // if(zonas[i][j]->getSiglaEdificio() == "bat") nrEletricidade += zonas[i][j]->getEdificio()->getArmazenamento();
+                // if(zonas[i][j]->getSiglaEdificio() == "fund");
             }           
         }
     }

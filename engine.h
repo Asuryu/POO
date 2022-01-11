@@ -7,3 +7,5 @@ void mostraASCII();
 void menu();
 
 bool isNumber(string x);
+
+bool validaPosicao(int i, int j, int linhas, int colunas);

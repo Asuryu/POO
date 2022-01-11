@@ -33,10 +33,9 @@ bool isNumber(string x){
     return (regex_match (x,e));
 }
 
-bool validaPosicao(int &i, int &j, int linhas, int colunas){
-    int iAux = i, jAux = j;
-    if(i+1 < linhas) *iAux = i + 1;
-    else if(i-1 > -1) *iAux = i - 1;
-    if(j+1 < colunas) *jAux = i + 1;
-    if(j-1 > -1) *jAux = i - 1;
+bool validaPosicao(int i, int j, int linhas, int colunas){
+    if(i < 0 || i >= linhas || j < 0 || j >= colunas){
+        return false;
+    }
+    return true;
 };

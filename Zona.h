@@ -31,6 +31,8 @@ class Zona {
         string getSiglaEdificio();
         void setEdificio(Edificio* edificio);
         void removeEdificio();
+        virtual int getArmazenamento();
+        virtual void addArmazenamento(int armazenamento);
         Edificio* getEdificio();       
         ~Zona(); 
 };
@@ -43,16 +45,20 @@ class Deserto : public Zona {
 };
 class Montanha : public Zona {
     private:
-
+        int armazenamento;
     public:
         Montanha(int linha, int coluna);
+        int getArmazenamento();
+        void addArmazenamento(int armazenamento);
 };
 class Floresta : public Zona {
     private:
         int arvores;
-        int madeiraArmazenada;
+        int armazenamento;
     public:
         Floresta(int linha, int coluna, int arvores);
+        int getArmazenamento();
+        void addArmazenamento(int armazenamento);
 };
 class Pastagem : public Zona {
     private:
