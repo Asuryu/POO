@@ -1,6 +1,5 @@
 #include "Ilha.h"
 #include "engine.h"
-#include <ctime>
 using namespace std;
 
 int main(){

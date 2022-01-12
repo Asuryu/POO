@@ -6,11 +6,10 @@
 #include <regex>
 #include <algorithm>
 #include <fstream>
-#include <cstdlib>
+#include <stdlib.h>
 #include <random>
 #include "Ilha.h"
 #include "engine.h"
-#include <cstdlib>
 using namespace std;
 
 void Ilha::initIlha(){
@@ -81,7 +80,7 @@ void Ilha::initIlha(){
 
 Ilha::Ilha() :  nrVigasMadeira(200), nrFerro(10), nrBarraDeAco(10), nrCarvao(10), nrMadeira(10), nrEletricidade(5), vigasMadeiraUsar(0), flag(0),
                 custoMinaf(100), custoMinac(100), custoBateria(10), custoFundicao(10), custoCentral(15), custoRestaurante(30), custoOper(15), custoLen(20),
-                custoMiner(10), custoVigasMadeira(10){
+                custoMiner(10), custoVigasMadeira(10), validaAuxMinaf(false), validaAuxMinac(false), validaAuxCentral(false) {
     dia = 1;
     saldo = 0;
     initIlha();
@@ -112,6 +111,9 @@ Ilha::Ilha(Ilha *ilha){
     custoLen = ilha->custoLen;
     custoMiner = ilha->custoMiner;
     custoVigasMadeira = ilha->custoVigasMadeira;
+    validaAuxMinaf = ilha->validaAuxMinaf;
+    validaAuxMinac = ilha->validaAuxMinac;
+    validaAuxCentral = ilha->validaAuxCentral;
     for(int i = 0; i < linhas; i++){
         vector<Zona*> zonasLinha;
         for(int j = 0; j < colunas; j++){
@@ -234,6 +236,7 @@ string Ilha::getSaveName(){
 
 void Ilha::jogar(){
     bool state = false;
+    int start = 0;
     string input;
     do { // Ciclo de jogo
         fflush(stdin);
@@ -243,12 +246,13 @@ void Ilha::jogar(){
             cout << "\033[2J\033[1;1H";
             mostraASCII();
             mostraIlha();
-        }
+        } else if(state == false && start != 0) cout << "[Erro] Comando invalido" << endl << endl;
         fflush(stdin);
         cout << "Introduza um comando: ";
         getline(cin, input);
         istringstream comando(input);
         state = validaComando(comando);
+        start = 1;
     } while (true);
 }
 
@@ -945,9 +949,8 @@ bool Ilha::validaComando(istringstream &comando){
         return false;
     }
     else if (args[0] == "next" && args.size() == 1){
+        anoitecer();
         dia++;
-        cout << "[Dia " <<  dia << "]" << endl;
-		anoitecer();
         amanhacer();
         return true;          
     }
@@ -1017,6 +1020,7 @@ bool Ilha::validaComando(istringstream &comando){
 }
 
 void Ilha::amanhacer(){
+    cout << "[Dia " <<  dia << "] - AMANHECER" << endl;
     // Acontecimentos para os trabalhadores
     int randomNumber;
     for(int i = 0; i < linhas; i++){
@@ -1027,7 +1031,7 @@ void Ilha::amanhacer(){
                 if(trabalhadores[l]->getSigla() == "O"){
                     randomNumber = rand() % 100;
                     if(randomNumber <= 5 && (dia - trabalhadores[l]->getDiaContrato() > 10 && zona->getSigla() != "pas")){
-                        cout << "O Operário com ID " << trabalhadores[l]->getIdTrabalhador() << " na zona (" << i << ", " << j << ") " << "decidiu despedir-se" << endl;
+                        cout << "[-] O Operário com ID " << trabalhadores[l]->getIdTrabalhador() << " na zona (" << i << ", " << j << ") " << "decidiu despedir-se" << endl;
                         zona->removeTrabalhador(trabalhadores[l]);
                     }
                 } else if(trabalhadores[l]->getSigla() == "L"){
@@ -1037,12 +1041,12 @@ void Ilha::amanhacer(){
                     } else {
                         trabalhadores[l]->setDiasTrabalhados(0);
                         trabalhadores[l]->setOperacional(false);
-                        cout << "O Lenhador com ID " << trabalhadores[l]->getIdTrabalhador() << " na zona (" << i << ", " << j << ") " << "encontra-se em repouso" << endl;
+                        cout << "[-] O Lenhador com ID " << trabalhadores[l]->getIdTrabalhador() << " na zona (" << i << ", " << j << ") " << "encontra-se em repouso" << endl;
                     }
                 } else if(trabalhadores[l]->getSigla() == "M"){
                     randomNumber = rand() % 100;
                     if(randomNumber <= 10 && (dia - trabalhadores[l]->getDiaContrato() > 2 && zona->getSigla() != "pas")){
-                        cout << "O Mineiro com ID " << trabalhadores[l]->getIdTrabalhador() << " na zona (" << i << ", " << j << ") " << "decidiu despedir-se" << endl;
+                        cout << "[-] O Mineiro com ID " << trabalhadores[l]->getIdTrabalhador() << " na zona (" << i << ", " << j << ") " << "decidiu despedir-se" << endl;
                         zona->removeTrabalhador(trabalhadores[l]);
                     }
                 }
@@ -1054,13 +1058,13 @@ void Ilha::amanhacer(){
                     if(dia % 2 && dia > 1){
                         if(zona->getArvores() < 100){
                             zona->addArvores(1);
-                            cout << "Cresceu uma nova arvore na zona (" << i << ", " << j << ")" << endl;
+                            cout << "[+] Cresceu uma nova arvore na zona (" << i << ", " << j << ")" << endl;
                         }
                     }
                 } else {
                     if(zona->getArvores() > 0){
                         zona->addArvores(-1);
-                        cout << "Uma arvore morreu na zona (" << i << ", " << j << ")" << endl;
+                        cout << "[-] Uma arvore morreu na zona (" << i << ", " << j << ")" << endl;
                     }
                 }
             } 
@@ -1070,7 +1074,7 @@ void Ilha::amanhacer(){
                 randomNumber = rand() % 100;
                 for(unsigned int l = 0; l < nrTrab; l++){
                     if(randomNumber <= 5){
-                        cout << "O trabalhador com ID " << zona->getTrabalhadores()[l]->getIdTrabalhador() << " na zona (" << i << ", " << j << ") " << "decidiu despedir-se" << endl;
+                        cout << "[-] O trabalhador com ID " << zona->getTrabalhadores()[l]->getIdTrabalhador() << " na zona (" << i << ", " << j << ") " << "decidiu despedir-se" << endl;
                         zona->removeTrabalhador(zona->getTrabalhadores()[l]);
                     }
                 }
@@ -1078,14 +1082,17 @@ void Ilha::amanhacer(){
             else if(zona->getSigla() == "pnt"){
                 if(zona->getEdificio() != nullptr){
                     if(dia - zona->getEdificio()->getDiaConstrucao() >= 10){
-                        cout << "O edificio na zona (" << i << ", " << j << ") " << "afundou-se\nTodos os trabalhadores demitiram-se" << endl;
+                        cout << "[-] O edificio na zona (" << i << ", " << j << ") " << "afundou-se. Todos os trabalhadores na zona demitiram-se" << endl;
                         // Eliminar todos os trabalhadores dessa zona
                         vector<Trabalhador*> trabalhadores = zona->getTrabalhadores();
                         for(unsigned int l = 0; l < trabalhadores.size(); l++){
+                            if(trabalhadores[l]->getSigla() == "M") cout << "   [-] Mineiro (" << trabalhadores[l]->getIdTrabalhador() << ")" << endl;
+                            else if(trabalhadores[l]->getSigla() == "O") cout << "   [-] Operario (" << trabalhadores[l]->getIdTrabalhador() << ")" << endl;
+                            else if(trabalhadores[l]->getSigla() == "L") cout << "   [-] Lenhador (" << trabalhadores[l]->getIdTrabalhador() << ")" << endl;
                             zona->removeTrabalhador(trabalhadores[l]);
                         }
                         // Eliminar o edificio
-                        zona->setEdificio(nullptr);
+                        zona->removeEdificio();
                     }
                 }
             }
@@ -1094,6 +1101,7 @@ void Ilha::amanhacer(){
 }
 
 void Ilha::anoitecer(){
+    cout << "[Dia " <<  dia << "] - ANOITECER" << endl;
     for(int i = 0; i < linhas; i++){
         for(int j = 0; j < colunas; j++){    
 
