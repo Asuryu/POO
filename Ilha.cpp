@@ -947,6 +947,7 @@ bool Ilha::validaComando(istringstream &comando){
     else if (args[0] == "next" && args.size() == 1){
         dia++;
         cout << "[Dia " <<  dia << "]" << endl;
+		anoitecer();
         amanhacer();
         return true;          
     }
