@@ -301,14 +301,24 @@ bool Ilha::validaComando(istringstream &comando){
                                     cout << "Introduza o numero de vigas de madeira que pretende usar na construcao deste Edificio: " << endl;
                                     cin >> vigasMadeiraUsar;                                 
                                     if(nrVigasMadeira - vigasMadeiraUsar < 0) cout << "Nao tem vigas de madeira suficientes." << endl;
-                                }while((vigasMadeiraUsar < 0 || vigasMadeiraUsar > 10) || (nrVigasMadeira - vigasMadeiraUsar < 0));
-                                if (saldo - (custoMinaf * 10 - vigasMadeiraUsar * custoMinaf) < 0){
-                                    cout << "Nao tem dinheiro suficiente. Faltam " << (custoMinaf * 10 - vigasMadeiraUsar * custoMinaf) << " euros!" << endl;
-                                    return false;
-                                };                           
+                                }while((vigasMadeiraUsar < 0 || vigasMadeiraUsar > 10) || (nrVigasMadeira - vigasMadeiraUsar < 0));                       
                                 nrVigasMadeira -= vigasMadeiraUsar;
-                                addSaldo(-(custoMinaf * 10 - vigasMadeiraUsar * custoMinaf));
-                                zonas[linhaX][colunaX]->setEdificio(new MinaFerro("minaf", (custoMinaf * 10 - vigasMadeiraUsar * custoMinaf), dia));
+                                if(zonas[linhaX][colunaX]->getSigla() == "mnt"){
+                                    if (saldo - (2 * custoMinaf * 10 - vigasMadeiraUsar * custoMinaf * 2) < 0){
+                                        cout << "Nao tem dinheiro suficiente. Faltam " << (2 * custoMinaf * 10 - vigasMadeiraUsar * custoMinaf * 2) << " euros!" << endl;
+                                        return false;
+                                    }
+                                    addSaldo(-(2 * custoMinaf * 10 - vigasMadeiraUsar * custoMinaf * 2));
+                                    zonas[linhaX][colunaX]->setEdificio(new MinaFerro("minaf", (2 * custoMinaf * 10 - vigasMadeiraUsar * custoMinaf * 2), dia));
+                                }
+                                else{
+                                    if (saldo - (custoMinaf * 10 - vigasMadeiraUsar * custoMinaf) < 0){
+                                        cout << "Nao tem dinheiro suficiente. Faltam " << (custoMinaf * 10 - vigasMadeiraUsar * custoMinaf) << " euros!" << endl;
+                                        return false;
+                                    }
+                                    addSaldo(-(custoMinaf * 10 - vigasMadeiraUsar * custoMinaf));
+                                    zonas[linhaX][colunaX]->setEdificio(new MinaFerro("minaf", (custoMinaf * 10 - vigasMadeiraUsar * custoMinaf), dia));
+                                }
                             }
                             else{
                                 do{
@@ -317,13 +327,23 @@ bool Ilha::validaComando(istringstream &comando){
                                     if(vigasMadeiraUsar < 0 || vigasMadeiraUsar > 10) cout << "Introduza um valor entre 0 e 10" << endl;         
                                     else if(nrVigasMadeira - vigasMadeiraUsar < 0) cout << "Nao tem vigas de madeira suficientes." << endl;
                                 } while((vigasMadeiraUsar < 0 || vigasMadeiraUsar > 10) || (nrVigasMadeira - vigasMadeiraUsar < 0));
-                                if(saldo - (100 - vigasMadeiraUsar * custoVigasMadeira) < 0){
-                                    cout << "Nao tem dinheiro suficiente. Faltam " << (100 - vigasMadeiraUsar * custoVigasMadeira) << " euros!" << endl;
-                                    return false;
-                                };
                                 nrVigasMadeira -= vigasMadeiraUsar;
-                                addSaldo(-(100 - vigasMadeiraUsar * custoVigasMadeira));
-                                zonas[linhaX][colunaX]->setEdificio(new MinaFerro("minaf", (100 - vigasMadeiraUsar * custoVigasMadeira), dia));
+                                if(zonas[linhaX][colunaX]->getSigla() == "mnt"){
+                                    if(saldo - (2 * 100 - vigasMadeiraUsar * custoVigasMadeira * 2) < 0){
+                                        cout << "Nao tem dinheiro suficiente. Faltam " << (2 * 100 - vigasMadeiraUsar * custoVigasMadeira * 2) << " euros!" << endl;
+                                        return false;
+                                    }
+                                    addSaldo(-(2 * 100 - vigasMadeiraUsar * custoVigasMadeira * 2));
+                                    zonas[linhaX][colunaX]->setEdificio(new MinaFerro("minaf", (2 * 100 - vigasMadeiraUsar * custoVigasMadeira * 2), dia));
+                                }
+                                else{
+                                    if(saldo - (100 - vigasMadeiraUsar * custoVigasMadeira) < 0){
+                                        cout << "Nao tem dinheiro suficiente. Faltam " << (100 - vigasMadeiraUsar * custoVigasMadeira) << " euros!" << endl;
+                                        return false;
+                                    }
+                                    addSaldo(-(100 - vigasMadeiraUsar * custoVigasMadeira));
+                                    zonas[linhaX][colunaX]->setEdificio(new MinaFerro("minaf", (100 - vigasMadeiraUsar * custoVigasMadeira), dia));
+                                }
                             }
                         }
                         else if(args[1] == "minac"){
@@ -332,14 +352,24 @@ bool Ilha::validaComando(istringstream &comando){
                                     cout << "Introduza o numero de vigas de madeira que pretende usar na construcao deste Edificio: " << endl;
                                     cin >> vigasMadeiraUsar;                                 
                                     if(nrVigasMadeira - vigasMadeiraUsar < 0) cout << "Nao tem vigas de madeira suficientes." << endl;
-                                }while((vigasMadeiraUsar < 0 || vigasMadeiraUsar > 10) || (nrVigasMadeira - vigasMadeiraUsar < 0));
-                                if (saldo - (custoMinac * 10 - vigasMadeiraUsar * custoMinac) < 0){
-                                    cout << "Nao tem dinheiro suficiente. Faltam " << (custoMinac * 10 - vigasMadeiraUsar * custoMinac) << " euros!" << endl;
-                                    return false;
-                                };                           
+                                }while((vigasMadeiraUsar < 0 || vigasMadeiraUsar > 10) || (nrVigasMadeira - vigasMadeiraUsar < 0));                           
                                 nrVigasMadeira -= vigasMadeiraUsar;
-                                addSaldo(-(custoMinac * 10 - vigasMadeiraUsar * custoMinac));
-                                zonas[linhaX][colunaX]->setEdificio(new MinaCarvao("minaf", (custoMinac * 10 - vigasMadeiraUsar * custoMinac), dia));    
+                                if(zonas[linhaX][colunaX]->getSigla() == "mnt"){
+                                    if (saldo - (2 * custoMinaf * 10 - vigasMadeiraUsar * custoMinaf * 2) < 0){
+                                        cout << "Nao tem dinheiro suficiente. Faltam " << (2 * custoMinaf * 10 - vigasMadeiraUsar * custoMinaf * 2) << " euros!" << endl;
+                                        return false;
+                                    }
+                                    addSaldo(-(2 * custoMinaf * 10 - vigasMadeiraUsar * custoMinaf * 2));
+                                    zonas[linhaX][colunaX]->setEdificio(new MinaCarvao("minac", (2 * custoMinaf * 10 - vigasMadeiraUsar * custoMinaf * 2), dia));
+                                }
+                                else{
+                                    if (saldo - (custoMinaf * 10 - vigasMadeiraUsar * custoMinaf) < 0){
+                                        cout << "Nao tem dinheiro suficiente. Faltam " << (custoMinaf * 10 - vigasMadeiraUsar * custoMinaf) << " euros!" << endl;
+                                        return false;
+                                    }
+                                    addSaldo(-(custoMinaf * 10 - vigasMadeiraUsar * custoMinaf));
+                                    zonas[linhaX][colunaX]->setEdificio(new MinaCarvao("minac", (custoMinaf * 10 - vigasMadeiraUsar * custoMinaf), dia));
+                                }    
                             }
                             else{
                                 do{
@@ -347,42 +377,82 @@ bool Ilha::validaComando(istringstream &comando){
                                     cin >> vigasMadeiraUsar;                                
                                     if(nrVigasMadeira - vigasMadeiraUsar < 0) cout << "Não tem vigas de madeira suficientes." << endl;
                                 }while((vigasMadeiraUsar < 0 || vigasMadeiraUsar > 10) || (nrVigasMadeira - vigasMadeiraUsar < 0));
-                                if (saldo - (100 - vigasMadeiraUsar * custoVigasMadeira) < 0){
-                                    cout << "Nao tem dinheiro suficiente. Faltam " << (100 - vigasMadeiraUsar * custoVigasMadeira) << " euros!" << endl;
-                                    return false;
-                                };                           
                                 nrVigasMadeira -= vigasMadeiraUsar;
-                                addSaldo(-(100 - vigasMadeiraUsar * custoVigasMadeira));
-                                zonas[linhaX][colunaX]->setEdificio(new MinaCarvao("minac", (100 - vigasMadeiraUsar * custoVigasMadeira), dia));
+                                if(zonas[linhaX][colunaX]->getSigla() == "mnt"){
+                                    if(saldo - (2 * 100 - vigasMadeiraUsar * custoVigasMadeira * 2) < 0){
+                                        cout << "Nao tem dinheiro suficiente. Faltam " << (2 * 100 - vigasMadeiraUsar * custoVigasMadeira * 2) << " euros!" << endl;
+                                        return false;
+                                    }
+                                    addSaldo(-(2 * 100 - vigasMadeiraUsar * custoVigasMadeira * 2));
+                                    zonas[linhaX][colunaX]->setEdificio(new MinaCarvao("minac", (2 * 100 - vigasMadeiraUsar * custoVigasMadeira * 2), dia));
+                                }
+                                else{
+                                    if(saldo - (100 - vigasMadeiraUsar * custoVigasMadeira) < 0){
+                                        cout << "Nao tem dinheiro suficiente. Faltam " << (100 - vigasMadeiraUsar * custoVigasMadeira) << " euros!" << endl;
+                                        return false;
+                                    }
+                                    addSaldo(-(100 - vigasMadeiraUsar * custoVigasMadeira));
+                                    zonas[linhaX][colunaX]->setEdificio(new MinaCarvao("minac", (100 - vigasMadeiraUsar * custoVigasMadeira), dia));
+                                }
                             }                
                         }
                         else if(args[1] == "central"){
-                            if(saldo - custoCentral < 0){
-                                cout << "Nao tem dinheiro suficiente. Faltam " << -(saldo - custoCentral) << " euros!" << endl;
-                                return false;
-                            };
-                            addSaldo(-custoCentral); //Custo da construção da Central
-                            zonas[linhaX][colunaX]->setEdificio(new Central("central", custoCentral, dia));
+                            if(zonas[linhaX][colunaX]->getSigla() == "mnt"){
+                                if(2 * saldo - custoCentral * 2 < 0){
+                                    cout << "Nao tem dinheiro suficiente. Faltam " << -(2 * saldo - custoCentral * 2) << " euros!" << endl;
+                                    return false;
+                                }
+                                addSaldo(-custoCentral * 2); //Custo da construção da Central
+                                zonas[linhaX][colunaX]->setEdificio(new Central("central", custoCentral * 2, dia));
+                            }
+                            else{
+                                if(saldo - custoCentral < 0){
+                                    cout << "Nao tem dinheiro suficiente. Faltam " << -(saldo - custoCentral) << " euros!" << endl;
+                                    return false;
+                                }
+                                addSaldo(-custoCentral); //Custo da construção da Central
+                                zonas[linhaX][colunaX]->setEdificio(new Central("central", custoCentral, dia));
+                            }
                         }
                         else if(args[1] == "bat"){
                             if(nrVigasMadeira - 10 < 0){
                               cout << "Nao tem vigas de madeira suficientes. Faltam " << -(nrVigasMadeira - 10) << " vigas de madeira!" << endl;
                               return false;
                             }
-                            if(saldo - custoBateria < 0){
-                              cout << "Nao tem dinheiro suficiente. Faltam " << -(saldo - custoBateria) << " euros!" << endl;
-                              return false;
+                            if(zonas[linhaX][colunaX]->getSigla() == "mnt"){
+                                if(2 * saldo - custoBateria * 2 < 0){
+                                    cout << "Nao tem dinheiro suficiente. Faltam " << -(2 * saldo - custoBateria * 2) << " euros!" << endl;
+                                    return false;
+                                }
+                                addSaldo(-custoBateria * 2); //Custo da construção da Bateria é "10€ + 10 Vigas". (Falta retirar as Vigas de Madeira adicionadas)
+                                zonas[linhaX][colunaX]->setEdificio(new Bateria("bat", custoBateria * 2, dia));
                             }
-                            addSaldo(-custoBateria); //Custo da construção da Bateria é "10€ + 10 Vigas". (Falta retirar as Vigas de Madeira adicionadas)
-                            zonas[linhaX][colunaX]->setEdificio(new Bateria("bat", custoBateria, dia));
+                            else{
+                                if(saldo - custoBateria < 0){
+                                    cout << "Nao tem dinheiro suficiente. Faltam " << -(saldo - custoBateria) << " euros!" << endl;
+                                    return false;
+                                }
+                                addSaldo(-custoBateria); //Custo da construção da Bateria é "10€ + 10 Vigas". (Falta retirar as Vigas de Madeira adicionadas)
+                                zonas[linhaX][colunaX]->setEdificio(new Bateria("bat", custoBateria, dia));      
+                            }    
                         }
                         else if(args[1] == "fund"){
-                            if(saldo - custoFundicao < 0){
-                                cout << "Nao tem dinheiro suficiente. Faltam " << -(saldo - custoFundicao) << " euros!" << endl;
-                                return false;
-                            };
-                            addSaldo(-custoFundicao); //Custo da construção da Fundição.
-                            zonas[linhaX][colunaX]->setEdificio(new Fundicao("fund", custoFundicao, dia));
+                            if(zonas[linhaX][colunaX]->getSigla() == "mnt"){
+                                if(2 * saldo - custoFundicao * 2 < 0){
+                                    cout << "Nao tem dinheiro suficiente. Faltam " << -(2 * saldo - custoFundicao * 2) << " euros!" << endl;
+                                    return false;
+                                }
+                                addSaldo(-custoFundicao * 2); //Custo da construção da Fundição.
+                                zonas[linhaX][colunaX]->setEdificio(new Fundicao("fund", custoFundicao * 2, dia));
+                            }
+                            else{
+                                if(saldo - custoFundicao < 0){
+                                    cout << "Nao tem dinheiro suficiente. Faltam " << -(saldo - custoFundicao) << " euros!" << endl;
+                                    return false;
+                                }
+                                addSaldo(-custoFundicao); //Custo da construção da Fundição.
+                                zonas[linhaX][colunaX]->setEdificio(new Fundicao("fund", custoFundicao, dia));
+                            }
                         }
                         else if(args[1] == "rest"){
                             if(saldo - custoRestaurante < 0){
@@ -1023,7 +1093,6 @@ void Ilha::amanhacer(){
 }
 
 void Ilha::anoitecer(){
-    cout << "Verificar se trabalhador está na sua zona de produção" << endl;
     for(int i = 0; i < linhas; i++){
         for(int j = 0; j < colunas; j++){    
 
@@ -1039,18 +1108,15 @@ void Ilha::anoitecer(){
                     nrFerro += zonas[i][j]->getEdificio()->addArmazenamento(2 + zonas[i][j]->getEdificio()->getNivel()- 1);
                 }
                 if(zonas[i][j]->getSiglaEdificio() == "central" && oper.size() > 0){
-                    // Obter o armazenamento das zonas diretamente ao lado da zonaAux
                     if(validaPosicao(i + 1, j, linhas, colunas)){ // Verificar na linha abaixo
-                        cout << "Linha abaixo permitida" << endl;
                         if(zonas[i+1][j]->getSiglaEdificio() == "bat"){
                             if(zonas[i+1][j]->getEdificio() != nullptr){
-                                zonas[i+1][j]->getEdificio()->addArmazenamento(1);
+                                zonas[i+1][j]->getEdificio()->addArmazenamento(1); //Adiciona 1 Kwh ao armazenamento do edificio Bateria.
                             }
                         }
                         if(zonas[i+1][j]->getSigla() == "flr"){
-                            cout << "ZONA ADJACENTE À CENTRAL" << endl;
                             if(zonas[i+1][j]->getEdificio() != nullptr){
-                                if(zonas[i+1][j]->getEdificio()->getArmazenamento() - 1 > -1){
+                                if(zonas[i+1][j]->getArmazenamento() - 1 > -1 && zonas[i][j]->getEdificio()->getArmazenamento() < 101){
                                     zonas[i+1][j]->addArmazenamento(-1); //Retira uma madeira que se encontra na zona adjacente à central"Floresta" e utiliza-a para criar carvão e eletricidade.
                                     nrCarvao += 1;
                                 }
@@ -1058,16 +1124,14 @@ void Ilha::anoitecer(){
                         }
                     }    
                     if(validaPosicao(i - 1, j, linhas, colunas)){ // Verificar na linha acima
-                        cout << "Linha acima permitida" << endl;
                         if(zonas[i-1][j]->getSiglaEdificio() == "bat"){
                             if(zonas[i-1][j]->getEdificio() != nullptr){
-                                zonas[i-1][j]->getEdificio()->addArmazenamento(1);
+                                zonas[i-1][j]->getEdificio()->addArmazenamento(1); //Adiciona 1 Kwh ao armazenamento do edificio Bateria.
                             }
                         }
                         if(zonas[i-1][j]->getSigla() == "flr"){
-                            cout << "ZONA ADJACENTE À CENTRAL" << endl;
                             if(zonas[i-1][j]->getEdificio() != nullptr){
-                                if(zonas[i-1][j]->getEdificio()->getArmazenamento() - 1 > -1){
+                                if(zonas[i-1][j]->getEdificio()->getArmazenamento() - 1 > -1 && zonas[i][j]->getEdificio()->getArmazenamento() < 101){
                                     zonas[i-1][j]->addArmazenamento(-1); //Retira uma madeira que se encontra na zona adjacente à central"Floresta" e utiliza-a para criar carvão e eletricidade.
                                     nrCarvao += 1;
                                 }
@@ -1075,14 +1139,12 @@ void Ilha::anoitecer(){
                         }
                     }
                     if(validaPosicao(i, j + 1, linhas, colunas)){ // Verificar na coluna a direita
-                        cout << "Coluna a direita permitida" << endl;
                         if(zonas[i][j+1]->getSiglaEdificio() == "bat"){
                             if(zonas[i][j+1]->getEdificio() != nullptr){
-                                zonas[i][j+1]->getEdificio()->addArmazenamento(1);
+                                zonas[i][j+1]->getEdificio()->addArmazenamento(1); //Adiciona 1 Kwh ao armazenamento do edificio Bateria.
                             }
                         }
                         if(zonas[i][j+1]->getSigla() == "flr"){
-                            cout << "ZONA ADJACENTE À CENTRAL" << endl;
                             if(zonas[i][j+1]->getEdificio() != nullptr){
                                 if(zonas[i][j+1]->getEdificio()->getArmazenamento() - 1 > -1){
                                     zonas[i][j+1]->addArmazenamento(-1); //Retira uma madeira que se encontra na zona adjacente à central"Floresta" e utiliza-a para criar carvão e eletricidade.
@@ -1092,14 +1154,12 @@ void Ilha::anoitecer(){
                         }
                     }
                     if(validaPosicao(i, j - 1, linhas, colunas)){ // Verificar na coluna a esquerda
-                        cout << "Coluna a esquerda permitida" << endl;
                         if(zonas[i][j-1]->getSiglaEdificio() == "bat"){
                             if(zonas[i][j-1]->getEdificio() != nullptr){
-                                zonas[i][j-1]->getEdificio()->addArmazenamento(1);
+                                zonas[i][j-1]->getEdificio()->addArmazenamento(1); //Adiciona 1 Kwh ao armazenamento do edificio Bateria.
                             }
                         }
                         if(zonas[i][j-1]->getSigla() == "flr"){
-                            cout << "ZONA ADJACENTE À CENTRAL" << endl;
                             if(zonas[i][j-1]->getEdificio() != nullptr){
                                 if(zonas[i][j-1]->getEdificio()->getArmazenamento() - 1 > -1){
                                     zonas[i][j-1]->addArmazenamento(-1); //Retira uma madeira que se encontra na zona adjacente à central"Floresta" e utiliza-a para criar carvão e eletricidade.
@@ -1109,8 +1169,627 @@ void Ilha::anoitecer(){
                         }
                     }
                 }
-            }           
-        }
+                if(zonas[i][j]->getSiglaEdificio() == "bat") nrEletricidade += zonas[i][j]->getEdificio()->getArmazenamento();
+                if(zonas[i][j]->getSiglaEdificio() == "fund" && oper.size() > 0){
+                    if(zonas[i][j]->getEdificio() != nullptr){
+
+                        if(validaPosicao(i + 1, j, linhas, colunas)){ // Verificar na linha abaixo
+                            if(zonas[i+1][j]->getSiglaEdificio() == "minaf"){
+                                if(zonas[i+1][j]->getEdificio() != nullptr){
+                                    validaAuxMinaf = true;
+                                }   
+                            }
+                            else if(zonas[i+1][j]->getSiglaEdificio() == "central"){
+                                if(zonas[i+1][j]->getEdificio() != nullptr){
+                                    validaAuxCentral = true;
+                                }
+                            }
+                            else if(zonas[i+1][j]->getSiglaEdificio() == "minac"){
+                                if(zonas[i+1][j]->getEdificio() != nullptr){
+                                    validaAuxMinac = true;
+                                }
+                            }
+                        }    
+                        if(validaPosicao(i - 1, j, linhas, colunas)){ // Verificar na linha acima
+                                if(zonas[i-1][j]->getSiglaEdificio() == "minaf"){
+                                    if(zonas[i-1][j]->getEdificio() != nullptr){
+                                        validaAuxMinaf = true;
+                                    }    
+                                }
+                                else if(zonas[i-1][j]->getSigla() == "central"){
+                                    if(zonas[i-1][j]->getEdificio() != nullptr){
+                                        validaAuxCentral = true;
+                                    }
+                                }
+                                else if(zonas[i-1][j]->getSigla() == "minac"){
+                                    if(zonas[i-1][j]->getEdificio() != nullptr){
+                                        validaAuxMinac = true;
+                                    }
+                                }
+                            }
+                        }
+                    }
+                    if(validaPosicao(i, j + 1, linhas, colunas)){ // Verificar na coluna a direita
+                        if(zonas[i][j+1]->getSiglaEdificio() == "minaf"){
+                            if(zonas[i][j+1]->getEdificio() != nullptr){
+                                validaAuxMinaf = true;
+                            }
+                        }
+                        else if(zonas[i][j+1]->getSiglaEdificio() == "central"){
+                            if(zonas[i][j+1]->getEdificio() != nullptr){
+                                validaAuxCentral = true;
+                            }
+                        }
+                        else if(zonas[i][j+1]->getSiglaEdificio() == "minac"){
+                            if(zonas[i][j+1]->getEdificio() != nullptr){
+                                validaAuxMinac = true;
+                            }
+                        }
+                    }
+                    if(validaPosicao(i, j - 1, linhas, colunas)){ // Verificar na coluna a esquerda
+                        if(zonas[i][j-1]->getSiglaEdificio() == "minaf"){
+                            if(zonas[i][j-1]->getEdificio() != nullptr){
+                                validaAuxMinaf = true;
+                            }
+                        }
+                        else if(zonas[i][j-1]->getSiglaEdificio() == "central"){
+                            if(zonas[i][j-1]->getEdificio() != nullptr){
+                                validaAuxCentral = true;
+                            }
+                        }
+                        else if(zonas[i][j-1]->getSiglaEdificio() == "minac"){
+                            if(zonas[i][j-1]->getEdificio() != nullptr){
+                                validaAuxMinac = true;
+                            }
+                        }  
+                    }
+                if(validaAuxMinaf && validaAuxMinac){
+                    if(validaPosicao(i+1, j, linhas, colunas) && zonas[i+1][j]->getSiglaEdificio() == "minaf" && zonas[i+1][j]->getEdificio()->getArmazenamento() - 1 > -1) zonas[i+1][j]->getEdificio()->addArmazenamento(-1);
+                    if(validaPosicao(i-1, j, linhas, colunas) && zonas[i-1][j]->getSiglaEdificio() == "minaf" && zonas[i-1][j]->getEdificio()->getArmazenamento() - 1 > -1) zonas[i-1][j]->getEdificio()->addArmazenamento(-1);
+                    if(validaPosicao(i, j+1, linhas, colunas) && zonas[i][j+1]->getSiglaEdificio() == "minaf" && zonas[i][j+1]->getEdificio()->getArmazenamento() - 1 > -1) zonas[i][j+1]->getEdificio()->addArmazenamento(-1);
+                    if(validaPosicao(i, j-1, linhas, colunas) && zonas[i][j-1]->getSiglaEdificio() == "minaf" && zonas[i][j-1]->getEdificio()->getArmazenamento() - 1 > -1) zonas[i][j-1]->getEdificio()->addArmazenamento(-1);
+                    
+                    if(validaPosicao(i+1, j, linhas, colunas) && zonas[i+1][j]->getSiglaEdificio() == "minac" && zonas[i+1][j]->getEdificio()->getArmazenamento() - 1 > -1) zonas[i+1][j]->getEdificio()->addArmazenamento(-1);
+                    if(validaPosicao(i-1, j, linhas, colunas) && zonas[i-1][j]->getSiglaEdificio() == "minac" && zonas[i-1][j]->getEdificio()->getArmazenamento() - 1 > -1) zonas[i-1][j]->getEdificio()->addArmazenamento(-1);
+                    if(validaPosicao(i, j+1, linhas, colunas) && zonas[i][j+1]->getSiglaEdificio() == "minac" && zonas[i][j+1]->getEdificio()->getArmazenamento() - 1 > -1) zonas[i][j+1]->getEdificio()->addArmazenamento(-1);
+                    if(validaPosicao(i, j-1, linhas, colunas) && zonas[i][j-1]->getSiglaEdificio() == "minac" && zonas[i][j-1]->getEdificio()->getArmazenamento() - 1 > -1) zonas[i][j-1]->getEdificio()->addArmazenamento(-1);
+                    nrBarraDeAco += 1;
+                }
+                else if(validaAuxMinaf && validaAuxCentral){
+                    if(validaPosicao(i+1, j, linhas, colunas) && zonas[i+1][j]->getSiglaEdificio() == "minaf" && zonas[i+1][j]->getEdificio()->getArmazenamento() - 1 > -1) zonas[i+1][j]->getEdificio()->addArmazenamento(-1);
+                    if(validaPosicao(i-1, j, linhas, colunas) && zonas[i-1][j]->getSiglaEdificio() == "minaf" && zonas[i-1][j]->getEdificio()->getArmazenamento() - 1 > -1) zonas[i-1][j]->getEdificio()->addArmazenamento(-1);
+                    if(validaPosicao(i, j+1, linhas, colunas) && zonas[i][j+1]->getSiglaEdificio() == "minaf" && zonas[i][j+1]->getEdificio()->getArmazenamento() - 1 > -1) zonas[i][j+1]->getEdificio()->addArmazenamento(-1);
+                    if(validaPosicao(i, j-1, linhas, colunas) && zonas[i][j-1]->getSiglaEdificio() == "minaf" && zonas[i][j-1]->getEdificio()->getArmazenamento() - 1 > -1) zonas[i][j-1]->getEdificio()->addArmazenamento(-1);
+                    
+                    if(validaPosicao(i+1, j, linhas, colunas) && zonas[i+1][j]->getSiglaEdificio() == "central" && zonas[i+1][j]->getEdificio()->getArmazenamento() - 1 > -1) zonas[i+1][j]->getEdificio()->addArmazenamento(-1);
+                    if(validaPosicao(i-1, j, linhas, colunas) && zonas[i-1][j]->getSiglaEdificio() == "central" && zonas[i-1][j]->getEdificio()->getArmazenamento() - 1 > -1) zonas[i-1][j]->getEdificio()->addArmazenamento(-1);
+                    if(validaPosicao(i, j+1, linhas, colunas) && zonas[i][j+1]->getSiglaEdificio() == "central" && zonas[i][j+1]->getEdificio()->getArmazenamento() - 1 > -1) zonas[i][j+1]->getEdificio()->addArmazenamento(-1);
+                    if(validaPosicao(i, j-1, linhas, colunas) && zonas[i][j-1]->getSiglaEdificio() == "central" && zonas[i][j-1]->getEdificio()->getArmazenamento() - 1 > -1) zonas[i][j-1]->getEdificio()->addArmazenamento(-1);
+                    nrBarraDeAco += 1;
+                }
+            }
+            else if(zonas[i][j]->getSigla() == "dsr"){
+                vector<Trabalhador*> oper = zonas[i][j]->getTrabalhadoresBySigla("O"); //Guarda no vetor os operarios dessa zona
+                vector<Trabalhador*> len = zonas[i][j]->getTrabalhadoresBySigla("L"); //Guarda no vetor os lenhadores dessa zona
+                vector<Trabalhador*> miner = zonas[i][j]->getTrabalhadoresBySigla("M"); //Guarda no vetor os mineiros dessa zona
+                if(zonas[i][j]->getSiglaEdificio() == "minaf" && miner.size() > 0){
+                    zonas[i][j]->getEdificio()->addArmazenamento((2 + zonas[i][j]->getEdificio()->getNivel()- 1) * 0.5); //Redução de 50% de produção por estar na zona "Deserto"
+                    nrFerro += zonas[i][j]->getEdificio()->getArmazenamento();
+                }
+                if(zonas[i][j]->getSiglaEdificio() == "minac" && miner.size() > 0){
+                    nrFerro += zonas[i][j]->getEdificio()->addArmazenamento((2 + zonas[i][j]->getEdificio()->getNivel()- 1)* 0.5); //Redução de 50% de produção por estar na zona "Deserto"
+                }
+                if(zonas[i][j]->getSiglaEdificio() == "central" && oper.size() > 0){
+                    if(validaPosicao(i + 1, j, linhas, colunas)){ // Verificar na linha abaixo
+                        if(zonas[i+1][j]->getSiglaEdificio() == "bat"){
+                            if(zonas[i+1][j]->getEdificio() != nullptr){
+                                zonas[i+1][j]->getEdificio()->addArmazenamento(1); //Adiciona 1 Kwh ao armazenamento do edificio Bateria.
+                            }
+                        }
+                        if(zonas[i+1][j]->getSigla() == "flr"){
+                            if(zonas[i+1][j]->getEdificio() != nullptr){
+                                if(zonas[i+1][j]->getArmazenamento() - 1 > -1 && zonas[i][j]->getEdificio()->getArmazenamento() < 101){
+                                    zonas[i+1][j]->addArmazenamento(-1); //Retira uma madeira que se encontra na zona adjacente à central"Floresta" e utiliza-a para criar carvão e eletricidade.
+                                    nrCarvao += 1;
+                                }
+                            }
+                        }
+                    }    
+                    if(validaPosicao(i - 1, j, linhas, colunas)){ // Verificar na linha acima
+                        if(zonas[i-1][j]->getSiglaEdificio() == "bat"){
+                            if(zonas[i-1][j]->getEdificio() != nullptr){
+                                zonas[i-1][j]->getEdificio()->addArmazenamento(1); //Adiciona 1 Kwh ao armazenamento do edificio Bateria.
+                            }
+                        }
+                        if(zonas[i-1][j]->getSigla() == "flr"){
+                            if(zonas[i-1][j]->getEdificio() != nullptr){
+                                if(zonas[i-1][j]->getEdificio()->getArmazenamento() - 1 > -1 && zonas[i][j]->getEdificio()->getArmazenamento() < 101){
+                                    zonas[i-1][j]->addArmazenamento(-1); //Retira uma madeira que se encontra na zona adjacente à central"Floresta" e utiliza-a para criar carvão e eletricidade.
+                                    nrCarvao += 1;
+                                }
+                            }
+                        }
+                    }
+                    if(validaPosicao(i, j + 1, linhas, colunas)){ // Verificar na coluna a direita
+                        if(zonas[i][j+1]->getSiglaEdificio() == "bat"){
+                            if(zonas[i][j+1]->getEdificio() != nullptr){
+                                zonas[i][j+1]->getEdificio()->addArmazenamento(1); //Adiciona 1 Kwh ao armazenamento do edificio Bateria.
+                            }
+                        }
+                        if(zonas[i][j+1]->getSigla() == "flr"){
+                            if(zonas[i][j+1]->getEdificio() != nullptr){
+                                if(zonas[i][j+1]->getEdificio()->getArmazenamento() - 1 > -1){
+                                    zonas[i][j+1]->addArmazenamento(-1); //Retira uma madeira que se encontra na zona adjacente à central"Floresta" e utiliza-a para criar carvão e eletricidade.
+                                    nrCarvao += 1;
+                                }
+                            }
+                        }
+                    }
+                    if(validaPosicao(i, j - 1, linhas, colunas)){ // Verificar na coluna a esquerda
+                        if(zonas[i][j-1]->getSiglaEdificio() == "bat"){
+                            if(zonas[i][j-1]->getEdificio() != nullptr){
+                                zonas[i][j-1]->getEdificio()->addArmazenamento(1); //Adiciona 1 Kwh ao armazenamento do edificio Bateria.
+                            }
+                        }
+                        if(zonas[i][j-1]->getSigla() == "flr"){
+                            if(zonas[i][j-1]->getEdificio() != nullptr){
+                                if(zonas[i][j-1]->getEdificio()->getArmazenamento() - 1 > -1){
+                                    zonas[i][j-1]->addArmazenamento(-1); //Retira uma madeira que se encontra na zona adjacente à central"Floresta" e utiliza-a para criar carvão e eletricidade.
+                                    nrCarvao += 1;
+                                }
+                            }
+                        }
+                    }
+                }
+                if(zonas[i][j]->getSiglaEdificio() == "bat") nrEletricidade += zonas[i][j]->getEdificio()->getArmazenamento();
+                if(zonas[i][j]->getSiglaEdificio() == "fund" && oper.size() > 0){
+                    if(zonas[i][j]->getEdificio() != nullptr){
+
+                        if(validaPosicao(i + 1, j, linhas, colunas)){ // Verificar na linha abaixo
+                            if(zonas[i+1][j]->getSiglaEdificio() == "minaf"){
+                                if(zonas[i+1][j]->getEdificio() != nullptr){
+                                    validaAuxMinaf = true;
+                                }   
+                            }
+                            else if(zonas[i+1][j]->getSiglaEdificio() == "central"){
+                                if(zonas[i+1][j]->getEdificio() != nullptr){
+                                    validaAuxCentral = true;
+                                }
+                            }
+                            else if(zonas[i+1][j]->getSiglaEdificio() == "minac"){
+                                if(zonas[i+1][j]->getEdificio() != nullptr){
+                                    validaAuxMinac = true;
+                                }
+                            }
+                        }    
+                        if(validaPosicao(i - 1, j, linhas, colunas)){ // Verificar na linha acima
+                                if(zonas[i-1][j]->getSiglaEdificio() == "minaf"){
+                                    if(zonas[i-1][j]->getEdificio() != nullptr){
+                                        validaAuxMinaf = true;
+                                    }    
+                                }
+                                else if(zonas[i-1][j]->getSigla() == "central"){
+                                    if(zonas[i-1][j]->getEdificio() != nullptr){
+                                        validaAuxCentral = true;
+                                    }
+                                }
+                                else if(zonas[i-1][j]->getSigla() == "minac"){
+                                    if(zonas[i-1][j]->getEdificio() != nullptr){
+                                        validaAuxMinac = true;
+                                    }
+                                }
+                            }
+                        }
+                    }
+                    if(validaPosicao(i, j + 1, linhas, colunas)){ // Verificar na coluna a direita
+                        if(zonas[i][j+1]->getSiglaEdificio() == "minaf"){
+                            if(zonas[i][j+1]->getEdificio() != nullptr){
+                                validaAuxMinaf = true;
+                            }
+                        }
+                        else if(zonas[i][j+1]->getSiglaEdificio() == "central"){
+                            if(zonas[i][j+1]->getEdificio() != nullptr){
+                                validaAuxCentral = true;
+                            }
+                        }
+                        else if(zonas[i][j+1]->getSiglaEdificio() == "minac"){
+                            if(zonas[i][j+1]->getEdificio() != nullptr){
+                                validaAuxMinac = true;
+                            }
+                        }
+                    }
+                    if(validaPosicao(i, j - 1, linhas, colunas)){ // Verificar na coluna a esquerda
+                        if(zonas[i][j-1]->getSiglaEdificio() == "minaf"){
+                            if(zonas[i][j-1]->getEdificio() != nullptr){
+                                validaAuxMinaf = true;
+                            }
+                        }
+                        else if(zonas[i][j-1]->getSiglaEdificio() == "central"){
+                            if(zonas[i][j-1]->getEdificio() != nullptr){
+                                validaAuxCentral = true;
+                            }
+                        }
+                        else if(zonas[i][j-1]->getSiglaEdificio() == "minac"){
+                            if(zonas[i][j-1]->getEdificio() != nullptr){
+                                validaAuxMinac = true;
+                            }
+                        }  
+                    }
+                if(validaAuxMinaf && validaAuxMinac){
+                    if(validaPosicao(i+1, j, linhas, colunas) && zonas[i+1][j]->getSiglaEdificio() == "minaf" && zonas[i+1][j]->getEdificio()->getArmazenamento() - 1 > -1) zonas[i+1][j]->getEdificio()->addArmazenamento(-1);
+                    if(validaPosicao(i-1, j, linhas, colunas) && zonas[i-1][j]->getSiglaEdificio() == "minaf" && zonas[i-1][j]->getEdificio()->getArmazenamento() - 1 > -1) zonas[i-1][j]->getEdificio()->addArmazenamento(-1);
+                    if(validaPosicao(i, j+1, linhas, colunas) && zonas[i][j+1]->getSiglaEdificio() == "minaf" && zonas[i][j+1]->getEdificio()->getArmazenamento() - 1 > -1) zonas[i][j+1]->getEdificio()->addArmazenamento(-1);
+                    if(validaPosicao(i, j-1, linhas, colunas) && zonas[i][j-1]->getSiglaEdificio() == "minaf" && zonas[i][j-1]->getEdificio()->getArmazenamento() - 1 > -1) zonas[i][j-1]->getEdificio()->addArmazenamento(-1);
+                    
+                    if(validaPosicao(i+1, j, linhas, colunas) && zonas[i+1][j]->getSiglaEdificio() == "minac" && zonas[i+1][j]->getEdificio()->getArmazenamento() - 1 > -1) zonas[i+1][j]->getEdificio()->addArmazenamento(-1);
+                    if(validaPosicao(i-1, j, linhas, colunas) && zonas[i-1][j]->getSiglaEdificio() == "minac" && zonas[i-1][j]->getEdificio()->getArmazenamento() - 1 > -1) zonas[i-1][j]->getEdificio()->addArmazenamento(-1);
+                    if(validaPosicao(i, j+1, linhas, colunas) && zonas[i][j+1]->getSiglaEdificio() == "minac" && zonas[i][j+1]->getEdificio()->getArmazenamento() - 1 > -1) zonas[i][j+1]->getEdificio()->addArmazenamento(-1);
+                    if(validaPosicao(i, j-1, linhas, colunas) && zonas[i][j-1]->getSiglaEdificio() == "minac" && zonas[i][j-1]->getEdificio()->getArmazenamento() - 1 > -1) zonas[i][j-1]->getEdificio()->addArmazenamento(-1);
+                    nrBarraDeAco += 1;
+                }
+                else if(validaAuxMinaf && validaAuxCentral){
+                    if(validaPosicao(i+1, j, linhas, colunas) && zonas[i+1][j]->getSiglaEdificio() == "minaf" && zonas[i+1][j]->getEdificio()->getArmazenamento() - 1 > -1) zonas[i+1][j]->getEdificio()->addArmazenamento(-1);
+                    if(validaPosicao(i-1, j, linhas, colunas) && zonas[i-1][j]->getSiglaEdificio() == "minaf" && zonas[i-1][j]->getEdificio()->getArmazenamento() - 1 > -1) zonas[i-1][j]->getEdificio()->addArmazenamento(-1);
+                    if(validaPosicao(i, j+1, linhas, colunas) && zonas[i][j+1]->getSiglaEdificio() == "minaf" && zonas[i][j+1]->getEdificio()->getArmazenamento() - 1 > -1) zonas[i][j+1]->getEdificio()->addArmazenamento(-1);
+                    if(validaPosicao(i, j-1, linhas, colunas) && zonas[i][j-1]->getSiglaEdificio() == "minaf" && zonas[i][j-1]->getEdificio()->getArmazenamento() - 1 > -1) zonas[i][j-1]->getEdificio()->addArmazenamento(-1);
+                    
+                    if(validaPosicao(i+1, j, linhas, colunas) && zonas[i+1][j]->getSiglaEdificio() == "central" && zonas[i+1][j]->getEdificio()->getArmazenamento() - 1 > -1) zonas[i+1][j]->getEdificio()->addArmazenamento(-1);
+                    if(validaPosicao(i-1, j, linhas, colunas) && zonas[i-1][j]->getSiglaEdificio() == "central" && zonas[i-1][j]->getEdificio()->getArmazenamento() - 1 > -1) zonas[i-1][j]->getEdificio()->addArmazenamento(-1);
+                    if(validaPosicao(i, j+1, linhas, colunas) && zonas[i][j+1]->getSiglaEdificio() == "central" && zonas[i][j+1]->getEdificio()->getArmazenamento() - 1 > -1) zonas[i][j+1]->getEdificio()->addArmazenamento(-1);
+                    if(validaPosicao(i, j-1, linhas, colunas) && zonas[i][j-1]->getSiglaEdificio() == "central" && zonas[i][j-1]->getEdificio()->getArmazenamento() - 1 > -1) zonas[i][j-1]->getEdificio()->addArmazenamento(-1);
+                    nrBarraDeAco += 1;
+                }
+            }
+            else if(zonas[i][j]->getSigla() == "flr"){
+                //FALTA FAZER A PARTE: MORRE ARVORE SE FOR CONSTRUIDO UM EDIFICIO NA ZONA
+                //CRESCE 1 ARVORE A CADA DOIS DIAS QUE PASSAM (COM LIMITE DE 100 ARVORES NA ZONA)
+                zonas[i][j]->addArmazenamento(1 * zonas[i][j]->getTrabalhadoresBySigla("L").size());
+            }
+            else if(zonas[i][j]->getSigla() == "mnt"){
+                vector<Trabalhador*> oper = zonas[i][j]->getTrabalhadoresBySigla("O"); //Guarda no vetor os operarios dessa zona
+                vector<Trabalhador*> len = zonas[i][j]->getTrabalhadoresBySigla("L"); //Guarda no vetor os lenhadores dessa zona
+                vector<Trabalhador*> miner = zonas[i][j]->getTrabalhadoresBySigla("M"); //Guarda no vetor os mineiros dessa zona
+                if(zonas[i][j]->getSiglaEdificio() == "minaf" && miner.size() > 0){
+                    zonas[i][j]->getEdificio()->addArmazenamento((2 + zonas[i][j]->getEdificio()->getNivel()- 1) * 2); //Aumento de 100% de produção por estar na zona "Montanha"
+                    nrFerro += zonas[i][j]->getEdificio()->getArmazenamento();
+                }
+                if(zonas[i][j]->getSiglaEdificio() == "minac" && miner.size() > 0){
+                    nrFerro += zonas[i][j]->getEdificio()->addArmazenamento((2 + zonas[i][j]->getEdificio()->getNivel()- 1) * 2); //Aumento de 100% de produção por estar na zona "Montanha"
+                }
+                if(zonas[i][j]->getSiglaEdificio() == "central" && oper.size() > 0){
+                    if(validaPosicao(i + 1, j, linhas, colunas)){ // Verificar na linha abaixo
+                        if(zonas[i+1][j]->getSiglaEdificio() == "bat"){
+                            if(zonas[i+1][j]->getEdificio() != nullptr){
+                                zonas[i+1][j]->getEdificio()->addArmazenamento(1); //Adiciona 1 Kwh ao armazenamento do edificio Bateria.
+                            }
+                        }
+                        if(zonas[i+1][j]->getSigla() == "flr"){
+                            if(zonas[i+1][j]->getEdificio() != nullptr){
+                                if(zonas[i+1][j]->getArmazenamento() - 1 > -1 && zonas[i][j]->getEdificio()->getArmazenamento() < 101){
+                                    zonas[i+1][j]->addArmazenamento(-1); //Retira uma madeira que se encontra na zona adjacente à central"Floresta" e utiliza-a para criar carvão e eletricidade.
+                                    nrCarvao += 1;
+                                }
+                            }
+                        }
+                    }    
+                    if(validaPosicao(i - 1, j, linhas, colunas)){ // Verificar na linha acima
+                        if(zonas[i-1][j]->getSiglaEdificio() == "bat"){
+                            if(zonas[i-1][j]->getEdificio() != nullptr){
+                                zonas[i-1][j]->getEdificio()->addArmazenamento(1); //Adiciona 1 Kwh ao armazenamento do edificio Bateria.
+                            }
+                        }
+                        if(zonas[i-1][j]->getSigla() == "flr"){
+                            if(zonas[i-1][j]->getEdificio() != nullptr){
+                                if(zonas[i-1][j]->getEdificio()->getArmazenamento() - 1 > -1 && zonas[i][j]->getEdificio()->getArmazenamento() < 101){
+                                    zonas[i-1][j]->addArmazenamento(-1); //Retira uma madeira que se encontra na zona adjacente à central"Floresta" e utiliza-a para criar carvão e eletricidade.
+                                    nrCarvao += 1;
+                                }
+                            }
+                        }
+                    }
+                    if(validaPosicao(i, j + 1, linhas, colunas)){ // Verificar na coluna a direita
+                        if(zonas[i][j+1]->getSiglaEdificio() == "bat"){
+                            if(zonas[i][j+1]->getEdificio() != nullptr){
+                                zonas[i][j+1]->getEdificio()->addArmazenamento(1); //Adiciona 1 Kwh ao armazenamento do edificio Bateria.
+                            }
+                        }
+                        if(zonas[i][j+1]->getSigla() == "flr"){
+                            if(zonas[i][j+1]->getEdificio() != nullptr){
+                                if(zonas[i][j+1]->getEdificio()->getArmazenamento() - 1 > -1){
+                                    zonas[i][j+1]->addArmazenamento(-1); //Retira uma madeira que se encontra na zona adjacente à central"Floresta" e utiliza-a para criar carvão e eletricidade.
+                                    nrCarvao += 1;
+                                }
+                            }
+                        }
+                    }
+                    if(validaPosicao(i, j - 1, linhas, colunas)){ // Verificar na coluna a esquerda
+                        if(zonas[i][j-1]->getSiglaEdificio() == "bat"){
+                            if(zonas[i][j-1]->getEdificio() != nullptr){
+                                zonas[i][j-1]->getEdificio()->addArmazenamento(1); //Adiciona 1 Kwh ao armazenamento do edificio Bateria.
+                            }
+                        }
+                        if(zonas[i][j-1]->getSigla() == "flr"){
+                            if(zonas[i][j-1]->getEdificio() != nullptr){
+                                if(zonas[i][j-1]->getEdificio()->getArmazenamento() - 1 > -1){
+                                    zonas[i][j-1]->addArmazenamento(-1); //Retira uma madeira que se encontra na zona adjacente à central"Floresta" e utiliza-a para criar carvão e eletricidade.
+                                    nrCarvao += 1;
+                                }
+                            }
+                        }
+                    }
+                }
+                if(zonas[i][j]->getSiglaEdificio() == "bat") nrEletricidade += zonas[i][j]->getEdificio()->getArmazenamento();
+                if(zonas[i][j]->getSiglaEdificio() == "fund" && oper.size() > 0){
+                    if(zonas[i][j]->getEdificio() != nullptr){
+
+                        if(validaPosicao(i + 1, j, linhas, colunas)){ // Verificar na linha abaixo
+                            if(zonas[i+1][j]->getSiglaEdificio() == "minaf"){
+                                if(zonas[i+1][j]->getEdificio() != nullptr){
+                                    validaAuxMinaf = true;
+                                }   
+                            }
+                            else if(zonas[i+1][j]->getSiglaEdificio() == "central"){
+                                if(zonas[i+1][j]->getEdificio() != nullptr){
+                                    validaAuxCentral = true;
+                                }
+                            }
+                            else if(zonas[i+1][j]->getSiglaEdificio() == "minac"){
+                                if(zonas[i+1][j]->getEdificio() != nullptr){
+                                    validaAuxMinac = true;
+                                }
+                            }
+                        }    
+                        if(validaPosicao(i - 1, j, linhas, colunas)){ // Verificar na linha acima
+                                if(zonas[i-1][j]->getSiglaEdificio() == "minaf"){
+                                    if(zonas[i-1][j]->getEdificio() != nullptr){
+                                        validaAuxMinaf = true;
+                                    }    
+                                }
+                                else if(zonas[i-1][j]->getSigla() == "central"){
+                                    if(zonas[i-1][j]->getEdificio() != nullptr){
+                                        validaAuxCentral = true;
+                                    }
+                                }
+                                else if(zonas[i-1][j]->getSigla() == "minac"){
+                                    if(zonas[i-1][j]->getEdificio() != nullptr){
+                                        validaAuxMinac = true;
+                                    }
+                                }
+                            }
+                        }
+                    }
+                    if(validaPosicao(i, j + 1, linhas, colunas)){ // Verificar na coluna a direita
+                        if(zonas[i][j+1]->getSiglaEdificio() == "minaf"){
+                            if(zonas[i][j+1]->getEdificio() != nullptr){
+                                validaAuxMinaf = true;
+                            }
+                        }
+                        else if(zonas[i][j+1]->getSiglaEdificio() == "central"){
+                            if(zonas[i][j+1]->getEdificio() != nullptr){
+                                validaAuxCentral = true;
+                            }
+                        }
+                        else if(zonas[i][j+1]->getSiglaEdificio() == "minac"){
+                            if(zonas[i][j+1]->getEdificio() != nullptr){
+                                validaAuxMinac = true;
+                            }
+                        }
+                    }
+                    if(validaPosicao(i, j - 1, linhas, colunas)){ // Verificar na coluna a esquerda
+                        if(zonas[i][j-1]->getSiglaEdificio() == "minaf"){
+                            if(zonas[i][j-1]->getEdificio() != nullptr){
+                                validaAuxMinaf = true;
+                            }
+                        }
+                        else if(zonas[i][j-1]->getSiglaEdificio() == "central"){
+                            if(zonas[i][j-1]->getEdificio() != nullptr){
+                                validaAuxCentral = true;
+                            }
+                        }
+                        else if(zonas[i][j-1]->getSiglaEdificio() == "minac"){
+                            if(zonas[i][j-1]->getEdificio() != nullptr){
+                                validaAuxMinac = true;
+                            }
+                        }  
+                    }
+                if(validaAuxMinaf && validaAuxMinac){
+                    if(validaPosicao(i+1, j, linhas, colunas) && zonas[i+1][j]->getSiglaEdificio() == "minaf" && zonas[i+1][j]->getEdificio()->getArmazenamento() - 1 > -1) zonas[i+1][j]->getEdificio()->addArmazenamento(-1);
+                    if(validaPosicao(i-1, j, linhas, colunas) && zonas[i-1][j]->getSiglaEdificio() == "minaf" && zonas[i-1][j]->getEdificio()->getArmazenamento() - 1 > -1) zonas[i-1][j]->getEdificio()->addArmazenamento(-1);
+                    if(validaPosicao(i, j+1, linhas, colunas) && zonas[i][j+1]->getSiglaEdificio() == "minaf" && zonas[i][j+1]->getEdificio()->getArmazenamento() - 1 > -1) zonas[i][j+1]->getEdificio()->addArmazenamento(-1);
+                    if(validaPosicao(i, j-1, linhas, colunas) && zonas[i][j-1]->getSiglaEdificio() == "minaf" && zonas[i][j-1]->getEdificio()->getArmazenamento() - 1 > -1) zonas[i][j-1]->getEdificio()->addArmazenamento(-1);
+                    
+                    if(validaPosicao(i+1, j, linhas, colunas) && zonas[i+1][j]->getSiglaEdificio() == "minac" && zonas[i+1][j]->getEdificio()->getArmazenamento() - 1 > -1) zonas[i+1][j]->getEdificio()->addArmazenamento(-1);
+                    if(validaPosicao(i-1, j, linhas, colunas) && zonas[i-1][j]->getSiglaEdificio() == "minac" && zonas[i-1][j]->getEdificio()->getArmazenamento() - 1 > -1) zonas[i-1][j]->getEdificio()->addArmazenamento(-1);
+                    if(validaPosicao(i, j+1, linhas, colunas) && zonas[i][j+1]->getSiglaEdificio() == "minac" && zonas[i][j+1]->getEdificio()->getArmazenamento() - 1 > -1) zonas[i][j+1]->getEdificio()->addArmazenamento(-1);
+                    if(validaPosicao(i, j-1, linhas, colunas) && zonas[i][j-1]->getSiglaEdificio() == "minac" && zonas[i][j-1]->getEdificio()->getArmazenamento() - 1 > -1) zonas[i][j-1]->getEdificio()->addArmazenamento(-1);
+                    nrBarraDeAco += 1;
+                }
+                else if(validaAuxMinaf && validaAuxCentral){
+                    if(validaPosicao(i+1, j, linhas, colunas) && zonas[i+1][j]->getSiglaEdificio() == "minaf" && zonas[i+1][j]->getEdificio()->getArmazenamento() - 1 > -1) zonas[i+1][j]->getEdificio()->addArmazenamento(-1);
+                    if(validaPosicao(i-1, j, linhas, colunas) && zonas[i-1][j]->getSiglaEdificio() == "minaf" && zonas[i-1][j]->getEdificio()->getArmazenamento() - 1 > -1) zonas[i-1][j]->getEdificio()->addArmazenamento(-1);
+                    if(validaPosicao(i, j+1, linhas, colunas) && zonas[i][j+1]->getSiglaEdificio() == "minaf" && zonas[i][j+1]->getEdificio()->getArmazenamento() - 1 > -1) zonas[i][j+1]->getEdificio()->addArmazenamento(-1);
+                    if(validaPosicao(i, j-1, linhas, colunas) && zonas[i][j-1]->getSiglaEdificio() == "minaf" && zonas[i][j-1]->getEdificio()->getArmazenamento() - 1 > -1) zonas[i][j-1]->getEdificio()->addArmazenamento(-1);
+                    
+                    if(validaPosicao(i+1, j, linhas, colunas) && zonas[i+1][j]->getSiglaEdificio() == "central" && zonas[i+1][j]->getEdificio()->getArmazenamento() - 1 > -1) zonas[i+1][j]->getEdificio()->addArmazenamento(-1);
+                    if(validaPosicao(i-1, j, linhas, colunas) && zonas[i-1][j]->getSiglaEdificio() == "central" && zonas[i-1][j]->getEdificio()->getArmazenamento() - 1 > -1) zonas[i-1][j]->getEdificio()->addArmazenamento(-1);
+                    if(validaPosicao(i, j+1, linhas, colunas) && zonas[i][j+1]->getSiglaEdificio() == "central" && zonas[i][j+1]->getEdificio()->getArmazenamento() - 1 > -1) zonas[i][j+1]->getEdificio()->addArmazenamento(-1);
+                    if(validaPosicao(i, j-1, linhas, colunas) && zonas[i][j-1]->getSiglaEdificio() == "central" && zonas[i][j-1]->getEdificio()->getArmazenamento() - 1 > -1) zonas[i][j-1]->getEdificio()->addArmazenamento(-1);
+                    nrBarraDeAco += 1;
+                }
+            }
+            else if(zonas[i][j]->getSigla() == "pnt"){
+                vector<Trabalhador*> oper = zonas[i][j]->getTrabalhadoresBySigla("O"); //Guarda no vetor os operarios dessa zona
+                vector<Trabalhador*> len = zonas[i][j]->getTrabalhadoresBySigla("L"); //Guarda no vetor os lenhadores dessa zona
+                vector<Trabalhador*> miner = zonas[i][j]->getTrabalhadoresBySigla("M"); //Guarda no vetor os mineiros dessa zona
+                if(zonas[i][j]->getSiglaEdificio() == "minaf" && miner.size() > 0){
+                    zonas[i][j]->getEdificio()->addArmazenamento(2 + zonas[i][j]->getEdificio()->getNivel()- 1);
+                    nrFerro += zonas[i][j]->getEdificio()->getArmazenamento();
+                }
+                if(zonas[i][j]->getSiglaEdificio() == "minac" && miner.size() > 0){
+                    nrFerro += zonas[i][j]->getEdificio()->addArmazenamento(2 + zonas[i][j]->getEdificio()->getNivel()- 1);
+                }
+                if(zonas[i][j]->getSiglaEdificio() == "central" && oper.size() > 0){
+                    if(validaPosicao(i + 1, j, linhas, colunas)){ // Verificar na linha abaixo
+                        if(zonas[i+1][j]->getSiglaEdificio() == "bat"){
+                            if(zonas[i+1][j]->getEdificio() != nullptr){
+                                zonas[i+1][j]->getEdificio()->addArmazenamento(1); //Adiciona 1 Kwh ao armazenamento do edificio Bateria.
+                            }
+                        }
+                        if(zonas[i+1][j]->getSigla() == "flr"){
+                            if(zonas[i+1][j]->getEdificio() != nullptr){
+                                if(zonas[i+1][j]->getArmazenamento() - 1 > -1 && zonas[i][j]->getEdificio()->getArmazenamento() < 101){
+                                    zonas[i+1][j]->addArmazenamento(-1); //Retira uma madeira que se encontra na zona adjacente à central"Floresta" e utiliza-a para criar carvão e eletricidade.
+                                    nrCarvao += 1;
+                                }
+                            }
+                        }
+                    }    
+                    if(validaPosicao(i - 1, j, linhas, colunas)){ // Verificar na linha acima
+                        if(zonas[i-1][j]->getSiglaEdificio() == "bat"){
+                            if(zonas[i-1][j]->getEdificio() != nullptr){
+                                zonas[i-1][j]->getEdificio()->addArmazenamento(1); //Adiciona 1 Kwh ao armazenamento do edificio Bateria.
+                            }
+                        }
+                        if(zonas[i-1][j]->getSigla() == "flr"){
+                            if(zonas[i-1][j]->getEdificio() != nullptr){
+                                if(zonas[i-1][j]->getEdificio()->getArmazenamento() - 1 > -1 && zonas[i][j]->getEdificio()->getArmazenamento() < 101){
+                                    zonas[i-1][j]->addArmazenamento(-1); //Retira uma madeira que se encontra na zona adjacente à central"Floresta" e utiliza-a para criar carvão e eletricidade.
+                                    nrCarvao += 1;
+                                }
+                            }
+                        }
+                    }
+                    if(validaPosicao(i, j + 1, linhas, colunas)){ // Verificar na coluna a direita
+                        if(zonas[i][j+1]->getSiglaEdificio() == "bat"){
+                            if(zonas[i][j+1]->getEdificio() != nullptr){
+                                zonas[i][j+1]->getEdificio()->addArmazenamento(1); //Adiciona 1 Kwh ao armazenamento do edificio Bateria.
+                            }
+                        }
+                        if(zonas[i][j+1]->getSigla() == "flr"){
+                            if(zonas[i][j+1]->getEdificio() != nullptr){
+                                if(zonas[i][j+1]->getEdificio()->getArmazenamento() - 1 > -1){
+                                    zonas[i][j+1]->addArmazenamento(-1); //Retira uma madeira que se encontra na zona adjacente à central"Floresta" e utiliza-a para criar carvão e eletricidade.
+                                    nrCarvao += 1;
+                                }
+                            }
+                        }
+                    }
+                    if(validaPosicao(i, j - 1, linhas, colunas)){ // Verificar na coluna a esquerda
+                        if(zonas[i][j-1]->getSiglaEdificio() == "bat"){
+                            if(zonas[i][j-1]->getEdificio() != nullptr){
+                                zonas[i][j-1]->getEdificio()->addArmazenamento(1); //Adiciona 1 Kwh ao armazenamento do edificio Bateria.
+                            }
+                        }
+                        if(zonas[i][j-1]->getSigla() == "flr"){
+                            if(zonas[i][j-1]->getEdificio() != nullptr){
+                                if(zonas[i][j-1]->getEdificio()->getArmazenamento() - 1 > -1){
+                                    zonas[i][j-1]->addArmazenamento(-1); //Retira uma madeira que se encontra na zona adjacente à central"Floresta" e utiliza-a para criar carvão e eletricidade.
+                                    nrCarvao += 1;
+                                }
+                            }
+                        }
+                    }
+                }
+                if(zonas[i][j]->getSiglaEdificio() == "bat") nrEletricidade += zonas[i][j]->getEdificio()->getArmazenamento();
+                if(zonas[i][j]->getSiglaEdificio() == "fund" && oper.size() > 0){
+                    if(zonas[i][j]->getEdificio() != nullptr){
+
+                        if(validaPosicao(i + 1, j, linhas, colunas)){ // Verificar na linha abaixo
+                            if(zonas[i+1][j]->getSiglaEdificio() == "minaf"){
+                                if(zonas[i+1][j]->getEdificio() != nullptr){
+                                    validaAuxMinaf = true;
+                                }   
+                            }
+                            else if(zonas[i+1][j]->getSiglaEdificio() == "central"){
+                                if(zonas[i+1][j]->getEdificio() != nullptr){
+                                    validaAuxCentral = true;
+                                }
+                            }
+                            else if(zonas[i+1][j]->getSiglaEdificio() == "minac"){
+                                if(zonas[i+1][j]->getEdificio() != nullptr){
+                                    validaAuxMinac = true;
+                                }
+                            }
+                        }    
+                        if(validaPosicao(i - 1, j, linhas, colunas)){ // Verificar na linha acima
+                                if(zonas[i-1][j]->getSiglaEdificio() == "minaf"){
+                                    if(zonas[i-1][j]->getEdificio() != nullptr){
+                                        validaAuxMinaf = true;
+                                    }    
+                                }
+                                else if(zonas[i-1][j]->getSigla() == "central"){
+                                    if(zonas[i-1][j]->getEdificio() != nullptr){
+                                        validaAuxCentral = true;
+                                    }
+                                }
+                                else if(zonas[i-1][j]->getSigla() == "minac"){
+                                    if(zonas[i-1][j]->getEdificio() != nullptr){
+                                        validaAuxMinac = true;
+                                    }
+                                }
+                            }
+                        }
+                    }
+                    if(validaPosicao(i, j + 1, linhas, colunas)){ // Verificar na coluna a direita
+                        if(zonas[i][j+1]->getSiglaEdificio() == "minaf"){
+                            if(zonas[i][j+1]->getEdificio() != nullptr){
+                                validaAuxMinaf = true;
+                            }
+                        }
+                        else if(zonas[i][j+1]->getSiglaEdificio() == "central"){
+                            if(zonas[i][j+1]->getEdificio() != nullptr){
+                                validaAuxCentral = true;
+                            }
+                        }
+                        else if(zonas[i][j+1]->getSiglaEdificio() == "minac"){
+                            if(zonas[i][j+1]->getEdificio() != nullptr){
+                                validaAuxMinac = true;
+                            }
+                        }
+                    }
+                    if(validaPosicao(i, j - 1, linhas, colunas)){ // Verificar na coluna a esquerda
+                        if(zonas[i][j-1]->getSiglaEdificio() == "minaf"){
+                            if(zonas[i][j-1]->getEdificio() != nullptr){
+                                validaAuxMinaf = true;
+                            }
+                        }
+                        else if(zonas[i][j-1]->getSiglaEdificio() == "central"){
+                            if(zonas[i][j-1]->getEdificio() != nullptr){
+                                validaAuxCentral = true;
+                            }
+                        }
+                        else if(zonas[i][j-1]->getSiglaEdificio() == "minac"){
+                            if(zonas[i][j-1]->getEdificio() != nullptr){
+                                validaAuxMinac = true;
+                            }
+                        }  
+                    }
+                if(validaAuxMinaf && validaAuxMinac){
+                    if(validaPosicao(i+1, j, linhas, colunas) && zonas[i+1][j]->getSiglaEdificio() == "minaf" && zonas[i+1][j]->getEdificio()->getArmazenamento() - 1 > -1) zonas[i+1][j]->getEdificio()->addArmazenamento(-1);
+                    if(validaPosicao(i-1, j, linhas, colunas) && zonas[i-1][j]->getSiglaEdificio() == "minaf" && zonas[i-1][j]->getEdificio()->getArmazenamento() - 1 > -1) zonas[i-1][j]->getEdificio()->addArmazenamento(-1);
+                    if(validaPosicao(i, j+1, linhas, colunas) && zonas[i][j+1]->getSiglaEdificio() == "minaf" && zonas[i][j+1]->getEdificio()->getArmazenamento() - 1 > -1) zonas[i][j+1]->getEdificio()->addArmazenamento(-1);
+                    if(validaPosicao(i, j-1, linhas, colunas) && zonas[i][j-1]->getSiglaEdificio() == "minaf" && zonas[i][j-1]->getEdificio()->getArmazenamento() - 1 > -1) zonas[i][j-1]->getEdificio()->addArmazenamento(-1);
+                    
+                    if(validaPosicao(i+1, j, linhas, colunas) && zonas[i+1][j]->getSiglaEdificio() == "minac" && zonas[i+1][j]->getEdificio()->getArmazenamento() - 1 > -1) zonas[i+1][j]->getEdificio()->addArmazenamento(-1);
+                    if(validaPosicao(i-1, j, linhas, colunas) && zonas[i-1][j]->getSiglaEdificio() == "minac" && zonas[i-1][j]->getEdificio()->getArmazenamento() - 1 > -1) zonas[i-1][j]->getEdificio()->addArmazenamento(-1);
+                    if(validaPosicao(i, j+1, linhas, colunas) && zonas[i][j+1]->getSiglaEdificio() == "minac" && zonas[i][j+1]->getEdificio()->getArmazenamento() - 1 > -1) zonas[i][j+1]->getEdificio()->addArmazenamento(-1);
+                    if(validaPosicao(i, j-1, linhas, colunas) && zonas[i][j-1]->getSiglaEdificio() == "minac" && zonas[i][j-1]->getEdificio()->getArmazenamento() - 1 > -1) zonas[i][j-1]->getEdificio()->addArmazenamento(-1);
+                    nrBarraDeAco += 1;
+                }
+                else if(validaAuxMinaf && validaAuxCentral){
+                    if(validaPosicao(i+1, j, linhas, colunas) && zonas[i+1][j]->getSiglaEdificio() == "minaf" && zonas[i+1][j]->getEdificio()->getArmazenamento() - 1 > -1) zonas[i+1][j]->getEdificio()->addArmazenamento(-1);
+                    if(validaPosicao(i-1, j, linhas, colunas) && zonas[i-1][j]->getSiglaEdificio() == "minaf" && zonas[i-1][j]->getEdificio()->getArmazenamento() - 1 > -1) zonas[i-1][j]->getEdificio()->addArmazenamento(-1);
+                    if(validaPosicao(i, j+1, linhas, colunas) && zonas[i][j+1]->getSiglaEdificio() == "minaf" && zonas[i][j+1]->getEdificio()->getArmazenamento() - 1 > -1) zonas[i][j+1]->getEdificio()->addArmazenamento(-1);
+                    if(validaPosicao(i, j-1, linhas, colunas) && zonas[i][j-1]->getSiglaEdificio() == "minaf" && zonas[i][j-1]->getEdificio()->getArmazenamento() - 1 > -1) zonas[i][j-1]->getEdificio()->addArmazenamento(-1);
+                    
+                    if(validaPosicao(i+1, j, linhas, colunas) && zonas[i+1][j]->getSiglaEdificio() == "central" && zonas[i+1][j]->getEdificio()->getArmazenamento() - 1 > -1) zonas[i+1][j]->getEdificio()->addArmazenamento(-1);
+                    if(validaPosicao(i-1, j, linhas, colunas) && zonas[i-1][j]->getSiglaEdificio() == "central" && zonas[i-1][j]->getEdificio()->getArmazenamento() - 1 > -1) zonas[i-1][j]->getEdificio()->addArmazenamento(-1);
+                    if(validaPosicao(i, j+1, linhas, colunas) && zonas[i][j+1]->getSiglaEdificio() == "central" && zonas[i][j+1]->getEdificio()->getArmazenamento() - 1 > -1) zonas[i][j+1]->getEdificio()->addArmazenamento(-1);
+                    if(validaPosicao(i, j-1, linhas, colunas) && zonas[i][j-1]->getSiglaEdificio() == "central" && zonas[i][j-1]->getEdificio()->getArmazenamento() - 1 > -1) zonas[i][j-1]->getEdificio()->addArmazenamento(-1);
+                    nrBarraDeAco += 1;
+                }
+            }
+        }           
     }
 };
 
