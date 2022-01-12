@@ -1099,11 +1099,11 @@ void Ilha::amanhacer(){
             else if(zonas[i][j]->getSigla() == "vul"){
                 cout << "CHEGOU AQUIII" << endl;
                 int probErupcao = rand() % 101;
-                if(zonas[i][j]->getEdificio()->getSigla() == "minaf" && zonas[i][j]->getEdificio()->ligar() == 1) nrEletricidade += 100;
-                if(zonas[i][j]->getEdificio()->getSigla() == "minac" && zonas[i][j]->getEdificio()->ligar() == 1) cout << "PILAAAAAAAAA" << endl;
-                if(zonas[i][j]->getEdificio()->getSigla() == "central" && zonas[i][j]->getEdificio()->ligar() == 1) cout << "BOLHAAAAAAAA" << endl;
-                if(zonas[i][j]->getEdificio()->getSigla() == "bat" && zonas[i][j]->getEdificio()->ligar() == 1) cout << "RAFAAAAAAAAA" << endl;
-                if(zonas[i][j]->getEdificio()->getSigla() == "fund" && zonas[i][j]->getEdificio()->ligar() == 1) cout << "MADEIRAAAAAAA" << endl;
+                if(zonas[i][j]->getEdificio()->getSigla() == "minaf" && zonas[i][j]->getEdificio()->getLigado() == 1) nrEletricidade += 100;
+                else if(zonas[i][j]->getEdificio()->getSigla() == "minac" && zonas[i][j]->getEdificio()->getLigado() == 1) cout << "PILAAAAAAAAA" << endl;
+                else if(zonas[i][j]->getEdificio()->getSigla() == "central" && zonas[i][j]->getEdificio()->getLigado() == 1) cout << "BOLHAAAAAAAA" << endl;
+                else if(zonas[i][j]->getEdificio()->getSigla() == "bat" && zonas[i][j]->getEdificio()->getLigado() == 1) cout << "RAFAAAAAAAAA" << endl;
+                else if(zonas[i][j]->getEdificio()->getSigla() == "fund" && zonas[i][j]->getEdificio()->getLigado() == 1) cout << "MADEIRAAAAAAA" << endl;
             }
         }
     }
@@ -1808,7 +1808,7 @@ void Ilha::anoitecer(){
                 }
             }
             else if(zonas[i][j]->getSigla() == "vul"){
-                cout >> "Bem Vindo à zona VULCAO" << endl;
+                cout << "Bem Vindo à zona VULCAO" << endl;
                 vector<Trabalhador*> oper = zonas[i][j]->getTrabalhadoresBySigla("O"); //Guarda no vetor os operarios dessa zona
                 vector<Trabalhador*> len = zonas[i][j]->getTrabalhadoresBySigla("L"); //Guarda no vetor os lenhadores dessa zona
                 vector<Trabalhador*> miner = zonas[i][j]->getTrabalhadoresBySigla("M"); //Guarda no vetor os mineiros dessa zona
