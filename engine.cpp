@@ -39,3 +39,4 @@ bool validaPosicao(int i, int j, int linhas, int colunas){
     }
     return true;
 };
+

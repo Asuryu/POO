@@ -15,6 +15,7 @@ class Ilha {
         int nrVigasMadeira, nrFerro, nrBarraDeAco, nrCarvao, nrMadeira, nrEletricidade;
         int vigasMadeiraUsar, flag;
         int custoMinaf, custoMinac, custoBateria, custoFundicao, custoCentral, custoRestaurante, custoOper, custoLen, custoMiner, custoVigasMadeira;
+        bool validaAuxMinaf = false, validaAuxMinac = false, validaAuxCentral = false;
         vector< vector<Zona*> > zonas;
     public:
         Ilha();
