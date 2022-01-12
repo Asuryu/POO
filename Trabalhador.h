@@ -20,7 +20,7 @@ class Trabalhador {
         void setSigla(string sigla);
 
         virtual int getDiasTrabalhados();
-        virtual void getDiasTrabalhados(int diasTrabalhados);
+        virtual void setDiasTrabalhados(int diasTrabalhados);
         virtual bool getOperacional();
         virtual void setOperacional(bool operacional);
 };
@@ -46,7 +46,7 @@ class Lenhador : public Trabalhador {
     public:
         Lenhador(int custo, int diaContrato);
         int getDiasTrabalhados();
-        void getDiasTrabalhados(int diasTrabalhados);
+        void setDiasTrabalhados(int diasTrabalhados);
         bool getOperacional();
         void setOperacional(bool operacional);
 };

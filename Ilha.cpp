@@ -308,7 +308,7 @@ bool Ilha::validaComando(istringstream &comando){
                                 };                           
                                 nrVigasMadeira -= vigasMadeiraUsar;
                                 addSaldo(-(custoMinaf * 10 - vigasMadeiraUsar * custoMinaf));
-                                zonas[linhaX][colunaX]->setEdificio(new MinaFerro("minaf", (custoMinaf * 10 - vigasMadeiraUsar * custoMinaf)));
+                                zonas[linhaX][colunaX]->setEdificio(new MinaFerro("minaf", (custoMinaf * 10 - vigasMadeiraUsar * custoMinaf), dia));
                             }
                             else{
                                 do{
@@ -323,7 +323,7 @@ bool Ilha::validaComando(istringstream &comando){
                                 };
                                 nrVigasMadeira -= vigasMadeiraUsar;
                                 addSaldo(-(100 - vigasMadeiraUsar * custoVigasMadeira));
-                                zonas[linhaX][colunaX]->setEdificio(new MinaFerro("minaf", (100 - vigasMadeiraUsar * custoVigasMadeira)));
+                                zonas[linhaX][colunaX]->setEdificio(new MinaFerro("minaf", (100 - vigasMadeiraUsar * custoVigasMadeira), dia));
                             }
                         }
                         else if(args[1] == "minac"){
@@ -339,7 +339,7 @@ bool Ilha::validaComando(istringstream &comando){
                                 };                           
                                 nrVigasMadeira -= vigasMadeiraUsar;
                                 addSaldo(-(custoMinac * 10 - vigasMadeiraUsar * custoMinac));
-                                zonas[linhaX][colunaX]->setEdificio(new MinaFerro("minaf", (custoMinac * 10 - vigasMadeiraUsar * custoMinac)));    
+                                zonas[linhaX][colunaX]->setEdificio(new MinaCarvao("minaf", (custoMinac * 10 - vigasMadeiraUsar * custoMinac), dia));    
                             }
                             else{
                                 do{
@@ -353,7 +353,7 @@ bool Ilha::validaComando(istringstream &comando){
                                 };                           
                                 nrVigasMadeira -= vigasMadeiraUsar;
                                 addSaldo(-(100 - vigasMadeiraUsar * custoVigasMadeira));
-                                zonas[linhaX][colunaX]->setEdificio(new MinaCarvao("minac", (100 - vigasMadeiraUsar * custoVigasMadeira)));
+                                zonas[linhaX][colunaX]->setEdificio(new MinaCarvao("minac", (100 - vigasMadeiraUsar * custoVigasMadeira), dia));
                             }                
                         }
                         else if(args[1] == "central"){
@@ -362,7 +362,7 @@ bool Ilha::validaComando(istringstream &comando){
                                 return false;
                             };
                             addSaldo(-custoCentral); //Custo da construção da Central
-                            zonas[linhaX][colunaX]->setEdificio(new Central("central", custoCentral));
+                            zonas[linhaX][colunaX]->setEdificio(new Central("central", custoCentral, dia));
                         }
                         else if(args[1] == "bat"){
                             if(nrVigasMadeira - 10 < 0){
@@ -374,7 +374,7 @@ bool Ilha::validaComando(istringstream &comando){
                               return false;
                             }
                             addSaldo(-custoBateria); //Custo da construção da Bateria é "10€ + 10 Vigas". (Falta retirar as Vigas de Madeira adicionadas)
-                            zonas[linhaX][colunaX]->setEdificio(new Bateria("bat", custoBateria));
+                            zonas[linhaX][colunaX]->setEdificio(new Bateria("bat", custoBateria, dia));
                         }
                         else if(args[1] == "fund"){
                             if(saldo - custoFundicao < 0){
@@ -382,7 +382,7 @@ bool Ilha::validaComando(istringstream &comando){
                                 return false;
                             };
                             addSaldo(-custoFundicao); //Custo da construção da Fundição.
-                            zonas[linhaX][colunaX]->setEdificio(new Fundicao("fund", custoFundicao));
+                            zonas[linhaX][colunaX]->setEdificio(new Fundicao("fund", custoFundicao, dia));
                         }
                         else if(args[1] == "rest"){
                             if(saldo - custoRestaurante < 0){
@@ -390,7 +390,7 @@ bool Ilha::validaComando(istringstream &comando){
                                 return false;
                             };
                             addSaldo(-custoRestaurante); //Ainda temos de decidir o que fazer neste edificio e o seu respetivo preço.
-                            zonas[linhaX][colunaX]->setEdificio(new Restaurante("rest", custoRestaurante));
+                            zonas[linhaX][colunaX]->setEdificio(new Restaurante("rest", custoRestaurante, dia));
                         }
                         else{
                             cout << "[ERRO] Edificio invalido" << endl;
@@ -796,17 +796,17 @@ bool Ilha::validaComando(istringstream &comando){
                     if(zonas[linhaX][colunaX]->getEdificio() == nullptr){
                         cout << "[DEBUG] ";
                         if(args[1] == "minaf")
-                            zonas[linhaX][colunaX]->setEdificio(new MinaFerro("minaf", 0));
+                            zonas[linhaX][colunaX]->setEdificio(new MinaFerro("minaf", 0, dia));
                         else if(args[1] == "minac")
-                            zonas[linhaX][colunaX]->setEdificio(new MinaCarvao("minac", 0));
+                            zonas[linhaX][colunaX]->setEdificio(new MinaCarvao("minac", 0, dia));
                         else if(args[1] == "central")
-                            zonas[linhaX][colunaX]->setEdificio(new Central("central", 0));
+                            zonas[linhaX][colunaX]->setEdificio(new Central("central", 0, dia));
                         else if(args[1] == "bat")
-                            zonas[linhaX][colunaX]->setEdificio(new Bateria("bat", 0));
+                            zonas[linhaX][colunaX]->setEdificio(new Bateria("bat", 0, dia));
                         else if(args[1] == "fund")
-                            zonas[linhaX][colunaX]->setEdificio(new Fundicao("fund", 0));
+                            zonas[linhaX][colunaX]->setEdificio(new Fundicao("fund", 0, dia));
                         else if(args[1] == "rest")
-                            zonas[linhaX][colunaX]->setEdificio(new Restaurante("rest", 0));
+                            zonas[linhaX][colunaX]->setEdificio(new Restaurante("rest", 0, dia));
                         else{
                             cout << "[ERRO] Edificio invalido" << endl;
                             return false;
@@ -834,18 +834,108 @@ bool Ilha::validaComando(istringstream &comando){
     }
     else if (args[0] == "save" && args.size() == 2){
         saveName = args[1];
+        // Verificar que não existe nenhum save com o mesmo nome
+        for(unsigned int i = 0; i < ilhas.size(); i++){
+            if(ilhas[i]->getSaveName() == saveName){
+                cout << "Já existe um save com o nome " << saveName << endl;
+                return false;
+            }
+        }
         Ilha *tmp = new Ilha(this);
         ilhas.push_back(tmp);
-
-        for(int i = 0; i < ilhas.size(); i++){
+        cout << "Save com o nome " << args[1] << " guardado com sucesso!" << endl << endl << "Saves existentes: " << endl;
+        for(unsigned int i = 0; i < ilhas.size(); i++){
             cout << ilhas[i]->getSaveName() << endl;
         }
+        return true;
+    }
+    else if (args[0] == "apaga" && args.size() == 2){
+        // Apagar a ilha do vector ilhas que tenha um saveName igual a args[1]
+        for(unsigned int i = 0; i < ilhas.size(); i++){
+            if(ilhas[i]->getSaveName() == args[1]){
+                //delete ilhas[i];
+                ilhas.erase(ilhas.begin() + i);
+                cout << "Save " << args[1] << " apagado com sucesso!" << endl;
+                return true;
+            }
+        }
+        cout << "Não existe nenhum save com o nome " << args[1] << endl;
+        return false;
+    }
+    else if (args[0] == "load" && args.size() == 2){
+        // Verificar se o save existe
+        for(unsigned int i = 0; i < ilhas.size(); i++){
+            if(ilhas[i]->getSaveName() == args[1]){
+                *this = Ilha(ilhas[i]);
+                cout << "Save " << args[1] << " carregado com sucesso!" << endl;
+                return true;
+            }
+        }
+        cout << "Não existe nenhum save com o nome " << args[1] << endl;
+        return false;
     }
     else if (args[0] == "next" && args.size() == 1){
         dia++;
         cout << "[Dia " <<  dia << "]" << endl;
-        anoitecer();          
+        amanhacer();
         return true;          
+    }
+    else if (args[0] == "upgrade" && args.size() == 3){
+        int linhaX, colunaX;
+        if(isNumber(args[1])) linhaX = stoi(args[1]);
+        else{
+            cout << "[ERRO] Introduza um numero para a linha" << endl;
+            return false;
+        }
+        if(isNumber(args[2])) colunaX = stoi(args[2]);
+        else{
+            cout << "[ERRO] Introduza um numero para a coluna" << endl;
+            return false;
+        }
+        if(linhaX < linhas && linhaX >= 0){
+            if(colunaX < colunas && colunaX >= 0){
+                Zona *zona = zonas[linhaX][colunaX];
+                if(zonas[linhaX][colunaX]->getEdificio() != nullptr && zonas[linhaX][colunaX]->getEdificio()->getNivel() != 0){
+                    if(zona->getEdificio()->getSigla() == "minaf"){
+                        if(saldo >= 15){
+                            if(nrVigasMadeira >= 1){
+                                if(zona->getEdificio()->getNivel() < 5){
+                                    if(zona->getEdificio()->addNivel()){
+                                        addSaldo(-15); nrVigasMadeira--;
+                                        cout << "Edificio " << zona->getEdificio()->getSigla() << " na zona (" << linhaX << ", " << colunaX << ") UPGRADED para nível " << zona->getEdificio()->getNivel() << " com sucesso!" << endl;
+                                        return true;
+                                    } else cout << "Esse edificio nao da para ser upgraded" << endl; return false;
+                                } else cout << "O edificio ja esta no nivel maximo" << endl; return false;
+                            } else cout << "Nao tem vigas de madeira suficientes. Falta 1 viga de madeira" << endl; return false;
+                        } cout << "Nao tem dinheiro suficiente. Faltam " << abs(saldo - 15) << " euros" << endl; return false;
+                    } 
+                    else if(zona->getEdificio()->getSigla() == "minac"){
+                        if(saldo >= 15){
+                            if(nrVigasMadeira >= 1){
+                                if(zona->getEdificio()->getNivel() < 5){
+                                    if(zona->getEdificio()->addNivel()){
+                                        addSaldo(-15); nrVigasMadeira--;
+                                        cout << "Edificio " << zona->getEdificio()->getSigla() << " na zona (" << linhaX << ", " << colunaX << ") UPGRADED para nível " << zona->getEdificio()->getNivel() << " com sucesso!" << endl;
+                                        return true;
+                                    } else cout << "Esse edificio nao da para ser upgraded" << endl; return false;
+                                } else cout << "O edificio ja esta no nivel maximo" << endl; return false;
+                            } else cout << "Nao tem vigas de madeira suficientes. Falta 1 viga de madeira" << endl; return false;
+                        } cout << "Nao tem dinheiro suficiente. Faltam " << abs(saldo - 15) << " euros" << endl; return false;
+                    }
+                    else if(zona->getEdificio()->getSigla() == "bat"){
+                        if(saldo >= 5){
+                            if(zona->getEdificio()->getNivel() < 5){
+                                if(zona->getEdificio()->addNivel()){
+                                    addSaldo(-5);
+                                    cout << "Edificio " << zona->getEdificio()->getSigla() << " na zona (" << linhaX << ", " << colunaX << ") UPGRADED para nível " << zona->getEdificio()->getNivel() << " com sucesso!" << endl;
+                                    return true;
+                                } else cout << "Esse edificio nao da para ser upgraded" << endl; return false;
+                            } else cout << "O edificio ja esta no nivel maximo" << endl; return false;
+                        } cout << "Nao tem dinheiro suficiente. Faltam " << abs(saldo - 15) << " euros" << endl; return false;
+                    } else cout << "Esse tipo de edificio nao pode ser upgraded" << endl; return false;
+                } else cout << "Nao existe edificio nessa zona" << endl; return false;
+            } else cout << "[ERRO] Coluna invalida" << endl;
+        } else cout << "[ERRO] Linha invalida" << endl;
     }
     else if (args[0] == "exit" && args.size() == 1){
         cout << "A sair do jogo" << endl;
@@ -865,28 +955,68 @@ void Ilha::amanhacer(){
             for(unsigned int l = 0; l < trabalhadores.size(); l++){
                 if(trabalhadores[l]->getSigla() == "O"){
                     randomNumber = rand() % 100;
-                    if(randomNumber <= 5 && (dia - trabalhadores[l]->getDiaContrato() > 10)){
+                    if(randomNumber <= 5 && (dia - trabalhadores[l]->getDiaContrato() > 10 && zona->getSigla() != "pas")){
                         cout << "O Operário com ID " << trabalhadores[l]->getIdTrabalhador() << " na zona (" << i << ", " << j << ") " << "decidiu despedir-se" << endl;
                         zona->removeTrabalhador(trabalhadores[l]);
                     }
                 } else if(trabalhadores[l]->getSigla() == "L"){
                     if(trabalhadores[l]->getDiasTrabalhados() < 4){
                         trabalhadores[l]->setOperacional(true);
-                        trabalhadores[l]->getDiasTrabalhados(trabalhadores[l]->getDiasTrabalhados() + 1);
+                        trabalhadores[l]->setDiasTrabalhados(trabalhadores[l]->getDiasTrabalhados() + 1);
                     } else {
-                        trabalhadores[l]->getDiasTrabalhados(0);
+                        trabalhadores[l]->setDiasTrabalhados(0);
                         trabalhadores[l]->setOperacional(false);
+                        cout << "O Lenhador com ID " << trabalhadores[l]->getIdTrabalhador() << " na zona (" << i << ", " << j << ") " << "encontra-se em repouso" << endl;
                     }
                 } else if(trabalhadores[l]->getSigla() == "M"){
                     randomNumber = rand() % 100;
-                    if(randomNumber <= 10 && (dia - trabalhadores[l]->getDiaContrato() > 2)){
+                    if(randomNumber <= 10 && (dia - trabalhadores[l]->getDiaContrato() > 2 && zona->getSigla() != "pas")){
                         cout << "O Mineiro com ID " << trabalhadores[l]->getIdTrabalhador() << " na zona (" << i << ", " << j << ") " << "decidiu despedir-se" << endl;
                         zona->removeTrabalhador(trabalhadores[l]);
                     }
                 }
             }
-            if(zona->getSigla() == "minaf"){
 
+            // Acontecimentos para as zonas
+            if(zona->getSigla() == "flr"){
+                if(zona->getEdificio() == nullptr){
+                    if(dia % 2 && dia > 1){
+                        if(zona->getArvores() < 100){
+                            zona->addArvores(1);
+                            cout << "Cresceu uma nova arvore na zona (" << i << ", " << j << ")" << endl;
+                        }
+                    }
+                } else {
+                    if(zona->getArvores() > 0){
+                        zona->addArvores(-1);
+                        cout << "Uma arvore morreu na zona (" << i << ", " << j << ")" << endl;
+                    }
+                }
+            } 
+            else if(zona->getSigla() == "mnt"){
+                unsigned int nrTrab = zona->getTrabalhadores().size();
+                zona->addArmazenamento(nrTrab);
+                randomNumber = rand() % 100;
+                for(unsigned int l = 0; l < nrTrab; l++){
+                    if(randomNumber <= 5){
+                        cout << "O trabalhador com ID " << zona->getTrabalhadores()[l]->getIdTrabalhador() << " na zona (" << i << ", " << j << ") " << "decidiu despedir-se" << endl;
+                        zona->removeTrabalhador(zona->getTrabalhadores()[l]);
+                    }
+                }
+            }
+            else if(zona->getSigla() == "pnt"){
+                if(zona->getEdificio() != nullptr){
+                    if(dia - zona->getEdificio()->getDiaConstrucao() >= 10){
+                        cout << "O edificio na zona (" << i << ", " << j << ") " << "afundou-se\nTodos os trabalhadores demitiram-se" << endl;
+                        // Eliminar todos os trabalhadores dessa zona
+                        vector<Trabalhador*> trabalhadores = zona->getTrabalhadores();
+                        for(unsigned int l = 0; l < trabalhadores.size(); l++){
+                            zona->removeTrabalhador(trabalhadores[l]);
+                        }
+                        // Eliminar o edificio
+                        zona->setEdificio(nullptr);
+                    }
+                }
             }
         }
     }
@@ -926,7 +1056,6 @@ void Ilha::anoitecer(){
                                 }
                             }
                         }
-                        // cout << "Mete as tuas merdas aqui" << endl;
                     }    
                     if(validaPosicao(i - 1, j, linhas, colunas)){ // Verificar na linha acima
                         cout << "Linha acima permitida" << endl;
@@ -944,7 +1073,6 @@ void Ilha::anoitecer(){
                                 }
                             }
                         }
-                        // cout << "Mete as tuas merdas aqui" << endl;
                     }
                     if(validaPosicao(i, j + 1, linhas, colunas)){ // Verificar na coluna a direita
                         cout << "Coluna a direita permitida" << endl;
@@ -962,7 +1090,6 @@ void Ilha::anoitecer(){
                                 }
                             }
                         }
-                        // cout << "Mete as tuas merdas aqui" << endl;
                     }
                     if(validaPosicao(i, j - 1, linhas, colunas)){ // Verificar na coluna a esquerda
                         cout << "Coluna a esquerda permitida" << endl;
@@ -980,11 +1107,8 @@ void Ilha::anoitecer(){
                                 }
                             }
                         }
-                        // cout << "Mete as tuas merdas aqui" << endl;
                     }
                 }
-                // if(zonas[i][j]->getSiglaEdificio() == "bat") nrEletricidade += zonas[i][j]->getEdificio()->getArmazenamento();
-                // if(zonas[i][j]->getSiglaEdificio() == "fund");
             }           
         }
     }

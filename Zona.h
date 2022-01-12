@@ -33,6 +33,8 @@ class Zona {
         void removeEdificio();
         virtual int getArmazenamento();
         virtual void addArmazenamento(int armazenamento);
+        virtual int getArvores();
+        virtual int addArvores(int arvores);
         Edificio* getEdificio();       
         ~Zona(); 
 };
@@ -59,6 +61,8 @@ class Floresta : public Zona {
         Floresta(int linha, int coluna, int arvores);
         int getArmazenamento();
         void addArmazenamento(int armazenamento);
+        int getArvores();
+        int addArvores(int arvores);
 };
 class Pastagem : public Zona {
     private:

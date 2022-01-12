@@ -7,15 +7,18 @@ class Edificio {
     private:
         string sigla;
         int ligado;
+        int diaConstrucao;
     public:
-        Edificio(string sigla);
+        Edificio(string sigla, int diaConstrucao);
         void ligar();
         void desligar();
         int getLigado();
+        int getDiaConstrucao();
         virtual int getCusto();
         virtual int getNivel();
         virtual int addNivel();
         virtual int getArmazenamento() const;
+        virtual int getArmazenamentoMax() const;
         virtual int addArmazenamento(int armazenamento);
         string getSigla();
         virtual ~Edificio();
@@ -25,15 +28,17 @@ class MinaFerro : public Edificio {
     private:
         int custoFabrico;
         int nivel;
+        int armazenamentoMax;
         int producao;
         int armazenamento;
     public:
-        MinaFerro(string sigla, int custoFabrico);
+        MinaFerro(string sigla, int custoFabrico, int diaConstrucao);
         int getNivel();
         int addNivel();
         int getProducao() const;
         void setProducao(int producao);
         int getArmazenamento() const;
+        int getArmazenamentoMax() const;
         int addArmazenamento(int armazenamento);
         int getCusto();
 };
@@ -42,15 +47,17 @@ class MinaCarvao : public Edificio {
     private:
         int custoFabrico;
         int nivel;
+        int armazenamentoMax;
         int producao;
         int armazenamento;
     public:
-        MinaCarvao(string sigla, int custoFabrico);
+        MinaCarvao(string sigla, int custoFabrico, int diaConstrucao);
         int getNivel();
         int addNivel();
         int getProducao() const;
         void setProducao(int producao);
         int getArmazenamento() const;
+        int getArmazenamentoMax() const;
         int addArmazenamento(int armazenamento);
         int getCusto();
 };
@@ -60,7 +67,7 @@ class Central : public Edificio {
         int armazenamento;
         int custoFabrico;
     public:
-        Central(string sigla, int custoFabrico);
+        Central(string sigla, int custoFabrico, int diaConstrucao);
         int getArmazenamento() const;
         int addArmazenamento(int armazenamento);
         int getCusto();
@@ -72,7 +79,7 @@ class Bateria : public Edificio {
         int nivel;
         int capacidade;
     public:
-        Bateria(string sigla, int custoFabrico);
+        Bateria(string sigla, int custoFabrico, int diaConstrucao);
         int getNivel();
         int addNivel();
         int getCapacidade() const;
@@ -84,7 +91,7 @@ class Fundicao : public Edificio {
     private:
         int custoFabrico;
     public:
-        Fundicao(string sigla, int custoFabrico);
+        Fundicao(string sigla, int custoFabrico, int diaConstrucao);
         int getCusto();
 };
 
@@ -92,6 +99,6 @@ class Restaurante : public Edificio {
     private:
         int custoFabrico;
     public:
-        Restaurante(string sigla, int custoFabrico);
+        Restaurante(string sigla, int custoFabrico, int diaConstrucao);
         int getCusto();
 };

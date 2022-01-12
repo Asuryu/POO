@@ -106,6 +106,10 @@ int Zona::getArmazenamento() {
     return 0;
 }
 void Zona::addArmazenamento(int armazenamento) {}
+int Zona::getArvores() {
+    return 0;
+}
+int Zona::addArvores(int arvores) {}
 // Destrutor da classe Zona
 // libertar memória
 Zona::~Zona() {
@@ -138,6 +142,12 @@ int Floresta::getArmazenamento(){
 }
 void Floresta::addArmazenamento(int armazenamento){
     this->armazenamento += armazenamento;
+}
+int Floresta::getArvores(){
+    return this->arvores;
+}
+int Floresta::addArvores(int arvores){
+    this->arvores += arvores;
 }
 Pastagem::Pastagem(int linha, int coluna) : Zona(linha, coluna) {
     setSigla("pas");

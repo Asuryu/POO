@@ -24,10 +24,10 @@ void Trabalhador::setSigla(string sigla) {
 int Trabalhador::getDiasTrabalhados() {
     return 0;
 }
-void Trabalhador::getDiasTrabalhados(int diasTrabalhados) {
+void Trabalhador::setDiasTrabalhados(int diasTrabalhados) {
 }
 bool Trabalhador::getOperacional() {
-    return false;
+    return true;
 }
 void Trabalhador::setOperacional(bool operacional) {
 }
@@ -53,7 +53,7 @@ Lenhador::Lenhador(int custo, int diaContrato) : Trabalhador(custo, diaContrato)
 int Lenhador::getDiasTrabalhados() {
     return diasTrabalhados;
 }
-void Lenhador::getDiasTrabalhados(int diasTrabalhados) {
+void Lenhador::setDiasTrabalhados(int diasTrabalhados) {
     this->diasTrabalhados = diasTrabalhados;
 }
 bool Lenhador::getOperacional() {
