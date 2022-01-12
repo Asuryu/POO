@@ -1052,6 +1052,7 @@ void Ilha::amanhacer(){
                 }
             }
 
+            cout << zonas[i][j]->getSigla() << endl;
             // Acontecimentos para as zonas
             if(zona->getSigla() == "flr"){
                 if(zona->getEdificio() == nullptr){
