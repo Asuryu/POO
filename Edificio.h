@@ -95,10 +95,10 @@ class Fundicao : public Edificio {
         int getCusto();
 };
 
-class Restaurante : public Edificio {
+class Purgatorio : public Edificio {
     private:
         int custoFabrico;
     public:
-        Restaurante(string sigla, int custoFabrico, int diaConstrucao);
+        Purgatorio(string sigla, int custoFabrico, int diaConstrucao);
         int getCusto();
 };

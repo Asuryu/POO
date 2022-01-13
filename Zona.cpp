@@ -14,7 +14,7 @@ string Zona::getInfoZona() {
         else if(edf == "central") edf = "Central Eletrica";        
         else if(edf == "bat") edf = "Bateria"; 
         else if(edf == "fund") edf = "Fundicao";
-        else if(edf == "rest") edf = "Restaurante"; 
+        else if(edf == "purg") edf = "Purgatorio"; 
     } else edf = "Sem edificio";
 
 

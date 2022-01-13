@@ -15,7 +15,7 @@ class Ilha {
         float saldo;
         int nrVigasMadeira, nrFerro, nrBarraDeAco, nrCarvao, nrMadeira, nrEletricidade;
         int vigasMadeiraUsar, flag;
-        int custoMinaf, custoMinac, custoBateria, custoFundicao, custoCentral, custoRestaurante, custoOper, custoLen, custoMiner, custoVigasMadeira;
+        int custoMinaf, custoMinac, custoBateria, custoFundicao, custoCentral, custoPurgatorio, custoOper, custoLen, custoMiner, custoVigasMadeira;
         bool validaAuxMinaf, validaAuxMinac, validaAuxCentral;
         vector< vector<Zona*> > zonas;
         vector<Ilha *> ilhas;

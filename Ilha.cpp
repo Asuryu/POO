@@ -78,11 +78,11 @@ void Ilha::initIlha(){
     mostraIlha();
 }
 
-Ilha::Ilha() :  nrVigasMadeira(200), nrFerro(10), nrBarraDeAco(10), nrCarvao(10), nrMadeira(10), nrEletricidade(5), vigasMadeiraUsar(0), flag(0),
-                custoMinaf(100), custoMinac(100), custoBateria(10), custoFundicao(10), custoCentral(15), custoRestaurante(30), custoOper(15), custoLen(20),
+Ilha::Ilha() :  nrVigasMadeira(30), nrFerro(0), nrBarraDeAco(0), nrCarvao(0), nrMadeira(0), nrEletricidade(0), vigasMadeiraUsar(0), flag(0),
+                custoMinaf(100), custoMinac(100), custoBateria(10), custoFundicao(10), custoCentral(15), custoPurgatorio(300), custoOper(15), custoLen(20),
                 custoMiner(10), custoVigasMadeira(10), validaAuxMinaf(false), validaAuxMinac(false), validaAuxCentral(false) {
     dia = 1;
-    saldo = 0;
+    saldo = (rand() % (100 - 50 + 1) + 50);
     initIlha();
     jogar();
 }
@@ -106,7 +106,7 @@ Ilha::Ilha(Ilha *ilha){
     custoBateria = ilha->custoBateria;
     custoFundicao = ilha->custoFundicao;
     custoCentral = ilha->custoCentral;
-    custoRestaurante = ilha->custoRestaurante;
+    custoPurgatorio = ilha->custoPurgatorio;
     custoOper = ilha->custoOper;
     custoLen = ilha->custoLen;
     custoMiner = ilha->custoMiner;
@@ -161,12 +161,12 @@ void Ilha::mostraIlha() {
     cout << "Saldo: " << saldo << " euros" << endl;
     cout << "Numero de Trabalhadores: " << getNrTrabalhadores() << endl << endl;
     cout << "Recursos: " << endl;
-    cout << "Vigas de Madeira: " << nrVigasMadeira << endl;
-    cout << "Ferro: " << nrFerro << endl; 
-    cout << "Barras de Aco: " << nrBarraDeAco << endl; 
-    cout << "Carvao: " << nrCarvao << endl; 
-    cout << "Madeira: " << nrMadeira << endl; 
-    cout << "Eletricidade: " << nrEletricidade << endl << endl; 
+    cout << "   Vigas de Madeira: " << nrVigasMadeira << endl;
+    cout << "   Ferro: " << nrFerro << endl; 
+    cout << "   Barras de Aco: " << nrBarraDeAco << endl; 
+    cout << "   Carvao: " << nrCarvao << endl; 
+    cout << "   Madeira: " << nrMadeira << endl; 
+    cout << "   Eletricidade: " << nrEletricidade << endl << endl; 
 }
 
 void Ilha::addSaldo(float saldo){
@@ -174,18 +174,17 @@ void Ilha::addSaldo(float saldo){
     else if(saldo < 0) cout << "Foram DEBITADOS " << abs(saldo) << " euros da sua conta." << endl;
     this->saldo += saldo;
 }
+
 float Ilha::getSaldo(){
     return saldo;
 }
 
-// Função para adicionar uma zona ao vector de zonas
 void Ilha::addZona(Zona *zona) {
     zonas.push_back(vector<Zona*>());
     for(int i = 0; i < colunas; i++){
         zonas[zonas.size() - 1].push_back(zona);
     }
 }
-
 
 int Ilha::getNrTrabalhadores() {
     int nrTrabalhadores = 0;
@@ -206,6 +205,7 @@ string Ilha::getInfoZona(){
     }
     return oss.str();
 }
+
 string Ilha::getInfoZona(int linha, int coluna){
     ostringstream oss;
     string state, tipo;
@@ -295,7 +295,7 @@ bool Ilha::validaComando(istringstream &comando){
             cout << "[ERRO] Introduza um numero para a coluna" << endl;
             return false;
         }
-        if(args[1] == "minaf" || args[1] == "minac" || args[1] == "central" || args[1] == "bat" || args[1] == "fund" || args[1] == "rest"){
+        if(args[1] == "minaf" || args[1] == "minac" || args[1] == "central" || args[1] == "bat" || args[1] == "fund" || args[1] == "purg"){
             if(linhaX < linhas && linhaX >= 0){
                 if(colunaX < colunas && colunaX >= 0){
                     if(zonas[linhaX][colunaX]->getEdificio() == nullptr){
@@ -458,13 +458,13 @@ bool Ilha::validaComando(istringstream &comando){
                                 zonas[linhaX][colunaX]->setEdificio(new Fundicao("fund", custoFundicao, dia));
                             }
                         }
-                        else if(args[1] == "rest"){
-                            if(saldo - custoRestaurante < 0){
-                                cout << "Nao tem dinheiro suficiente. Faltam " << -(saldo - custoRestaurante) << " euros!" << endl;
+                        else if(args[1] == "purg"){
+                            if(saldo - custoPurgatorio < 0){
+                                cout << "Nao tem dinheiro suficiente. Faltam " << -(saldo - custoPurgatorio) << " euros!" << endl;
                                 return false;
                             };
-                            addSaldo(-custoRestaurante); //Ainda temos de decidir o que fazer neste edificio e o seu respetivo preço.
-                            zonas[linhaX][colunaX]->setEdificio(new Restaurante("rest", custoRestaurante, dia));
+                            addSaldo(-custoPurgatorio); //Ainda temos de decidir o que fazer neste edificio e o seu respetivo preço.
+                            zonas[linhaX][colunaX]->setEdificio(new Purgatorio("purg", custoPurgatorio, dia));
                         }
                         else{
                             cout << "[ERRO] Edificio invalido" << endl;
@@ -663,8 +663,8 @@ bool Ilha::validaComando(istringstream &comando){
                     custoCentral = stoi(cfgArgs[1]);
                     cout << custoCentral << endl;
                 }
-                else if (cfgArgs[0] == "rest" && cfgArgs.size() == 2){
-                    cout << "Preco de compra do Restaurante alterado de " << custoCentral << " para ";
+                else if (cfgArgs[0] == "purg" && cfgArgs.size() == 2){
+                    cout << "Preco de compra do Purgatorio alterado de " << custoCentral << " para ";
                     custoCentral = stoi(cfgArgs[1]);
                     cout << custoCentral << endl;
                 }
@@ -864,7 +864,7 @@ bool Ilha::validaComando(istringstream &comando){
             return false;
         }
 
-        if(args[1] == "minaf" || args[1] == "minac" || args[1] == "central" || args[1] == "bat" || args[1] == "fund" || args[1] == "rest"){
+        if(args[1] == "minaf" || args[1] == "minac" || args[1] == "central" || args[1] == "bat" || args[1] == "fund" || args[1] == "purg"){
             if(linhaX < linhas && linhaX >= 0){
                 if(colunaX < colunas && colunaX >= 0){
                     if(zonas[linhaX][colunaX]->getEdificio() == nullptr){
@@ -879,8 +879,8 @@ bool Ilha::validaComando(istringstream &comando){
                             zonas[linhaX][colunaX]->setEdificio(new Bateria("bat", 0, dia));
                         else if(args[1] == "fund")
                             zonas[linhaX][colunaX]->setEdificio(new Fundicao("fund", 0, dia));
-                        else if(args[1] == "rest")
-                            zonas[linhaX][colunaX]->setEdificio(new Restaurante("rest", 0, dia));
+                        else if(args[1] == "purg")
+                            zonas[linhaX][colunaX]->setEdificio(new Purgatorio("purg", 0, dia));
                         else{
                             cout << "[ERRO] Edificio invalido" << endl;
                             return false;
@@ -1020,7 +1020,13 @@ bool Ilha::validaComando(istringstream &comando){
 }
 
 void Ilha::amanhacer(){
-    cout << "[Dia " <<  dia << "] - AMANHECER" << endl;
+    cout << "\033[2J\033[1;1H";
+    cout << "·▄▄▄▄  ▪   ▄▄▄· " << endl;
+    cout << "██▪ ██ ██ ▐█ ▀█ " << endl;
+    cout << "▐█· ▐█▌▐█·▄█▀▀█ " << endl;
+    cout << "██. ██ ▐█▌▐█ ▪▐▌" << endl;
+    cout << "▀▀▀▀▀• ▀▀▀ ▀  ▀ " << endl;
+    cout << "\nOs galos cantam com o inicio do dia " << dia << endl << endl;
     // Acontecimentos para os trabalhadores
     int randomNumber;
     for(int i = 0; i < linhas; i++){
@@ -1052,12 +1058,10 @@ void Ilha::amanhacer(){
                 }
             }
 
-            cout << zonas[i][j]->getSigla() << endl;
             // Acontecimentos para as zonas
-            if(zonas[i][j]->getSigla() == "vul"){
+            if(zona->getSigla() == "vul"){
                 int probErupcao = rand() % 100;
-                if(probErupcao < 50 && dia > 3){
-                    int saldoTotal = saldo;
+                if(probErupcao < 5 && dia > 3){
                     int operariosMortos = 0;
                     int edificiosDestruidos = 0;
                     for(int k = 0; k < linhas; k++){
@@ -1142,12 +1146,67 @@ void Ilha::amanhacer(){
                     }
                 }
             }
+        
+            // Acontecimentos para os edificios
+            if(zona->getEdificio() != nullptr){
+                if(zona->getEdificio()->getSigla() == "purg" && zona->getEdificio()->getLigado() == 1){
+                    vector<Trabalhador*> trabalhadores = zona->getTrabalhadores();
+                    if(dia % 2 != 0 && trabalhadores.size() > 0){
+                        // Escolher um trabalhador aleatoriamente
+                        int randomNumber = rand() % trabalhadores.size();
+                        string tipoTrab = trabalhadores[randomNumber]->getSigla();
+                        zona->removeTrabalhador(trabalhadores[randomNumber]);
+                        cout << "[-] O trabalhador com ID " << trabalhadores[randomNumber]->getIdTrabalhador() << " na zona (" << i << ", " << j << ") " << "sacrificou-se no purgatorio" << endl;
+                        if(tipoTrab == "M"){
+                            int randomNumber2 = rand() % 2;
+                            if(randomNumber2 == 0){
+                                int random = rand() % 10 + 10;
+                                nrFerro += random;
+                                cout << "    Foram adicionados " << random << "kg de ferro aos seus recursos!" << endl;
+                            }
+                            else if(randomNumber2 == 1){
+                                int random = rand() % 10 + 10;
+                                nrCarvao += random;
+                                cout << "    Foram adicionados " << random << "kg de carvao aos seus recursos!" << endl;
+                            }
+                            else if(randomNumber2 == 2){
+                                int random = rand() % 10 + 5;
+                                nrBarraDeAco += random;
+                                cout << "    Foram adicionadas " << random << " barras de aco aos seus recursos!" << endl;
+                            }
+                        }
+                        else if(tipoTrab == "L"){
+                            int randomNumber2 = rand() % 1;
+                            if(randomNumber2 == 0){
+                                int random = rand() % 10 + 10;
+                                nrVigasMadeira += random;
+                                cout << "    Foram adicionadas " << random << " vigas de madeira aos seus recursos!" << endl;
+                            } else{
+                                int random = rand() % 10 + 10;
+                                nrMadeira += random;
+                                cout << "    Foram adicionados " << random << "kg de madeira aos seus recursos!" << endl;
+                            }
+                        } else if(tipoTrab == "O"){
+                            int random = rand() % 10 + 5;
+                            nrEletricidade += random;
+                            cout << "    Foram adicionados " << random << "kWh de eletricidade aos seus recursos!" << endl;
+                        }
+                    }
+                }
+            }
         }
     }
+    cout << endl;
 }
 
 void Ilha::anoitecer(){
-    cout << "[Dia " <<  dia << "] - ANOITECER" << endl;
+    cout << "\033[2J\033[1;1H";
+    cout << " ▐ ▄       ▪  ▄▄▄▄▄▄▄▄ ." << endl;
+    cout << "•█▌▐█▪     ██ •██  ▀▄.▀·" << endl;
+    cout << "▐█▐▐▌ ▄█▀▄ ▐█· ▐█.▪▐▀▀▪▄" << endl;
+    cout << "██▐█▌▐█▌.▐▌▐█▌ ▐█▌·▐█▄▄▌" << endl;
+    cout << "▀▀ █▪ ▀█▄▀▪▀▀▀ ▀▀▀  ▀▀▀ " << endl << endl;
+    cout << "O anoitecer do dia " << dia << " chegou!" << endl;
     for(int i = 0; i < linhas; i++){
         for(int j = 0; j < colunas; j++){    
 
@@ -1160,7 +1219,7 @@ void Ilha::anoitecer(){
                     nrFerro += zonas[i][j]->getEdificio()->getArmazenamento();
                 }
                 if(zonas[i][j]->getSiglaEdificio() == "minac" && miner.size() > 0 && zonas[i][j]->getEdificio()->getLigado() == 1){
-                    nrFerro += zonas[i][j]->getEdificio()->addArmazenamento(2 + zonas[i][j]->getEdificio()->getNivel()- 1);
+                    nrCarvao += zonas[i][j]->getEdificio()->addArmazenamento(2 + zonas[i][j]->getEdificio()->getNivel()- 1);
                 }
                 if(zonas[i][j]->getSiglaEdificio() == "central" && oper.size() > 0 && zonas[i][j]->getEdificio()->getLigado() == 1){
                     if(validaPosicao(i + 1, j, linhas, colunas)){ // Verificar na linha abaixo
@@ -1332,7 +1391,7 @@ void Ilha::anoitecer(){
                     nrFerro += zonas[i][j]->getEdificio()->getArmazenamento();
                 }
                 if(zonas[i][j]->getSiglaEdificio() == "minac" && miner.size() > 0 && zonas[i][j]->getEdificio()->getLigado() == 1){
-                    nrFerro += zonas[i][j]->getEdificio()->addArmazenamento((2 + zonas[i][j]->getEdificio()->getNivel()- 1)* 0.5); //Redução de 50% de produção por estar na zona "Deserto"
+                    nrCarvao += zonas[i][j]->getEdificio()->addArmazenamento((2 + zonas[i][j]->getEdificio()->getNivel()- 1)* 0.5); //Redução de 50% de produção por estar na zona "Deserto"
                 }
                 if(zonas[i][j]->getSiglaEdificio() == "central" && oper.size() > 0 && zonas[i][j]->getEdificio()->getLigado() == 1){
                     if(validaPosicao(i + 1, j, linhas, colunas)){ // Verificar na linha abaixo
@@ -1497,6 +1556,8 @@ void Ilha::anoitecer(){
             }
             else if(zonas[i][j]->getSigla() == "flr"){
                 zonas[i][j]->addArmazenamento(1 * zonas[i][j]->getTrabalhadoresBySigla("L").size());
+                nrMadeira += (1 * zonas[i][j]->getTrabalhadoresBySigla("L").size());
+                nrVigasMadeira += (1 * zonas[i][j]->getTrabalhadoresBySigla("L").size());
             }
             else if(zonas[i][j]->getSigla() == "mnt"){
                 vector<Trabalhador*> oper = zonas[i][j]->getTrabalhadoresBySigla("O"); //Guarda no vetor os operarios dessa zona
@@ -1507,7 +1568,7 @@ void Ilha::anoitecer(){
                     nrFerro += zonas[i][j]->getEdificio()->getArmazenamento();
                 }
                 if(zonas[i][j]->getSiglaEdificio() == "minac" && miner.size() > 0 && zonas[i][j]->getEdificio()->getLigado() == 1){
-                    nrFerro += zonas[i][j]->getEdificio()->addArmazenamento((2 + zonas[i][j]->getEdificio()->getNivel()- 1) * 2); //Aumento de 100% de produção por estar na zona "Montanha"
+                    nrCarvao += zonas[i][j]->getEdificio()->addArmazenamento((2 + zonas[i][j]->getEdificio()->getNivel()- 1) * 2); //Aumento de 100% de produção por estar na zona "Montanha"
                 }
                 if(zonas[i][j]->getSiglaEdificio() == "central" && oper.size() > 0 && zonas[i][j]->getEdificio()->getLigado() == 1){
                     if(validaPosicao(i + 1, j, linhas, colunas)){ // Verificar na linha abaixo
@@ -1679,7 +1740,7 @@ void Ilha::anoitecer(){
                     nrFerro += zonas[i][j]->getEdificio()->getArmazenamento();
                 }
                 if(zonas[i][j]->getSiglaEdificio() == "minac" && miner.size() > 0 && zonas[i][j]->getEdificio()->getLigado() == 1){
-                    nrFerro += zonas[i][j]->getEdificio()->addArmazenamento(2 + zonas[i][j]->getEdificio()->getNivel()- 1);
+                    nrCarvao += zonas[i][j]->getEdificio()->addArmazenamento(2 + zonas[i][j]->getEdificio()->getNivel()- 1);
                 }
                 if(zonas[i][j]->getSiglaEdificio() == "central" && oper.size() > 0 && zonas[i][j]->getEdificio()->getLigado() == 1){
                     if(validaPosicao(i + 1, j, linhas, colunas)){ // Verificar na linha abaixo
@@ -1851,7 +1912,7 @@ void Ilha::anoitecer(){
                     nrFerro += zonas[i][j]->getEdificio()->getArmazenamento();
                 }
                 if(zonas[i][j]->getSiglaEdificio() == "minac" && miner.size() > 0 && zonas[i][j]->getEdificio()->getLigado() == 1){
-                    nrFerro += zonas[i][j]->getEdificio()->addArmazenamento((2 + zonas[i][j]->getEdificio()->getNivel()- 1) * 5); //Redução de 50% de produção por estar na zona "Deserto"
+                    nrCarvao += zonas[i][j]->getEdificio()->addArmazenamento((2 + zonas[i][j]->getEdificio()->getNivel()- 1) * 5); //Redução de 50% de produção por estar na zona "Deserto"
                 }
                 if(zonas[i][j]->getSiglaEdificio() == "central" && oper.size() > 0 && zonas[i][j]->getEdificio()->getLigado() == 1){
                     if(validaPosicao(i + 1, j, linhas, colunas)){ // Verificar na linha abaixo
@@ -2016,6 +2077,8 @@ void Ilha::anoitecer(){
             }
         }           
     }
+    cout << "\n>>> Prima ENTER para amanhecer <<< ";
+    getchar();
 };
 
 Ilha::~Ilha(){

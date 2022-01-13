@@ -164,9 +164,9 @@ int Fundicao::getCusto() {
 }
 
 
-Restaurante::Restaurante(string sigla, int custoFabrico, int diaConstrucao) : Edificio(sigla, diaConstrucao) {
+Purgatorio::Purgatorio(string sigla, int custoFabrico, int diaConstrucao) : Edificio(sigla, diaConstrucao) {
     this->custoFabrico = custoFabrico;
 }
-int Restaurante::getCusto() {
+int Purgatorio::getCusto() {
     return this->custoFabrico;
 }
