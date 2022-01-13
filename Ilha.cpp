@@ -246,7 +246,7 @@ void Ilha::jogar(){
             cout << "\033[2J\033[1;1H";
             mostraASCII();
             mostraIlha();
-        } else if(state == false && start != 0) cout << "[Erro] Comando invalido" << endl << endl;
+        }
         fflush(stdin);
         cout << "Introduza um comando: ";
         getline(cin, input);
@@ -1054,7 +1054,52 @@ void Ilha::amanhacer(){
 
             cout << zonas[i][j]->getSigla() << endl;
             // Acontecimentos para as zonas
-            if(zona->getSigla() == "flr"){
+            if(zonas[i][j]->getSigla() == "vul"){
+                int probErupcao = rand() % 100;
+                if(probErupcao < 50 && dia > 3){
+                    int saldoTotal = saldo;
+                    int operariosMortos = 0;
+                    int edificiosDestruidos = 0;
+                    for(int k = 0; k < linhas; k++){
+                        for(int l = 0; l < colunas; l++){
+                            vector<Trabalhador*> trabalhadores = zonas[k][l]->getTrabalhadores();
+                            for(unsigned int m = 0; m < trabalhadores.size(); m++) operariosMortos++;
+                        }
+                    }
+                    for(int i = 0; i < linhas; i++){
+                        for(int j = 0; j < colunas; j++){
+                            if(zonas[i][j]->getEdificio() != nullptr) edificiosDestruidos++;
+                        }
+                    }
+                    cout << "\033[2J\033[1;1H";
+                    cout << " ▄▄ •  ▄▄▄· • ▌ ▄ ·. ▄▄▄ .           ▌ ▐·▄▄▄ .▄▄▄  " << endl;
+                    cout << "▐█ ▀ ▪▐█ ▀█ ·██ ▐███▪▀▄.▀·    ▪     ▪█·█▌▀▄.▀·▀▄ █·" << endl;
+                    cout << "▄█ ▀█▄▄█▀▀█ ▐█ ▌▐▌▐█·▐▀▀▪▄     ▄█▀▄ ▐█▐█•▐▀▀▪▄▐▀▀▄ " << endl;
+                    cout << "▐█▄▪▐█▐█ ▪▐▌██ ██▌▐█▌▐█▄▄▌    ▐█▌.▐▌ ███ ▐█▄▄▌▐█•█▌" << endl;
+                    cout << "·▀▀▀▀  ▀  ▀ ▀▀  █▪▀▀▀ ▀▀▀      ▀█▄▀▪. ▀   ▀▀▀ .▀  ▀" << endl;
+                    cout << "\nO vulcão entrou em erupção e destruiu a ilha toda!\n" << endl;
+                    cout << "[!] Saldo Total: " << saldo << "€" << endl;
+                    cout << "[!] Trabalhadores Mortos: " << operariosMortos << endl;
+                    cout << "[!] Recursos:" << endl;
+                    cout << "    * Vigas Madeira: " << nrVigasMadeira << " vigas" << endl;
+                    cout << "    * Ferro: " << nrFerro << "kg" << endl;
+                    cout << "    * Barra de Aco: " << nrBarraDeAco << " barras" << endl;
+                    cout << "    * Carvão: " << nrCarvao << "kg" << endl;
+                    cout << "    * Madeira: " << nrMadeira << "kg" << endl;
+                    cout << "    * Eletricidade: " << nrEletricidade << "kWh" << endl;
+                    cout << "[!] Edifícios: " << edificiosDestruidos << endl << endl;
+
+                    for(int i = 0; i < linhas; i++){
+                        for(int j = 0; j < colunas; j++){
+                            if(zonas[i][j] != nullptr){
+                                delete zonas[i][j];
+                            }
+                        }
+                    }
+                    exit(0);
+                }    
+            }
+            else if(zona->getSigla() == "flr"){
                 if(zona->getEdificio() == nullptr){
                     if(dia % 2 && dia > 1){
                         if(zona->getArvores() < 100){
@@ -1096,10 +1141,6 @@ void Ilha::amanhacer(){
                         zona->removeEdificio();
                     }
                 }
-            }
-            else if(zonas[i][j]->getSigla() == "vul"){
-                int probErupcao = rand() % 100;
-                
             }
         }
     }
