@@ -1155,16 +1155,16 @@ void Ilha::anoitecer(){
                 vector<Trabalhador*> oper = zonas[i][j]->getTrabalhadoresBySigla("O"); //Guarda no vetor os operarios dessa zona
                 vector<Trabalhador*> len = zonas[i][j]->getTrabalhadoresBySigla("L"); //Guarda no vetor os lenhadores dessa zona
                 vector<Trabalhador*> miner = zonas[i][j]->getTrabalhadoresBySigla("M"); //Guarda no vetor os mineiros dessa zona
-                if(zonas[i][j]->getSiglaEdificio() == "minaf" && miner.size() > 0){
+                if(zonas[i][j]->getSiglaEdificio() == "minaf" && miner.size() > 0 && zonas[i][j]->getEdificio()->getLigado() == 1){
                     zonas[i][j]->getEdificio()->addArmazenamento(2 + zonas[i][j]->getEdificio()->getNivel()- 1);
                     nrFerro += zonas[i][j]->getEdificio()->getArmazenamento();
                 }
-                if(zonas[i][j]->getSiglaEdificio() == "minac" && miner.size() > 0){
+                if(zonas[i][j]->getSiglaEdificio() == "minac" && miner.size() > 0 && zonas[i][j]->getEdificio()->getLigado() == 1){
                     nrFerro += zonas[i][j]->getEdificio()->addArmazenamento(2 + zonas[i][j]->getEdificio()->getNivel()- 1);
                 }
-                if(zonas[i][j]->getSiglaEdificio() == "central" && oper.size() > 0){
+                if(zonas[i][j]->getSiglaEdificio() == "central" && oper.size() > 0 && zonas[i][j]->getEdificio()->getLigado() == 1){
                     if(validaPosicao(i + 1, j, linhas, colunas)){ // Verificar na linha abaixo
-                        if(zonas[i+1][j]->getSiglaEdificio() == "bat"){
+                        if(zonas[i+1][j]->getSiglaEdificio() == "bat" && zonas[i+1][j]->getEdificio()->getLigado() == 1){
                             if(zonas[i+1][j]->getEdificio() != nullptr){
                                 zonas[i+1][j]->getEdificio()->addArmazenamento(1); //Adiciona 1 Kwh ao armazenamento do edificio Bateria.
                             }
@@ -1179,7 +1179,7 @@ void Ilha::anoitecer(){
                         }
                     }    
                     if(validaPosicao(i - 1, j, linhas, colunas)){ // Verificar na linha acima
-                        if(zonas[i-1][j]->getSiglaEdificio() == "bat"){
+                        if(zonas[i-1][j]->getSiglaEdificio() == "bat" && zonas[i-1][j]->getEdificio()->getLigado() == 1){
                             if(zonas[i-1][j]->getEdificio() != nullptr){
                                 zonas[i-1][j]->getEdificio()->addArmazenamento(1); //Adiciona 1 Kwh ao armazenamento do edificio Bateria.
                             }
@@ -1194,7 +1194,7 @@ void Ilha::anoitecer(){
                         }
                     }
                     if(validaPosicao(i, j + 1, linhas, colunas)){ // Verificar na coluna a direita
-                        if(zonas[i][j+1]->getSiglaEdificio() == "bat"){
+                        if(zonas[i][j+1]->getSiglaEdificio() == "bat" && zonas[i][j+1]->getEdificio()->getLigado() == 1){
                             if(zonas[i][j+1]->getEdificio() != nullptr){
                                 zonas[i][j+1]->getEdificio()->addArmazenamento(1); //Adiciona 1 Kwh ao armazenamento do edificio Bateria.
                             }
@@ -1209,7 +1209,7 @@ void Ilha::anoitecer(){
                         }
                     }
                     if(validaPosicao(i, j - 1, linhas, colunas)){ // Verificar na coluna a esquerda
-                        if(zonas[i][j-1]->getSiglaEdificio() == "bat"){
+                        if(zonas[i][j-1]->getSiglaEdificio() == "bat" && zonas[i][j-1]->getEdificio()->getLigado() == 1){
                             if(zonas[i][j-1]->getEdificio() != nullptr){
                                 zonas[i][j-1]->getEdificio()->addArmazenamento(1); //Adiciona 1 Kwh ao armazenamento do edificio Bateria.
                             }
@@ -1224,39 +1224,39 @@ void Ilha::anoitecer(){
                         }
                     }
                 }
-                if(zonas[i][j]->getSiglaEdificio() == "bat") nrEletricidade += zonas[i][j]->getEdificio()->getArmazenamento();
-                if(zonas[i][j]->getSiglaEdificio() == "fund" && oper.size() > 0){
+                if(zonas[i][j]->getSiglaEdificio() == "bat" && zonas[i][j]->getEdificio()->getLigado() == 1) nrEletricidade += zonas[i][j]->getEdificio()->getArmazenamento();
+                if(zonas[i][j]->getSiglaEdificio() == "fund" && oper.size() > 0 && zonas[i][j]->getEdificio()->getLigado() == 1){
                     if(zonas[i][j]->getEdificio() != nullptr){
 
                         if(validaPosicao(i + 1, j, linhas, colunas)){ // Verificar na linha abaixo
-                            if(zonas[i+1][j]->getSiglaEdificio() == "minaf"){
+                            if(zonas[i+1][j]->getSiglaEdificio() == "minaf" && zonas[i+1][j]->getEdificio()->getLigado() == 1){
                                 if(zonas[i+1][j]->getEdificio() != nullptr){
                                     validaAuxMinaf = true;
                                 }   
                             }
-                            else if(zonas[i+1][j]->getSiglaEdificio() == "central"){
+                            else if(zonas[i+1][j]->getSiglaEdificio() == "central" && zonas[i+1][j]->getEdificio()->getLigado() == 1){
                                 if(zonas[i+1][j]->getEdificio() != nullptr){
                                     validaAuxCentral = true;
                                 }
                             }
-                            else if(zonas[i+1][j]->getSiglaEdificio() == "minac"){
+                            else if(zonas[i+1][j]->getSiglaEdificio() == "minac" && zonas[i+1][j]->getEdificio()->getLigado() == 1){
                                 if(zonas[i+1][j]->getEdificio() != nullptr){
                                     validaAuxMinac = true;
                                 }
                             }
                         }    
                         if(validaPosicao(i - 1, j, linhas, colunas)){ // Verificar na linha acima
-                                if(zonas[i-1][j]->getSiglaEdificio() == "minaf"){
+                                if(zonas[i-1][j]->getSiglaEdificio() == "minaf" && zonas[i-1][j]->getEdificio()->getLigado() == 1){
                                     if(zonas[i-1][j]->getEdificio() != nullptr){
                                         validaAuxMinaf = true;
                                     }    
                                 }
-                                else if(zonas[i-1][j]->getSigla() == "central"){
+                                else if(zonas[i-1][j]->getSigla() == "central" && zonas[i-1][j]->getEdificio()->getLigado() == 1){
                                     if(zonas[i-1][j]->getEdificio() != nullptr){
                                         validaAuxCentral = true;
                                     }
                                 }
-                                else if(zonas[i-1][j]->getSigla() == "minac"){
+                                else if(zonas[i-1][j]->getSigla() == "minac" && zonas[i-1][j]->getEdificio()->getLigado() == 1){
                                     if(zonas[i-1][j]->getEdificio() != nullptr){
                                         validaAuxMinac = true;
                                     }
@@ -1265,34 +1265,34 @@ void Ilha::anoitecer(){
                         }
                     }
                     if(validaPosicao(i, j + 1, linhas, colunas)){ // Verificar na coluna a direita
-                        if(zonas[i][j+1]->getSiglaEdificio() == "minaf"){
+                        if(zonas[i][j+1]->getSiglaEdificio() == "minaf" && zonas[i][j+1]->getEdificio()->getLigado() == 1){
                             if(zonas[i][j+1]->getEdificio() != nullptr){
                                 validaAuxMinaf = true;
                             }
                         }
-                        else if(zonas[i][j+1]->getSiglaEdificio() == "central"){
+                        else if(zonas[i][j+1]->getSiglaEdificio() == "central" && zonas[i][j+1]->getEdificio()->getLigado() == 1){
                             if(zonas[i][j+1]->getEdificio() != nullptr){
                                 validaAuxCentral = true;
                             }
                         }
-                        else if(zonas[i][j+1]->getSiglaEdificio() == "minac"){
+                        else if(zonas[i][j+1]->getSiglaEdificio() == "minac" && zonas[i][j+1]->getEdificio()->getLigado() == 1){
                             if(zonas[i][j+1]->getEdificio() != nullptr){
                                 validaAuxMinac = true;
                             }
                         }
                     }
                     if(validaPosicao(i, j - 1, linhas, colunas)){ // Verificar na coluna a esquerda
-                        if(zonas[i][j-1]->getSiglaEdificio() == "minaf"){
+                        if(zonas[i][j-1]->getSiglaEdificio() == "minaf" && zonas[i][j-1]->getEdificio()->getLigado() == 1){
                             if(zonas[i][j-1]->getEdificio() != nullptr){
                                 validaAuxMinaf = true;
                             }
                         }
-                        else if(zonas[i][j-1]->getSiglaEdificio() == "central"){
+                        else if(zonas[i][j-1]->getSiglaEdificio() == "central" && zonas[i][j-1]->getEdificio()->getLigado() == 1){
                             if(zonas[i][j-1]->getEdificio() != nullptr){
                                 validaAuxCentral = true;
                             }
                         }
-                        else if(zonas[i][j-1]->getSiglaEdificio() == "minac"){
+                        else if(zonas[i][j-1]->getSiglaEdificio() == "minac" && zonas[i][j-1]->getEdificio()->getLigado() == 1){
                             if(zonas[i][j-1]->getEdificio() != nullptr){
                                 validaAuxMinac = true;
                             }
@@ -1327,16 +1327,16 @@ void Ilha::anoitecer(){
                 vector<Trabalhador*> oper = zonas[i][j]->getTrabalhadoresBySigla("O"); //Guarda no vetor os operarios dessa zona
                 vector<Trabalhador*> len = zonas[i][j]->getTrabalhadoresBySigla("L"); //Guarda no vetor os lenhadores dessa zona
                 vector<Trabalhador*> miner = zonas[i][j]->getTrabalhadoresBySigla("M"); //Guarda no vetor os mineiros dessa zona
-                if(zonas[i][j]->getSiglaEdificio() == "minaf" && miner.size() > 0){
+                if(zonas[i][j]->getSiglaEdificio() == "minaf" && miner.size() > 0 && zonas[i][j]->getEdificio()->getLigado() == 1){
                     zonas[i][j]->getEdificio()->addArmazenamento((2 + zonas[i][j]->getEdificio()->getNivel()- 1) * 0.5); //Redução de 50% de produção por estar na zona "Deserto"
                     nrFerro += zonas[i][j]->getEdificio()->getArmazenamento();
                 }
-                if(zonas[i][j]->getSiglaEdificio() == "minac" && miner.size() > 0){
+                if(zonas[i][j]->getSiglaEdificio() == "minac" && miner.size() > 0 && zonas[i][j]->getEdificio()->getLigado() == 1){
                     nrFerro += zonas[i][j]->getEdificio()->addArmazenamento((2 + zonas[i][j]->getEdificio()->getNivel()- 1)* 0.5); //Redução de 50% de produção por estar na zona "Deserto"
                 }
-                if(zonas[i][j]->getSiglaEdificio() == "central" && oper.size() > 0){
+                if(zonas[i][j]->getSiglaEdificio() == "central" && oper.size() > 0 && zonas[i][j]->getEdificio()->getLigado() == 1){
                     if(validaPosicao(i + 1, j, linhas, colunas)){ // Verificar na linha abaixo
-                        if(zonas[i+1][j]->getSiglaEdificio() == "bat"){
+                        if(zonas[i+1][j]->getSiglaEdificio() == "bat" && zonas[i+1][j]->getEdificio()->getLigado() == 1){
                             if(zonas[i+1][j]->getEdificio() != nullptr){
                                 zonas[i+1][j]->getEdificio()->addArmazenamento(1); //Adiciona 1 Kwh ao armazenamento do edificio Bateria.
                             }
@@ -1351,7 +1351,7 @@ void Ilha::anoitecer(){
                         }
                     }    
                     if(validaPosicao(i - 1, j, linhas, colunas)){ // Verificar na linha acima
-                        if(zonas[i-1][j]->getSiglaEdificio() == "bat"){
+                        if(zonas[i-1][j]->getSiglaEdificio() == "bat" && zonas[i-1][j]->getEdificio()->getLigado() == 1){
                             if(zonas[i-1][j]->getEdificio() != nullptr){
                                 zonas[i-1][j]->getEdificio()->addArmazenamento(1); //Adiciona 1 Kwh ao armazenamento do edificio Bateria.
                             }
@@ -1366,7 +1366,7 @@ void Ilha::anoitecer(){
                         }
                     }
                     if(validaPosicao(i, j + 1, linhas, colunas)){ // Verificar na coluna a direita
-                        if(zonas[i][j+1]->getSiglaEdificio() == "bat"){
+                        if(zonas[i][j+1]->getSiglaEdificio() == "bat" && zonas[i][j+1]->getEdificio()->getLigado() == 1){
                             if(zonas[i][j+1]->getEdificio() != nullptr){
                                 zonas[i][j+1]->getEdificio()->addArmazenamento(1); //Adiciona 1 Kwh ao armazenamento do edificio Bateria.
                             }
@@ -1381,7 +1381,7 @@ void Ilha::anoitecer(){
                         }
                     }
                     if(validaPosicao(i, j - 1, linhas, colunas)){ // Verificar na coluna a esquerda
-                        if(zonas[i][j-1]->getSiglaEdificio() == "bat"){
+                        if(zonas[i][j-1]->getSiglaEdificio() == "bat" && zonas[i][j-1]->getEdificio()->getLigado() == 1){
                             if(zonas[i][j-1]->getEdificio() != nullptr){
                                 zonas[i][j-1]->getEdificio()->addArmazenamento(1); //Adiciona 1 Kwh ao armazenamento do edificio Bateria.
                             }
@@ -1396,39 +1396,39 @@ void Ilha::anoitecer(){
                         }
                     }
                 }
-                if(zonas[i][j]->getSiglaEdificio() == "bat") nrEletricidade += zonas[i][j]->getEdificio()->getArmazenamento();
-                if(zonas[i][j]->getSiglaEdificio() == "fund" && oper.size() > 0){
+                if(zonas[i][j]->getSiglaEdificio() == "bat" && zonas[i][j]->getEdificio()->getLigado() == 1) nrEletricidade += zonas[i][j]->getEdificio()->getArmazenamento();
+                if(zonas[i][j]->getSiglaEdificio() == "fund" && oper.size() > 0 && zonas[i][j]->getEdificio()->getLigado() == 1){
                     if(zonas[i][j]->getEdificio() != nullptr){
 
                         if(validaPosicao(i + 1, j, linhas, colunas)){ // Verificar na linha abaixo
-                            if(zonas[i+1][j]->getSiglaEdificio() == "minaf"){
+                            if(zonas[i+1][j]->getSiglaEdificio() == "minaf" && zonas[i+1][j]->getEdificio()->getLigado() == 1){
                                 if(zonas[i+1][j]->getEdificio() != nullptr){
                                     validaAuxMinaf = true;
                                 }   
                             }
-                            else if(zonas[i+1][j]->getSiglaEdificio() == "central"){
+                            else if(zonas[i+1][j]->getSiglaEdificio() == "central" && zonas[i+1][j]->getEdificio()->getLigado() == 1){
                                 if(zonas[i+1][j]->getEdificio() != nullptr){
                                     validaAuxCentral = true;
                                 }
                             }
-                            else if(zonas[i+1][j]->getSiglaEdificio() == "minac"){
+                            else if(zonas[i+1][j]->getSiglaEdificio() == "minac" && zonas[i+1][j]->getEdificio()->getLigado() == 1){
                                 if(zonas[i+1][j]->getEdificio() != nullptr){
                                     validaAuxMinac = true;
                                 }
                             }
                         }    
                         if(validaPosicao(i - 1, j, linhas, colunas)){ // Verificar na linha acima
-                                if(zonas[i-1][j]->getSiglaEdificio() == "minaf"){
+                                if(zonas[i-1][j]->getSiglaEdificio() == "minaf" && zonas[i-1][j]->getEdificio()->getLigado() == 1){
                                     if(zonas[i-1][j]->getEdificio() != nullptr){
                                         validaAuxMinaf = true;
                                     }    
                                 }
-                                else if(zonas[i-1][j]->getSigla() == "central"){
+                                else if(zonas[i-1][j]->getSigla() == "central" && zonas[i-1][j]->getEdificio()->getLigado() == 1){
                                     if(zonas[i-1][j]->getEdificio() != nullptr){
                                         validaAuxCentral = true;
                                     }
                                 }
-                                else if(zonas[i-1][j]->getSigla() == "minac"){
+                                else if(zonas[i-1][j]->getSigla() == "minac" && zonas[i-1][j]->getEdificio()->getLigado() == 1){
                                     if(zonas[i-1][j]->getEdificio() != nullptr){
                                         validaAuxMinac = true;
                                     }
@@ -1437,34 +1437,34 @@ void Ilha::anoitecer(){
                         }
                     }
                     if(validaPosicao(i, j + 1, linhas, colunas)){ // Verificar na coluna a direita
-                        if(zonas[i][j+1]->getSiglaEdificio() == "minaf"){
+                        if(zonas[i][j+1]->getSiglaEdificio() == "minaf" && zonas[i][j+1]->getEdificio()->getLigado() == 1){
                             if(zonas[i][j+1]->getEdificio() != nullptr){
                                 validaAuxMinaf = true;
                             }
                         }
-                        else if(zonas[i][j+1]->getSiglaEdificio() == "central"){
+                        else if(zonas[i][j+1]->getSiglaEdificio() == "central" && zonas[i][j+1]->getEdificio()->getLigado() == 1){
                             if(zonas[i][j+1]->getEdificio() != nullptr){
                                 validaAuxCentral = true;
                             }
                         }
-                        else if(zonas[i][j+1]->getSiglaEdificio() == "minac"){
+                        else if(zonas[i][j+1]->getSiglaEdificio() == "minac" && zonas[i][j+1]->getEdificio()->getLigado() == 1){
                             if(zonas[i][j+1]->getEdificio() != nullptr){
                                 validaAuxMinac = true;
                             }
                         }
                     }
                     if(validaPosicao(i, j - 1, linhas, colunas)){ // Verificar na coluna a esquerda
-                        if(zonas[i][j-1]->getSiglaEdificio() == "minaf"){
+                        if(zonas[i][j-1]->getSiglaEdificio() == "minaf" && zonas[i][j-1]->getEdificio()->getLigado() == 1){
                             if(zonas[i][j-1]->getEdificio() != nullptr){
                                 validaAuxMinaf = true;
                             }
                         }
-                        else if(zonas[i][j-1]->getSiglaEdificio() == "central"){
+                        else if(zonas[i][j-1]->getSiglaEdificio() == "central" && zonas[i][j-1]->getEdificio()->getLigado() == 1){
                             if(zonas[i][j-1]->getEdificio() != nullptr){
                                 validaAuxCentral = true;
                             }
                         }
-                        else if(zonas[i][j-1]->getSiglaEdificio() == "minac"){
+                        else if(zonas[i][j-1]->getSiglaEdificio() == "minac" && zonas[i][j-1]->getEdificio()->getLigado() == 1){
                             if(zonas[i][j-1]->getEdificio() != nullptr){
                                 validaAuxMinac = true;
                             }
@@ -1502,16 +1502,16 @@ void Ilha::anoitecer(){
                 vector<Trabalhador*> oper = zonas[i][j]->getTrabalhadoresBySigla("O"); //Guarda no vetor os operarios dessa zona
                 vector<Trabalhador*> len = zonas[i][j]->getTrabalhadoresBySigla("L"); //Guarda no vetor os lenhadores dessa zona
                 vector<Trabalhador*> miner = zonas[i][j]->getTrabalhadoresBySigla("M"); //Guarda no vetor os mineiros dessa zona
-                if(zonas[i][j]->getSiglaEdificio() == "minaf" && miner.size() > 0){
+                if(zonas[i][j]->getSiglaEdificio() == "minaf" && miner.size() > 0 && zonas[i][j]->getEdificio()->getLigado() == 1){
                     zonas[i][j]->getEdificio()->addArmazenamento((2 + zonas[i][j]->getEdificio()->getNivel()- 1) * 2); //Aumento de 100% de produção por estar na zona "Montanha"
                     nrFerro += zonas[i][j]->getEdificio()->getArmazenamento();
                 }
-                if(zonas[i][j]->getSiglaEdificio() == "minac" && miner.size() > 0){
+                if(zonas[i][j]->getSiglaEdificio() == "minac" && miner.size() > 0 && zonas[i][j]->getEdificio()->getLigado() == 1){
                     nrFerro += zonas[i][j]->getEdificio()->addArmazenamento((2 + zonas[i][j]->getEdificio()->getNivel()- 1) * 2); //Aumento de 100% de produção por estar na zona "Montanha"
                 }
-                if(zonas[i][j]->getSiglaEdificio() == "central" && oper.size() > 0){
+                if(zonas[i][j]->getSiglaEdificio() == "central" && oper.size() > 0 && zonas[i][j]->getEdificio()->getLigado() == 1){
                     if(validaPosicao(i + 1, j, linhas, colunas)){ // Verificar na linha abaixo
-                        if(zonas[i+1][j]->getSiglaEdificio() == "bat"){
+                        if(zonas[i+1][j]->getSiglaEdificio() == "bat" && zonas[i+1][j]->getEdificio()->getLigado() == 1){
                             if(zonas[i+1][j]->getEdificio() != nullptr){
                                 zonas[i+1][j]->getEdificio()->addArmazenamento(1); //Adiciona 1 Kwh ao armazenamento do edificio Bateria.
                             }
@@ -1526,7 +1526,7 @@ void Ilha::anoitecer(){
                         }
                     }    
                     if(validaPosicao(i - 1, j, linhas, colunas)){ // Verificar na linha acima
-                        if(zonas[i-1][j]->getSiglaEdificio() == "bat"){
+                        if(zonas[i-1][j]->getSiglaEdificio() == "bat" && zonas[i-1][j]->getEdificio()->getLigado() == 1){
                             if(zonas[i-1][j]->getEdificio() != nullptr){
                                 zonas[i-1][j]->getEdificio()->addArmazenamento(1); //Adiciona 1 Kwh ao armazenamento do edificio Bateria.
                             }
@@ -1541,7 +1541,7 @@ void Ilha::anoitecer(){
                         }
                     }
                     if(validaPosicao(i, j + 1, linhas, colunas)){ // Verificar na coluna a direita
-                        if(zonas[i][j+1]->getSiglaEdificio() == "bat"){
+                        if(zonas[i][j+1]->getSiglaEdificio() == "bat" && zonas[i][j+1]->getEdificio()->getLigado() == 1){
                             if(zonas[i][j+1]->getEdificio() != nullptr){
                                 zonas[i][j+1]->getEdificio()->addArmazenamento(1); //Adiciona 1 Kwh ao armazenamento do edificio Bateria.
                             }
@@ -1556,7 +1556,7 @@ void Ilha::anoitecer(){
                         }
                     }
                     if(validaPosicao(i, j - 1, linhas, colunas)){ // Verificar na coluna a esquerda
-                        if(zonas[i][j-1]->getSiglaEdificio() == "bat"){
+                        if(zonas[i][j-1]->getSiglaEdificio() == "bat" && zonas[i][j-1]->getEdificio()->getLigado() == 1){
                             if(zonas[i][j-1]->getEdificio() != nullptr){
                                 zonas[i][j-1]->getEdificio()->addArmazenamento(1); //Adiciona 1 Kwh ao armazenamento do edificio Bateria.
                             }
@@ -1571,39 +1571,39 @@ void Ilha::anoitecer(){
                         }
                     }
                 }
-                if(zonas[i][j]->getSiglaEdificio() == "bat") nrEletricidade += zonas[i][j]->getEdificio()->getArmazenamento();
-                if(zonas[i][j]->getSiglaEdificio() == "fund" && oper.size() > 0){
+                if(zonas[i][j]->getSiglaEdificio() == "bat" && zonas[i][j]->getEdificio()->getLigado() == 1) nrEletricidade += zonas[i][j]->getEdificio()->getArmazenamento();
+                if(zonas[i][j]->getSiglaEdificio() == "fund" && oper.size() > 0 && zonas[i][j]->getEdificio()->getLigado() == 1){
                     if(zonas[i][j]->getEdificio() != nullptr){
 
                         if(validaPosicao(i + 1, j, linhas, colunas)){ // Verificar na linha abaixo
-                            if(zonas[i+1][j]->getSiglaEdificio() == "minaf"){
+                            if(zonas[i+1][j]->getSiglaEdificio() == "minaf" && zonas[i+1][j]->getEdificio()->getLigado() == 1){
                                 if(zonas[i+1][j]->getEdificio() != nullptr){
                                     validaAuxMinaf = true;
                                 }   
                             }
-                            else if(zonas[i+1][j]->getSiglaEdificio() == "central"){
+                            else if(zonas[i+1][j]->getSiglaEdificio() == "central" && zonas[i+1][j]->getEdificio()->getLigado() == 1){
                                 if(zonas[i+1][j]->getEdificio() != nullptr){
                                     validaAuxCentral = true;
                                 }
                             }
-                            else if(zonas[i+1][j]->getSiglaEdificio() == "minac"){
+                            else if(zonas[i+1][j]->getSiglaEdificio() == "minac" && zonas[i+1][j]->getEdificio()->getLigado() == 1){
                                 if(zonas[i+1][j]->getEdificio() != nullptr){
                                     validaAuxMinac = true;
                                 }
                             }
                         }    
                         if(validaPosicao(i - 1, j, linhas, colunas)){ // Verificar na linha acima
-                                if(zonas[i-1][j]->getSiglaEdificio() == "minaf"){
+                                if(zonas[i-1][j]->getSiglaEdificio() == "minaf" && zonas[i-1][j]->getEdificio()->getLigado() == 1){
                                     if(zonas[i-1][j]->getEdificio() != nullptr){
                                         validaAuxMinaf = true;
                                     }    
                                 }
-                                else if(zonas[i-1][j]->getSigla() == "central"){
+                                else if(zonas[i-1][j]->getSigla() == "central" && zonas[i-1][j]->getEdificio()->getLigado() == 1){
                                     if(zonas[i-1][j]->getEdificio() != nullptr){
                                         validaAuxCentral = true;
                                     }
                                 }
-                                else if(zonas[i-1][j]->getSigla() == "minac"){
+                                else if(zonas[i-1][j]->getSigla() == "minac" && zonas[i-1][j]->getEdificio()->getLigado() == 1){
                                     if(zonas[i-1][j]->getEdificio() != nullptr){
                                         validaAuxMinac = true;
                                     }
@@ -1612,34 +1612,34 @@ void Ilha::anoitecer(){
                         }
                     }
                     if(validaPosicao(i, j + 1, linhas, colunas)){ // Verificar na coluna a direita
-                        if(zonas[i][j+1]->getSiglaEdificio() == "minaf"){
+                        if(zonas[i][j+1]->getSiglaEdificio() == "minaf" && zonas[i][j+1]->getEdificio()->getLigado() == 1){
                             if(zonas[i][j+1]->getEdificio() != nullptr){
                                 validaAuxMinaf = true;
                             }
                         }
-                        else if(zonas[i][j+1]->getSiglaEdificio() == "central"){
+                        else if(zonas[i][j+1]->getSiglaEdificio() == "central" && zonas[i][j+1]->getEdificio()->getLigado() == 1){
                             if(zonas[i][j+1]->getEdificio() != nullptr){
                                 validaAuxCentral = true;
                             }
                         }
-                        else if(zonas[i][j+1]->getSiglaEdificio() == "minac"){
+                        else if(zonas[i][j+1]->getSiglaEdificio() == "minac" && zonas[i][j+1]->getEdificio()->getLigado() == 1){
                             if(zonas[i][j+1]->getEdificio() != nullptr){
                                 validaAuxMinac = true;
                             }
                         }
                     }
                     if(validaPosicao(i, j - 1, linhas, colunas)){ // Verificar na coluna a esquerda
-                        if(zonas[i][j-1]->getSiglaEdificio() == "minaf"){
+                        if(zonas[i][j-1]->getSiglaEdificio() == "minaf" && zonas[i][j-1]->getEdificio()->getLigado() == 1){
                             if(zonas[i][j-1]->getEdificio() != nullptr){
                                 validaAuxMinaf = true;
                             }
                         }
-                        else if(zonas[i][j-1]->getSiglaEdificio() == "central"){
+                        else if(zonas[i][j-1]->getSiglaEdificio() == "central" && zonas[i][j-1]->getEdificio()->getLigado() == 1){
                             if(zonas[i][j-1]->getEdificio() != nullptr){
                                 validaAuxCentral = true;
                             }
                         }
-                        else if(zonas[i][j-1]->getSiglaEdificio() == "minac"){
+                        else if(zonas[i][j-1]->getSiglaEdificio() == "minac" && zonas[i][j-1]->getEdificio()->getLigado() == 1){
                             if(zonas[i][j-1]->getEdificio() != nullptr){
                                 validaAuxMinac = true;
                             }
@@ -1674,16 +1674,16 @@ void Ilha::anoitecer(){
                 vector<Trabalhador*> oper = zonas[i][j]->getTrabalhadoresBySigla("O"); //Guarda no vetor os operarios dessa zona
                 vector<Trabalhador*> len = zonas[i][j]->getTrabalhadoresBySigla("L"); //Guarda no vetor os lenhadores dessa zona
                 vector<Trabalhador*> miner = zonas[i][j]->getTrabalhadoresBySigla("M"); //Guarda no vetor os mineiros dessa zona
-                if(zonas[i][j]->getSiglaEdificio() == "minaf" && miner.size() > 0){
+                if(zonas[i][j]->getSiglaEdificio() == "minaf" && miner.size() > 0 && zonas[i][j]->getEdificio()->getLigado() == 1){
                     zonas[i][j]->getEdificio()->addArmazenamento(2 + zonas[i][j]->getEdificio()->getNivel()- 1);
                     nrFerro += zonas[i][j]->getEdificio()->getArmazenamento();
                 }
-                if(zonas[i][j]->getSiglaEdificio() == "minac" && miner.size() > 0){
+                if(zonas[i][j]->getSiglaEdificio() == "minac" && miner.size() > 0 && zonas[i][j]->getEdificio()->getLigado() == 1){
                     nrFerro += zonas[i][j]->getEdificio()->addArmazenamento(2 + zonas[i][j]->getEdificio()->getNivel()- 1);
                 }
-                if(zonas[i][j]->getSiglaEdificio() == "central" && oper.size() > 0){
+                if(zonas[i][j]->getSiglaEdificio() == "central" && oper.size() > 0 && zonas[i][j]->getEdificio()->getLigado() == 1){
                     if(validaPosicao(i + 1, j, linhas, colunas)){ // Verificar na linha abaixo
-                        if(zonas[i+1][j]->getSiglaEdificio() == "bat"){
+                        if(zonas[i+1][j]->getSiglaEdificio() == "bat" && zonas[i+1][j]->getEdificio()->getLigado() == 1){
                             if(zonas[i+1][j]->getEdificio() != nullptr){
                                 zonas[i+1][j]->getEdificio()->addArmazenamento(1); //Adiciona 1 Kwh ao armazenamento do edificio Bateria.
                             }
@@ -1698,7 +1698,7 @@ void Ilha::anoitecer(){
                         }
                     }    
                     if(validaPosicao(i - 1, j, linhas, colunas)){ // Verificar na linha acima
-                        if(zonas[i-1][j]->getSiglaEdificio() == "bat"){
+                        if(zonas[i-1][j]->getSiglaEdificio() == "bat" && zonas[i-1][j]->getEdificio()->getLigado() == 1){
                             if(zonas[i-1][j]->getEdificio() != nullptr){
                                 zonas[i-1][j]->getEdificio()->addArmazenamento(1); //Adiciona 1 Kwh ao armazenamento do edificio Bateria.
                             }
@@ -1713,7 +1713,7 @@ void Ilha::anoitecer(){
                         }
                     }
                     if(validaPosicao(i, j + 1, linhas, colunas)){ // Verificar na coluna a direita
-                        if(zonas[i][j+1]->getSiglaEdificio() == "bat"){
+                        if(zonas[i][j+1]->getSiglaEdificio() == "bat" && zonas[i][j+1]->getEdificio()->getLigado() == 1){
                             if(zonas[i][j+1]->getEdificio() != nullptr){
                                 zonas[i][j+1]->getEdificio()->addArmazenamento(1); //Adiciona 1 Kwh ao armazenamento do edificio Bateria.
                             }
@@ -1728,7 +1728,7 @@ void Ilha::anoitecer(){
                         }
                     }
                     if(validaPosicao(i, j - 1, linhas, colunas)){ // Verificar na coluna a esquerda
-                        if(zonas[i][j-1]->getSiglaEdificio() == "bat"){
+                        if(zonas[i][j-1]->getSiglaEdificio() == "bat" && zonas[i][j-1]->getEdificio()->getLigado() == 1){
                             if(zonas[i][j-1]->getEdificio() != nullptr){
                                 zonas[i][j-1]->getEdificio()->addArmazenamento(1); //Adiciona 1 Kwh ao armazenamento do edificio Bateria.
                             }
@@ -1743,39 +1743,39 @@ void Ilha::anoitecer(){
                         }
                     }
                 }
-                if(zonas[i][j]->getSiglaEdificio() == "bat") nrEletricidade += zonas[i][j]->getEdificio()->getArmazenamento();
-                if(zonas[i][j]->getSiglaEdificio() == "fund" && oper.size() > 0){
+                if(zonas[i][j]->getSiglaEdificio() == "bat" && zonas[i][j]->getEdificio()->getLigado() == 1) nrEletricidade += zonas[i][j]->getEdificio()->getArmazenamento();
+                if(zonas[i][j]->getSiglaEdificio() == "fund" && oper.size() > 0 && zonas[i][j]->getEdificio()->getLigado() == 1){
                     if(zonas[i][j]->getEdificio() != nullptr){
 
                         if(validaPosicao(i + 1, j, linhas, colunas)){ // Verificar na linha abaixo
-                            if(zonas[i+1][j]->getSiglaEdificio() == "minaf"){
+                            if(zonas[i+1][j]->getSiglaEdificio() == "minaf" && zonas[i+1][j]->getEdificio()->getLigado() == 1){
                                 if(zonas[i+1][j]->getEdificio() != nullptr){
                                     validaAuxMinaf = true;
                                 }   
                             }
-                            else if(zonas[i+1][j]->getSiglaEdificio() == "central"){
+                            else if(zonas[i+1][j]->getSiglaEdificio() == "central" && zonas[i+1][j]->getEdificio()->getLigado() == 1){
                                 if(zonas[i+1][j]->getEdificio() != nullptr){
                                     validaAuxCentral = true;
                                 }
                             }
-                            else if(zonas[i+1][j]->getSiglaEdificio() == "minac"){
+                            else if(zonas[i+1][j]->getSiglaEdificio() == "minac" && zonas[i+1][j]->getEdificio()->getLigado() == 1){
                                 if(zonas[i+1][j]->getEdificio() != nullptr){
                                     validaAuxMinac = true;
                                 }
                             }
                         }    
                         if(validaPosicao(i - 1, j, linhas, colunas)){ // Verificar na linha acima
-                                if(zonas[i-1][j]->getSiglaEdificio() == "minaf"){
+                                if(zonas[i-1][j]->getSiglaEdificio() == "minaf" && zonas[i-1][j]->getEdificio()->getLigado() == 1){
                                     if(zonas[i-1][j]->getEdificio() != nullptr){
                                         validaAuxMinaf = true;
                                     }    
                                 }
-                                else if(zonas[i-1][j]->getSigla() == "central"){
+                                else if(zonas[i-1][j]->getSigla() == "central" && zonas[i-1][j]->getEdificio()->getLigado() == 1){
                                     if(zonas[i-1][j]->getEdificio() != nullptr){
                                         validaAuxCentral = true;
                                     }
                                 }
-                                else if(zonas[i-1][j]->getSigla() == "minac"){
+                                else if(zonas[i-1][j]->getSigla() == "minac" && zonas[i-1][j]->getEdificio()->getLigado() == 1){
                                     if(zonas[i-1][j]->getEdificio() != nullptr){
                                         validaAuxMinac = true;
                                     }
@@ -1784,34 +1784,34 @@ void Ilha::anoitecer(){
                         }
                     }
                     if(validaPosicao(i, j + 1, linhas, colunas)){ // Verificar na coluna a direita
-                        if(zonas[i][j+1]->getSiglaEdificio() == "minaf"){
+                        if(zonas[i][j+1]->getSiglaEdificio() == "minaf" && zonas[i][j+1]->getEdificio()->getLigado() == 1){
                             if(zonas[i][j+1]->getEdificio() != nullptr){
                                 validaAuxMinaf = true;
                             }
                         }
-                        else if(zonas[i][j+1]->getSiglaEdificio() == "central"){
+                        else if(zonas[i][j+1]->getSiglaEdificio() == "central" && zonas[i][j+1]->getEdificio()->getLigado() == 1){
                             if(zonas[i][j+1]->getEdificio() != nullptr){
                                 validaAuxCentral = true;
                             }
                         }
-                        else if(zonas[i][j+1]->getSiglaEdificio() == "minac"){
+                        else if(zonas[i][j+1]->getSiglaEdificio() == "minac" && zonas[i][j+1]->getEdificio()->getLigado() == 1){
                             if(zonas[i][j+1]->getEdificio() != nullptr){
                                 validaAuxMinac = true;
                             }
                         }
                     }
                     if(validaPosicao(i, j - 1, linhas, colunas)){ // Verificar na coluna a esquerda
-                        if(zonas[i][j-1]->getSiglaEdificio() == "minaf"){
+                        if(zonas[i][j-1]->getSiglaEdificio() == "minaf" && zonas[i][j-1]->getEdificio()->getLigado() == 1){
                             if(zonas[i][j-1]->getEdificio() != nullptr){
                                 validaAuxMinaf = true;
                             }
                         }
-                        else if(zonas[i][j-1]->getSiglaEdificio() == "central"){
+                        else if(zonas[i][j-1]->getSiglaEdificio() == "central" && zonas[i][j-1]->getEdificio()->getLigado() == 1){
                             if(zonas[i][j-1]->getEdificio() != nullptr){
                                 validaAuxCentral = true;
                             }
                         }
-                        else if(zonas[i][j-1]->getSiglaEdificio() == "minac"){
+                        else if(zonas[i][j-1]->getSiglaEdificio() == "minac" && zonas[i][j-1]->getEdificio()->getLigado() == 1){
                             if(zonas[i][j-1]->getEdificio() != nullptr){
                                 validaAuxMinac = true;
                             }
@@ -1846,16 +1846,16 @@ void Ilha::anoitecer(){
                 vector<Trabalhador*> oper = zonas[i][j]->getTrabalhadoresBySigla("O"); //Guarda no vetor os operarios dessa zona
                 vector<Trabalhador*> len = zonas[i][j]->getTrabalhadoresBySigla("L"); //Guarda no vetor os lenhadores dessa zona
                 vector<Trabalhador*> miner = zonas[i][j]->getTrabalhadoresBySigla("M"); //Guarda no vetor os mineiros dessa zona
-                if(zonas[i][j]->getSiglaEdificio() == "minaf" && miner.size() > 0){
+                if(zonas[i][j]->getSiglaEdificio() == "minaf" && miner.size() > 0 && zonas[i][j]->getEdificio()->getLigado() == 1){
                     zonas[i][j]->getEdificio()->addArmazenamento((2 + zonas[i][j]->getEdificio()->getNivel()- 1) * 5); //Redução de 50% de produção por estar na zona "Deserto"
                     nrFerro += zonas[i][j]->getEdificio()->getArmazenamento();
                 }
-                if(zonas[i][j]->getSiglaEdificio() == "minac" && miner.size() > 0){
+                if(zonas[i][j]->getSiglaEdificio() == "minac" && miner.size() > 0 && zonas[i][j]->getEdificio()->getLigado() == 1){
                     nrFerro += zonas[i][j]->getEdificio()->addArmazenamento((2 + zonas[i][j]->getEdificio()->getNivel()- 1) * 5); //Redução de 50% de produção por estar na zona "Deserto"
                 }
-                if(zonas[i][j]->getSiglaEdificio() == "central" && oper.size() > 0){
+                if(zonas[i][j]->getSiglaEdificio() == "central" && oper.size() > 0 && zonas[i][j]->getEdificio()->getLigado() == 1){
                     if(validaPosicao(i + 1, j, linhas, colunas)){ // Verificar na linha abaixo
-                        if(zonas[i+1][j]->getSiglaEdificio() == "bat"){
+                        if(zonas[i+1][j]->getSiglaEdificio() == "bat" && zonas[i+1][j]->getEdificio()->getLigado() == 1){
                             if(zonas[i+1][j]->getEdificio() != nullptr){
                                 zonas[i+1][j]->getEdificio()->addArmazenamento(5); //Adiciona 1 Kwh ao armazenamento do edificio Bateria.
                             }
@@ -1870,7 +1870,7 @@ void Ilha::anoitecer(){
                         }
                     }    
                     if(validaPosicao(i - 1, j, linhas, colunas)){ // Verificar na linha acima
-                        if(zonas[i-1][j]->getSiglaEdificio() == "bat"){
+                        if(zonas[i-1][j]->getSiglaEdificio() == "bat" && zonas[i-1][j]->getEdificio()->getLigado() == 1){
                             if(zonas[i-1][j]->getEdificio() != nullptr){
                                 zonas[i-1][j]->getEdificio()->addArmazenamento(5); //Adiciona 1 Kwh ao armazenamento do edificio Bateria.
                             }
@@ -1885,7 +1885,7 @@ void Ilha::anoitecer(){
                         }
                     }
                     if(validaPosicao(i, j + 1, linhas, colunas)){ // Verificar na coluna a direita
-                        if(zonas[i][j+1]->getSiglaEdificio() == "bat"){
+                        if(zonas[i][j+1]->getSiglaEdificio() == "bat" && zonas[i][j+1]->getEdificio()->getLigado() == 1){
                             if(zonas[i][j+1]->getEdificio() != nullptr){
                                 zonas[i][j+1]->getEdificio()->addArmazenamento(5); //Adiciona 1 Kwh ao armazenamento do edificio Bateria.
                             }
@@ -1900,7 +1900,7 @@ void Ilha::anoitecer(){
                         }
                     }
                     if(validaPosicao(i, j - 1, linhas, colunas)){ // Verificar na coluna a esquerda
-                        if(zonas[i][j-1]->getSiglaEdificio() == "bat"){
+                        if(zonas[i][j-1]->getSiglaEdificio() == "bat" && zonas[i][j-1]->getEdificio()->getLigado() == 1){
                             if(zonas[i][j-1]->getEdificio() != nullptr){
                                 zonas[i][j-1]->getEdificio()->addArmazenamento(5); //Adiciona 1 Kwh ao armazenamento do edificio Bateria.
                             }
@@ -1915,39 +1915,39 @@ void Ilha::anoitecer(){
                         }
                     }
                 }
-                if(zonas[i][j]->getSiglaEdificio() == "bat") nrEletricidade += zonas[i][j]->getEdificio()->getArmazenamento() * 5;
-                if(zonas[i][j]->getSiglaEdificio() == "fund" && oper.size() > 0){
+                if(zonas[i][j]->getSiglaEdificio() == "bat" && zonas[i][j]->getEdificio()->getLigado() == 1) nrEletricidade += zonas[i][j]->getEdificio()->getArmazenamento() * 5;
+                if(zonas[i][j]->getSiglaEdificio() == "fund" && oper.size() > 0 && zonas[i][j]->getEdificio()->getLigado() == 1){
                     if(zonas[i][j]->getEdificio() != nullptr){
 
                         if(validaPosicao(i + 1, j, linhas, colunas)){ // Verificar na linha abaixo
-                            if(zonas[i+1][j]->getSiglaEdificio() == "minaf"){
+                            if(zonas[i+1][j]->getSiglaEdificio() == "minaf" && zonas[i+1][j]->getEdificio()->getLigado() == 1){
                                 if(zonas[i+1][j]->getEdificio() != nullptr){
                                     validaAuxMinaf = true;
                                 }   
                             }
-                            else if(zonas[i+1][j]->getSiglaEdificio() == "central"){
+                            else if(zonas[i+1][j]->getSiglaEdificio() == "central" && zonas[i+1][j]->getEdificio()->getLigado() == 1){
                                 if(zonas[i+1][j]->getEdificio() != nullptr){
                                     validaAuxCentral = true;
                                 }
                             }
-                            else if(zonas[i+1][j]->getSiglaEdificio() == "minac"){
+                            else if(zonas[i+1][j]->getSiglaEdificio() == "minac" && zonas[i+1][j]->getEdificio()->getLigado() == 1){
                                 if(zonas[i+1][j]->getEdificio() != nullptr){
                                     validaAuxMinac = true;
                                 }
                             }
                         }    
                         if(validaPosicao(i - 1, j, linhas, colunas)){ // Verificar na linha acima
-                                if(zonas[i-1][j]->getSiglaEdificio() == "minaf"){
+                                if(zonas[i-1][j]->getSiglaEdificio() == "minaf" && zonas[i-1][j]->getEdificio()->getLigado() == 1){
                                     if(zonas[i-1][j]->getEdificio() != nullptr){
                                         validaAuxMinaf = true;
                                     }    
                                 }
-                                else if(zonas[i-1][j]->getSigla() == "central"){
+                                else if(zonas[i-1][j]->getSigla() == "central" && zonas[i-1][j]->getEdificio()->getLigado() == 1){
                                     if(zonas[i-1][j]->getEdificio() != nullptr){
                                         validaAuxCentral = true;
                                     }
                                 }
-                                else if(zonas[i-1][j]->getSigla() == "minac"){
+                                else if(zonas[i-1][j]->getSigla() == "minac" && zonas[i-1][j]->getEdificio()->getLigado() == 1){
                                     if(zonas[i-1][j]->getEdificio() != nullptr){
                                         validaAuxMinac = true;
                                     }
@@ -1956,34 +1956,34 @@ void Ilha::anoitecer(){
                         }
                     }
                     if(validaPosicao(i, j + 1, linhas, colunas)){ // Verificar na coluna a direita
-                        if(zonas[i][j+1]->getSiglaEdificio() == "minaf"){
+                        if(zonas[i][j+1]->getSiglaEdificio() == "minaf" && zonas[i][j+1]->getEdificio()->getLigado() == 1){
                             if(zonas[i][j+1]->getEdificio() != nullptr){
                                 validaAuxMinaf = true;
                             }
                         }
-                        else if(zonas[i][j+1]->getSiglaEdificio() == "central"){
+                        else if(zonas[i][j+1]->getSiglaEdificio() == "central" && zonas[i][j+1]->getEdificio()->getLigado() == 1){
                             if(zonas[i][j+1]->getEdificio() != nullptr){
                                 validaAuxCentral = true;
                             }
                         }
-                        else if(zonas[i][j+1]->getSiglaEdificio() == "minac"){
+                        else if(zonas[i][j+1]->getSiglaEdificio() == "minac" && zonas[i][j+1]->getEdificio()->getLigado() == 1){
                             if(zonas[i][j+1]->getEdificio() != nullptr){
                                 validaAuxMinac = true;
                             }
                         }
                     }
                     if(validaPosicao(i, j - 1, linhas, colunas)){ // Verificar na coluna a esquerda
-                        if(zonas[i][j-1]->getSiglaEdificio() == "minaf"){
+                        if(zonas[i][j-1]->getSiglaEdificio() == "minaf" && zonas[i][j-1]->getEdificio()->getLigado() == 1){
                             if(zonas[i][j-1]->getEdificio() != nullptr){
                                 validaAuxMinaf = true;
                             }
                         }
-                        else if(zonas[i][j-1]->getSiglaEdificio() == "central"){
+                        else if(zonas[i][j-1]->getSiglaEdificio() == "central" && zonas[i][j-1]->getEdificio()->getLigado() == 1){
                             if(zonas[i][j-1]->getEdificio() != nullptr){
                                 validaAuxCentral = true;
                             }
                         }
-                        else if(zonas[i][j-1]->getSiglaEdificio() == "minac"){
+                        else if(zonas[i][j-1]->getSiglaEdificio() == "minac" && zonas[i][j-1]->getEdificio()->getLigado() == 1){
                             if(zonas[i][j-1]->getEdificio() != nullptr){
                                 validaAuxMinac = true;
                             }
