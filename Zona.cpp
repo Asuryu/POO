@@ -74,10 +74,6 @@ vector<Trabalhador*> Zona::getTrabalhadoresBySigla(string sigla){
 }
 void Zona::addTrabalhador(Trabalhador* trabalhador) {
     this->trabalhadores.push_back(trabalhador);
-    string nome;
-    if(trabalhador->getSigla() == "O") nome = "Operário";
-    else if(trabalhador->getSigla() == "M") nome = "Mineiro";
-    else if(trabalhador->getSigla() == "L") nome = "Lenhador";
 }
 void Zona::removeTrabalhador(Trabalhador* trabalhador) {
     for (unsigned int i = 0; i < this->trabalhadores.size(); i++) {
@@ -97,6 +93,7 @@ void Zona::setEdificio(Edificio* edificio) {
     cout << "Edificio do tipo " << edificio->getSigla() << " CONSTRUIDO na posicao (" << linha << "," << coluna << ")!" << endl;
 }
 void Zona::removeEdificio() {
+    delete this->edificio;
     this->edificio = NULL;
 }
 Edificio* Zona::getEdificio() {

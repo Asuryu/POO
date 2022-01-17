@@ -21,7 +21,6 @@ class Edificio {
         virtual int getArmazenamentoMax() const;
         virtual int addArmazenamento(int armazenamento);
         string getSigla();
-        virtual ~Edificio();
 };
 
 class MinaFerro : public Edificio {

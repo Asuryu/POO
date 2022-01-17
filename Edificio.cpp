@@ -37,12 +37,10 @@ int Edificio::getArmazenamento() const {
 };
 int Edificio::getArmazenamentoMax() const {
     return 0;
-};
+}
 int Edificio::addArmazenamento(int armazenamento) {
     return 0;
 };
-Edificio::~Edificio() {
-}
 
 
 MinaFerro::MinaFerro(string sigla, int custoFabrico, int diaConstrucao) : Edificio(sigla, diaConstrucao) {
