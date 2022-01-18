@@ -236,7 +236,6 @@ string Ilha::getSaveName(){
 
 void Ilha::jogar(){
     bool state = false;
-    int start = 0;
     string input;
     do { // Ciclo de jogo
         fflush(stdin);
@@ -252,7 +251,6 @@ void Ilha::jogar(){
         getline(cin, input);
         istringstream comando(input);
         state = validaComando(comando);
-        start = 1;
     } while (true);
 }
 
